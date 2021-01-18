@@ -27,6 +27,13 @@ void testVector()
     {
         cout << t[i].a << endl;
     }
+
+    Vector<int> test;
+    for (uint32_t i = 0; i < 10; i++)
+    {
+        test.push_back(i);
+        cout << test[i] << endl;
+    }
 }
 
 int main()

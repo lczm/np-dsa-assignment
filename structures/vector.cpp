@@ -32,6 +32,28 @@ Vector<T>::~Vector()
 template <typename T>
 void Vector<T>::push_back(T element)
 {
+    if (_size == _capacity)
+    {
+        // Expand vector size by two
+        if (_capacity == 0)
+            _capacity = 1;
+        else
+            _capacity *= 2;
+
+        T* temp = _elements;
+        _elements = new T[_capacity];
+        for (uint32_t i = 0; i < _size; i++)
+        {
+            _elements[i] = temp[i];
+        }
+
+        if (temp != nullptr) delete[] temp;
+    }
+
+    // Push back the element
+    _elements[_size] = element;
+    // Update the size
+    _size++;
 }
 
 template <typename T>
