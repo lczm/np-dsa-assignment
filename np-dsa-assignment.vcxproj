@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="np-dsa-assignment.cpp" />
     <ClCompile Include="structures\vector.cpp" />
   </ItemGroup>
@@ -147,6 +148,7 @@
     <None Include="data\stations.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="structures\vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

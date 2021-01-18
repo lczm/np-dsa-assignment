@@ -30,6 +30,9 @@
     <ClCompile Include="structures\vector.cpp">
       <Filter>Source Files\structures</Filter>
     </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>Source Files\structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\stations.csv">
@@ -41,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="structures\vector.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
       <Filter>Header Files\structures</Filter>
     </ClInclude>
   </ItemGroup>
