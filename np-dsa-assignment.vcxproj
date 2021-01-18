@@ -140,10 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="np-dsa-assignment.cpp" />
+    <ClCompile Include="structures\vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\fares.csv" />
     <None Include="data\stations.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="structures\vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

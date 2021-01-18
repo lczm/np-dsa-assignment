@@ -16,10 +16,19 @@
     <Filter Include="data">
       <UniqueIdentifier>{5b66f196-4f1a-4fdd-b0d5-aa417ec60c70}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\structures">
+      <UniqueIdentifier>{2624ee9f-4c6e-4e68-a1c8-af7c4884525e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\structures">
+      <UniqueIdentifier>{862e13da-300e-42db-8a6c-ac26687624f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="np-dsa-assignment.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="structures\vector.cpp">
+      <Filter>Source Files\structures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,5 +38,10 @@
     <None Include="data\fares.csv">
       <Filter>data</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="structures\vector.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

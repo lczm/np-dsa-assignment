@@ -1,3 +1,6 @@
+#ifndef _VECTOR_
+#define _VECTOR_
+
 #include "vector.h"
 
 template <typename T>
@@ -111,3 +114,5 @@ T& Vector<T>::operator[](uint32_t index)
 {
     return _elements[index];
 }
+
+#endif
