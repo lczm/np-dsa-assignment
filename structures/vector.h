@@ -1,15 +1,24 @@
 #pragma once
 
+#include <iostream>
+using namespace std;
+
 template <typename T>
 class Vector
 {
+    // Attributes
    private:
-    T* elements = nullptr;
+    T* _elements = nullptr;
+    uint32_t _size = 0;
+    uint32_t _capacity = 0;
 
+    // Private methods
+   private:
+    // Public methods
    public:
     // Constructors
     Vector();
-    Vector(uint32_t size, T fill);
+    Vector(uint32_t size, T fill=T());
 
     // Destructors
     ~Vector();
