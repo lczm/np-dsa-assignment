@@ -29,6 +29,25 @@ Vector<T>::~Vector()
     }
 }
 
+// Private methods
+template <typename T>
+void Vector<T>::shrink(uint32_t size)
+{
+}
+
+template <typename T>
+void Vector<T>::expand(uint32_t capacity)
+{
+    T* temp = _elements;
+    _elements = new T[capacity];
+    for (uint32_t i = 0; i < _size; i++)
+    {
+        _elements[i] = temp[i];
+    }
+
+    if (temp != nullptr) delete[] temp;
+}
+
 template <typename T>
 void Vector<T>::push_back(T element)
 {
@@ -40,14 +59,7 @@ void Vector<T>::push_back(T element)
         else
             _capacity *= 2;
 
-        T* temp = _elements;
-        _elements = new T[_capacity];
-        for (uint32_t i = 0; i < _size; i++)
-        {
-            _elements[i] = temp[i];
-        }
-
-        if (temp != nullptr) delete[] temp;
+        expand(_capacity);
     }
 
     // Push back the element

@@ -14,11 +14,14 @@ class Vector
 
     // Private methods
    private:
+    void shrink(uint32_t capacity);
+    void expand(uint32_t capacity);
+
     // Public methods
    public:
     // Constructors
     Vector();
-    Vector(uint32_t size, T fill=T());
+    Vector(uint32_t size, T fill = T());
 
     // Destructors
     ~Vector();
