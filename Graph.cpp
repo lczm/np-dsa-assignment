@@ -27,6 +27,14 @@ bool Graph::addConnection(Node fromNode, Node toNode, int cost)
     return true;
 }
 
+bool Graph::addNode(Node& newNode)
+{   
+    Node * node = new Node();
+    node->id = newNode.id;
+    this->Nodes.push_back(node);
+    return true;
+}
+
 
 bool Graph::hasConnection(Node fromNode, Node toNode)
 {
@@ -40,7 +48,7 @@ bool Graph::hasConnection(Node fromNode, Node toNode)
     return false;
 }
 
-void Graph::getAllConnections(Node fromNode, Vector<Connection*>& nodeConnections)
+void Graph::getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeConnections)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
     {
@@ -50,6 +58,22 @@ void Graph::getAllConnections(Node fromNode, Vector<Connection*>& nodeConnection
         }
     }
 
+}
+
+void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
+{
+    for (uint32_t i = 0; i < connections.size(); i++)
+    {
+        graphConnections.push_back(connections[i]);
+    }
+}
+
+void Graph::getAllNodesFromGraph(Vector<Node*>& graphNodes)
+{
+    for (uint32_t i = 0; i < Nodes.size(); i++)
+    {
+        graphNodes.push_back(Nodes[i]);
+    }
 }
 
 Graph::~Graph()
