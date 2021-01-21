@@ -1,6 +1,9 @@
 #pragma once
 
 #include <iostream>
+#include <string>
+#include <stdexcept>
+
 using namespace std;
 
 template <typename T>
@@ -14,6 +17,7 @@ class Vector
 
     // Private methods
    private:
+    bool outOfRange(uint32_t index);
     void shrink(uint32_t capacity);
     void expand(uint32_t capacity);
 
@@ -26,13 +30,13 @@ class Vector
     // Destructors
     ~Vector();
 
-    void push_back(T element);
+    void pushBack(T element);
     void remove(uint32_t index);
     void reserve(uint32_t size);
 
     // Inserts before the index
     void insert(uint32_t index);
-    bool is_empty();
+    bool isEmpty();
 
     uint32_t size();
     uint32_t capacity();

@@ -32,7 +32,7 @@ void testVector()
     Vector<int> test;
     for (uint32_t i = 0; i < 10; i++)
     {
-        test.push_back(i);
+        test.pushBack(i);
         cout << test[i] << endl;
     }
 
@@ -43,6 +43,37 @@ void testVector()
     {
         cout << test[i] << endl;
     }
+
+    // Attempt to index out of range
+    // cout << test[10] << endl;
+
+    Vector<int> testPushBack;
+    testPushBack.pushBack(10);
+    testPushBack.pushBack(20);
+    testPushBack.pushBack(30);
+    testPushBack.pushBack(40);
+    testPushBack.pushBack(50);
+    cout << testPushBack.size() << endl;
+
+    for (uint32_t i = 0; i < testPushBack.size(); i++)
+    {
+        cout << testPushBack[i] << endl;
+    }
+
+    Vector<Test*> vPointers;
+    vPointers.pushBack(new Test{1});
+    vPointers.pushBack(new Test{2});
+    vPointers.pushBack(new Test{3});
+    vPointers.pushBack(new Test{4});
+
+    Vector<Test*> altPointers;
+    for (uint32_t i = 0; i < vPointers.size(); i++)
+    {
+        altPointers.pushBack(vPointers[i]);
+    }
+
+    cout << vPointers.size() << endl;
+    cout << altPointers.size() << endl;
 }
 
 void testGraphConnections()
@@ -82,9 +113,9 @@ void testGraphConnections()
 int main()
 {
     cout << "np-dsa-assignment" << endl;
+
     // testing purposes as there is no unit tests
     testVector();
-
     testGraphConnections();
 
     return 0;

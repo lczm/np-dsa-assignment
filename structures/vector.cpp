@@ -34,6 +34,16 @@ Vector<T>::~Vector()
 
 // Private methods
 template <typename T>
+bool Vector<T>::outOfRange(uint32_t index)
+{
+    if (index < 0 || index >= _size)
+    {
+        return true;
+    }
+    return false;
+}
+
+template <typename T>
 void Vector<T>::shrink(uint32_t size)
 {
 }
@@ -52,7 +62,7 @@ void Vector<T>::expand(uint32_t capacity)
 }
 
 template <typename T>
-void Vector<T>::push_back(T element)
+void Vector<T>::pushBack(T element)
 {
     if (_size == _capacity)
     {
@@ -75,9 +85,11 @@ template <typename T>
 void Vector<T>::remove(uint32_t index)
 {
     // Out of range
-    if (index < 0 || index > _size - 1)
+    if (outOfRange(index))
     {
-        return;
+        string errorMessage =
+            "Index is out of range, Index : " + to_string(index) + " Size : " + to_string(_size);
+        throw out_of_range(errorMessage.c_str());
     }
 
     // Delete the element at the index
@@ -99,7 +111,7 @@ void Vector<T>::insert(uint32_t index)
 }
 
 template <typename T>
-bool Vector<T>::is_empty()
+bool Vector<T>::isEmpty()
 {
     if (_elements == nullptr)
     {
@@ -123,12 +135,25 @@ uint32_t Vector<T>::capacity()
 template <typename T>
 T& Vector<T>::at(uint32_t index)
 {
+    if (outOfRange(index))
+    {
+        string errorMessage =
+            "Index is out of range, Index : " + to_string(index) + " Size : " + to_string(_size);
+        throw out_of_range(errorMessage.c_str());
+    }
     return _elements[index];
 }
 
 template <typename T>
 T& Vector<T>::operator[](uint32_t index)
 {
+    cout << "size : " << _size << endl;
+    if (outOfRange(index))
+    {
+        string errorMessage =
+            "Index is out of range, Index : " + to_string(index) + " Size : " + to_string(_size);
+        throw out_of_range(errorMessage.c_str());
+    }
     return _elements[index];
 }
 

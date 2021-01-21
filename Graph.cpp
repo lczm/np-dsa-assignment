@@ -1,16 +1,12 @@
 #include "Graph.h"
 
-
 Graph::Graph()
 {
 }
 
-
-
 bool Graph::addConnection(Node fromNode, Node toNode, int cost)
-{   
-
-    //eg connection from sengkang to punggol
+{
+    // eg connection from sengkang to punggol
     Connection* forwardConnection = new Connection();
     forwardConnection->fromNode = fromNode;
     forwardConnection->toNode = toNode;
@@ -22,11 +18,10 @@ bool Graph::addConnection(Node fromNode, Node toNode, int cost)
     backwardConnection->toNode = fromNode;
     backwardConnection->cost = cost;
 
-    connections.push_back(forwardConnection);
-    connections.push_back(backwardConnection);
+    connections.pushBack(forwardConnection);
+    connections.pushBack(backwardConnection);
     return true;
 }
-
 
 bool Graph::hasConnection(Node fromNode, Node toNode)
 {
@@ -46,16 +41,16 @@ void Graph::getAllConnections(Node fromNode, Vector<Connection*>& nodeConnection
     {
         if (connections[i]->fromNode.id == fromNode.id)
         {
-            nodeConnections.push_back(connections[i]);
+            nodeConnections.pushBack(connections[i]);
         }
     }
-
 }
 
 Graph::~Graph()
 {
-    for (uint32_t i = 0; i < connections.size(); i++)
-    {
-        delete connections[i];
-    }
+    // Not needed as vector deletes automatically, this causes undefined behaviour
+    // for (uint32_t i = 0; i < connections.size(); i++)
+    // {
+    //     delete connections[i];
+    // }
 }

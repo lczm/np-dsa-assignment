@@ -15,7 +15,6 @@ struct Connection
     int cost;
 };
 
-
 class Graph
 {
    private:
@@ -27,5 +26,4 @@ class Graph
     bool hasConnection(Node fromNode, Node toNode);
     void getAllConnections(Node fromNode, Vector<Connection*>& nodeConnections);
     ~Graph();
-
 };
