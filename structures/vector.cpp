@@ -72,6 +72,23 @@ void Vector<T>::push_back(T element)
 }
 
 template <typename T>
+void Vector<T>::remove(uint32_t index)
+{
+    // Out of range
+    if (index < 0 || index > _size - 1)
+    {
+        return;
+    }
+
+    // Delete the element at the index
+    for (uint32_t i = index; i < _size - 1; i++)
+    {
+        _elements[index] = _elements[index + 1];
+    }
+    _size--;
+}
+
+template <typename T>
 void Vector<T>::reserve(uint32_t size)
 {
 }

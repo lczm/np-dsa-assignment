@@ -27,6 +27,7 @@ class Vector
     ~Vector();
 
     void push_back(T element);
+    void remove(uint32_t index);
     void reserve(uint32_t size);
 
     // Inserts before the index

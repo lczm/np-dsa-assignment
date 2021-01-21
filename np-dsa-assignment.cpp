@@ -35,6 +35,14 @@ void testVector()
         test.push_back(i);
         cout << test[i] << endl;
     }
+
+    test.remove(0);
+    cout << test.size() << endl;
+
+    for (uint32_t i = 0; i < test.size(); i++)
+    {
+        cout << test[i] << endl;
+    }
 }
 
 void testGraphConnections()
@@ -58,13 +66,12 @@ void testGraphConnections()
     Vector<Connection*> d;
     graph.getAllConnections(toNode, d);
 
-
     cout << "EW01 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
     {
         cout << c[i]->toNode.id << " ";
     }
-    cout << " "<< endl;
+    cout << " " << endl;
     cout << "EW02 connections: ";
     for (uint32_t i = 0; i < d.size(); i++)
     {
