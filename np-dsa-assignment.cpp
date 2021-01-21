@@ -1,6 +1,7 @@
 #include <iostream>
 #include "structures/vector.h"
 #include "Graph.h"
+#include "FileReader.h"
 
 using namespace std;
 
@@ -79,47 +80,35 @@ void testVector()
 void testGraphConnections()
 {
     Graph graph;
+    FileReader filereader(&graph);
 
+    filereader.readRoutes();
     Node fromNode;
-    fromNode.id = "EW01";
+    fromNode.id = "EW1";
     Node toNode;
-    toNode.id = "EW02";
+    toNode.id = "EW2";
 
     Node toNode2;
-    toNode2.id = "EW04";
+    toNode2.id = "EW4";
 
-    graph.addNode(fromNode);
-    graph.addNode(toNode);
-    graph.addNode(toNode2);
 
-    graph.addConnection(fromNode, toNode, 100);
-    graph.addConnection(fromNode, toNode2, 100);
 
     Vector<Connection*> c;
-    graph.getAllConnectionsForNode(fromNode, c);
+    graph.getAllConnectionsForNode(fromNode.id, c);
 
     Vector<Connection*> d;
-    graph.getAllConnectionsForNode(toNode, d);
+    graph.getAllConnectionsForNode(toNode.id, d);
 
-    cout << "EW01 connections: ";
+    cout << "EW1 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
     {
-        cout << c[i]->toNode.id << " ";
+        cout << c[i]->toNodeId << " ";
     }
     cout << " " << endl;
-    cout << "EW02 connections: ";
+    cout << "EW2 connections: ";
     for (uint32_t i = 0; i < d.size(); i++)
     {
-        cout << d[i]->toNode.id << endl;
-    }
-
-    cout << "All node" << endl;
-    Vector<Node*> n;
-    graph.getAllNodesFromGraph(n);
-
-    for (uint32_t i = 0; i < n.size(); i++)
-    {
-        cout << n[i]->id << endl;
+        cout << d[i]->toNodeId << endl;
     }
 
 }

@@ -1,17 +1,18 @@
 #pragma once
 #include <iostream>
-using namespace std;
 #include "structures/vector.h"
+using namespace std;
 
 struct Node
 {
     string id;
+    string name;
 };
 
 struct Connection
 {
-    Node fromNode;
-    Node toNode;
+    string fromNodeId;
+    string toNodeId;
     int cost;
 };
 
@@ -19,15 +20,12 @@ class Graph
 {
    private:
     Vector<Connection*> connections;
-    Vector<Node*> Nodes;
 
    public:
     Graph();
-    bool addConnection(Node fromNode, Node toNode, int cost);
-    bool addNode(Node& newNode);
-    bool hasConnection(Node fromNode, Node toNode);
-    void getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeConnections);
+    bool addConnection(string fromNode, string toNode, int cost);
+    bool hasConnection(string fromNode, string toNode);
+    void getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nodeConnections);
     void getAllGraphConnections(Vector<Connection*>& graphConnections);
-    void getAllNodesFromGraph(Vector<Node*>& graphNodes);
     ~Graph();
 };

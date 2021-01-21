@@ -4,26 +4,18 @@ Graph::Graph()
 {
 }
 
-bool Graph::addNode(Node& newNode)
-{
-    Node* node = new Node();
-    node->id = newNode.id;
-    this->Nodes.pushBack(node);
-    return true;
-}
-
-bool Graph::addConnection(Node fromNode, Node toNode, int cost)
+bool Graph::addConnection(string fromNode, string toNode, int cost)
 {
     // eg connection from sengkang to punggol
     Connection* forwardConnection = new Connection();
-    forwardConnection->fromNode = fromNode;
-    forwardConnection->toNode = toNode;
+    forwardConnection->fromNodeId = fromNode;
+    forwardConnection->toNodeId = toNode;
     forwardConnection->cost = cost;
 
     // eg connection from punggol to sengkang
     Connection* backwardConnection = new Connection();
-    backwardConnection->fromNode = toNode;
-    backwardConnection->toNode = fromNode;
+    backwardConnection->fromNodeId = toNode;
+    backwardConnection->toNodeId = fromNode;
     backwardConnection->cost = cost;
 
     connections.pushBack(forwardConnection);
@@ -31,11 +23,11 @@ bool Graph::addConnection(Node fromNode, Node toNode, int cost)
     return true;
 }
 
-bool Graph::hasConnection(Node fromNode, Node toNode)
+bool Graph::hasConnection(string fromNode, string toNode)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
     {
-        if (connections[i]->fromNode.id == fromNode.id && connections[i]->toNode.id == toNode.id)
+        if (connections[i]->fromNodeId == fromNode && connections[i]->toNodeId == toNode)
         {
             return true;
         }
@@ -43,11 +35,11 @@ bool Graph::hasConnection(Node fromNode, Node toNode)
     return false;
 }
 
-void Graph::getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeConnections)
+void Graph::getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nodeConnections)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
     {
-        if (connections[i]->fromNode.id == fromNode.id)
+        if (connections[i]->fromNodeId == fromNodeId)
         {
             nodeConnections.pushBack(connections[i]);
         }
@@ -62,13 +54,6 @@ void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
     }
 }
 
-void Graph::getAllNodesFromGraph(Vector<Node*>& graphNodes)
-{
-    for (uint32_t i = 0; i < Nodes.size(); i++)
-    {
-        graphNodes.pushBack(Nodes[i]);
-    }
-}
 
 Graph::~Graph()
 {
