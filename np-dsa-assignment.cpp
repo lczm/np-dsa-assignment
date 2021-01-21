@@ -88,14 +88,18 @@ void testGraphConnections()
     Node toNode2;
     toNode2.id = "EW04";
 
+    graph.addNode(fromNode);
+    graph.addNode(toNode);
+    graph.addNode(toNode2);
+
     graph.addConnection(fromNode, toNode, 100);
     graph.addConnection(fromNode, toNode2, 100);
 
     Vector<Connection*> c;
-    graph.getAllConnections(fromNode, c);
+    graph.getAllConnectionsForNode(fromNode, c);
 
     Vector<Connection*> d;
-    graph.getAllConnections(toNode, d);
+    graph.getAllConnectionsForNode(toNode, d);
 
     cout << "EW01 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
@@ -108,6 +112,16 @@ void testGraphConnections()
     {
         cout << d[i]->toNode.id << endl;
     }
+
+    cout << "All node" << endl;
+    Vector<Node*> n;
+    graph.getAllNodesFromGraph(n);
+
+    for (uint32_t i = 0; i < n.size(); i++)
+    {
+        cout << n[i]->id << endl;
+    }
+
 }
 
 int main()

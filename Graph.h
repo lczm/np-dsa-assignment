@@ -19,11 +19,15 @@ class Graph
 {
    private:
     Vector<Connection*> connections;
+    Vector<Node*> Nodes;
 
    public:
     Graph();
     bool addConnection(Node fromNode, Node toNode, int cost);
+    bool addNode(Node& newNode);
     bool hasConnection(Node fromNode, Node toNode);
-    void getAllConnections(Node fromNode, Vector<Connection*>& nodeConnections);
+    void getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeConnections);
+    void getAllGraphConnections(Vector<Connection*>& graphConnections);
+    void getAllNodesFromGraph(Vector<Node*>& graphNodes);
     ~Graph();
 };

@@ -35,7 +35,7 @@ bool Graph::hasConnection(Node fromNode, Node toNode)
     return false;
 }
 
-void Graph::getAllConnections(Node fromNode, Vector<Connection*>& nodeConnections)
+void Graph::getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeConnections)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
     {
@@ -43,6 +43,22 @@ void Graph::getAllConnections(Node fromNode, Vector<Connection*>& nodeConnection
         {
             nodeConnections.pushBack(connections[i]);
         }
+    }
+}
+
+void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
+{
+    for (uint32_t i = 0; i < connections.size(); i++)
+    {
+        graphConnections.pushBack(connections[i]);
+    }
+}
+
+void Graph::getAllNodesFromGraph(Vector<Node*>& graphNodes)
+{
+    for (uint32_t i = 0; i < Nodes.size(); i++)
+    {
+        graphNodes.pushBack(Nodes[i]);
     }
 }
 
