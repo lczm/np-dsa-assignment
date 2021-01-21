@@ -4,6 +4,14 @@ Graph::Graph()
 {
 }
 
+bool Graph::addNode(Node& newNode)
+{
+    Node* node = new Node();
+    node->id = newNode.id;
+    this->Nodes.pushBack(node);
+    return true;
+}
+
 bool Graph::addConnection(Node fromNode, Node toNode, int cost)
 {
     // eg connection from sengkang to punggol
@@ -44,6 +52,11 @@ void Graph::getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeCon
             nodeConnections.pushBack(connections[i]);
         }
     }
+}
+
+Vector<Connection*> Graph::getAllConnectionsForNode(Node fromNode)
+{
+    return this->connections;
 }
 
 void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)

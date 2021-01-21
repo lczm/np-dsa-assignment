@@ -147,7 +147,6 @@ T& Vector<T>::at(uint32_t index)
 template <typename T>
 T& Vector<T>::operator[](uint32_t index)
 {
-    cout << "size : " << _size << endl;
     if (outOfRange(index))
     {
         string errorMessage =
