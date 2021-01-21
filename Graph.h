@@ -27,7 +27,6 @@ class Graph
     bool addNode(Node& newNode);
     bool hasConnection(Node fromNode, Node toNode);
     void getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeConnections);
-    Vector<Connection*> getAllConnectionsForNode(Node fromNode);
     void getAllGraphConnections(Vector<Connection*>& graphConnections);
     void getAllNodesFromGraph(Vector<Node*>& graphNodes);
     ~Graph();

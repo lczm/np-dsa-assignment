@@ -54,11 +54,6 @@ void Graph::getAllConnectionsForNode(Node fromNode, Vector<Connection*>& nodeCon
     }
 }
 
-Vector<Connection*> Graph::getAllConnectionsForNode(Node fromNode)
-{
-    return this->connections;
-}
-
 void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
