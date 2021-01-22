@@ -19,7 +19,6 @@ void FileReader::readRoutes()
     ifstream myfile;
     myfile.open(this->routesName);
 
-    Vector<Connection*> connections;
     while (myfile.good())
     {
         Vector<string> mrts;
@@ -44,11 +43,6 @@ void FileReader::readRoutes()
             stringWeight >> x;
             graph->addConnection(mrts[i], mrts[i + 1], x);
         }
-
-        // cout << mrtLine << endl;
-        // cout << distLine << endl;
-        cout << "2 lines" << endl;
-        // g1.push_back(line);
     }
 
     myfile.close();
@@ -57,6 +51,29 @@ void FileReader::readRoutes()
 
 void FileReader::readInterchanges()
 {
+    ifstream myfile;
+    myfile.open(this->interchangesName);
+    while (myfile.good())
+    {   
+        int weight = 0;
+        Vector<string> mrts;
+        string mrtLine;
+
+        std::getline(myfile, mrtLine, '\n');
+        addToVector(mrts, mrtLine);
+
+        int vectorSizeMrt = mrts.size();
+        vectorSizeMrt = vectorSizeMrt - 1;
+
+        for (int i = 0; i < vectorSizeMrt; i++)
+        {
+            for (int j = i+1; j < vectorSizeMrt+1; j++)
+            {
+                graph->addConnection(mrts[i], mrts[j], weight);
+            }
+        }
+    }
+    myfile.close();
 }
 
 void FileReader::readFares()

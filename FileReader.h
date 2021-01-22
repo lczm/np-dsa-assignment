@@ -11,7 +11,7 @@ class FileReader
 {
    private:
     string routesName = "data/Routes.csv";
-    string interchangesName = "Interchanges.csv";
+    string interchangesName = "data/Interchanges.csv";
     string stationsName = "Stations";
     string faresName = "Fares";
     Graph* graph;

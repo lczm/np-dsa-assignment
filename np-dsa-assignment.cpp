@@ -83,8 +83,11 @@ void testGraphConnections()
     FileReader filereader(&graph);
 
     filereader.readRoutes();
+    filereader.readInterchanges();
     Node fromNode;
-    fromNode.id = "EW1";
+
+    //has interchange connections
+    fromNode.id = "EW13";
     Node toNode;
     toNode.id = "EW2";
 
@@ -99,7 +102,7 @@ void testGraphConnections()
     Vector<Connection*> d;
     graph.getAllConnectionsForNode(toNode.id, d);
 
-    cout << "EW1 connections: ";
+    cout << "EW13 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
     {
         cout << c[i]->toNodeId << " ";
