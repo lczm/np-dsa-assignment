@@ -12,6 +12,22 @@ FileReader::FileReader(Graph* graph)
 
 void FileReader::readStations()
 {
+    ifstream myfile;
+    myfile.open(this->stationsName);
+
+    while (myfile.good())
+    {
+        Vector<string> mrtInfo;
+       
+        string mrtInfoLine;
+        std::getline(myfile, mrtInfoLine, '\n');
+        addToVector(mrtInfo, mrtInfoLine);
+
+        //will be changed to add to the graph's hashTable for nodes
+        cout <<"Mrt id: " << mrtInfo[0] << " Mrt Name:" << mrtInfo[1] << endl;
+    }
+
+    myfile.close();
 }
 
 void FileReader::readRoutes()

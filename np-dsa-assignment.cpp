@@ -84,6 +84,7 @@ void testGraphConnections()
 
     filereader.readRoutes();
     filereader.readInterchanges();
+    filereader.readStations();
     Node fromNode;
 
     //has interchange connections

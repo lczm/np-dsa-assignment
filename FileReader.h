@@ -12,7 +12,7 @@ class FileReader
    private:
     string routesName = "data/Routes.csv";
     string interchangesName = "data/Interchanges.csv";
-    string stationsName = "Stations";
+    string stationsName = "data/StationsInfo.csv";
     string faresName = "Fares";
     Graph* graph;
 
