@@ -7,6 +7,11 @@ struct Node
 {
     string id;
     string name;
+
+    bool operator==(const Node& compare) const
+    {
+        return (id == compare.id) && (name == compare.name);
+    }
 };
 
 struct Connection

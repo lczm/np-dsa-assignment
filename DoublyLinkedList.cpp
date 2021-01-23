@@ -68,7 +68,6 @@ void DoublyLinkedList<T>::removeByListNodePtr(ListNode<T>* listNodeptr)
             {
                 front->prev = nullptr;
             }
-            
             listNodeptr->next = nullptr;
         }
         else if (listNodeptr->next == nullptr)
@@ -97,17 +96,14 @@ void DoublyLinkedList<T>::remove(T& nodeToRemove)
     if (size > 0)
     {
         ListNode<T>* traverseNode = front;
-        while (traverseNode != NULL)
+        while (traverseNode != nullptr)
         {
             if (traverseNode->node == nodeToRemove)
             {
                 removeByListNodePtr(traverseNode);
                 break;
             }
-            else
-            {
-                traverseNode = traverseNode->next;
-            }
+            traverseNode = traverseNode->next;
         }
     }
 }
