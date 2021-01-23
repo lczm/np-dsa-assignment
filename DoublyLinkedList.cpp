@@ -31,6 +31,7 @@ void DoublyLinkedList<T>::addFront(T& newNode)
     }
 
     front = newListNode;
+    size++;
 }
 
 template <typename T>
@@ -51,6 +52,49 @@ void DoublyLinkedList<T>::addBack(T& newNode)
     }
 
     end = newListNode;
+    size++;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::remove(ListNode<T>* listNodeptr)
+{
+    if (size > 0)
+    {
+
+        if (listNodeptr->prev == nullptr)
+        {   
+            front = listNodeptr->next;
+            if (front != nullptr)
+            {
+                front->prev = nullptr;
+            }
+            
+            listNodeptr->next = nullptr;
+        }
+        else if (listNodeptr->next == nullptr)
+        {
+            end = listNodeptr->prev;
+            if (end != nullptr)
+            {
+                end->next = nullptr;
+            }
+            listNodeptr->prev = nullptr;
+        }
+        else
+        {
+            listNodeptr->prev->next = listNodeptr->next;
+            listNodeptr->next->prev = listNodeptr->prev;
+        }
+
+        delete listNodeptr;
+        size--;
+    }
+}
+
+template <typename T>
+int DoublyLinkedList<T>::getSize()
+{
+    return size;
 }
 
 #endif

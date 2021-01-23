@@ -132,7 +132,9 @@ void testDoublyLinkedList()
 
     DoublyLinkedList<Node> list;
     list.addFront(fromNode);
-
+    cout <<"size of doubly: " << list.getSize() << endl;
+    list.remove(list.getFrontPtr());
+    cout << "size of doubly: " << list.getSize() << endl;
 
 }
 
