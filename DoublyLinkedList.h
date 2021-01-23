@@ -26,7 +26,7 @@ class DoublyLinkedList
      }
      void addFront(T& newNode);
      void addBack(T& newNode);
-     void remove(ListNode<T>* listNodeptr);
+     void removeByListNodePtr(ListNode<T>* listNodeptr);
      void remove(T& nodeToRemove);
      int getSize();
        

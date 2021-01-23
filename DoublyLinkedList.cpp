@@ -56,7 +56,7 @@ void DoublyLinkedList<T>::addBack(T& newNode)
 }
 
 template <typename T>
-void DoublyLinkedList<T>::remove(ListNode<T>* listNodeptr)
+void DoublyLinkedList<T>::removeByListNodePtr(ListNode<T>* listNodeptr)
 {
     if (size > 0)
     {
@@ -101,7 +101,7 @@ void DoublyLinkedList<T>::remove(T& nodeToRemove)
         {
             if (traverseNode->node == nodeToRemove)
             {
-                remove(traverseNode);
+                removeByListNodePtr(traverseNode);
                 break;
             }
             else
