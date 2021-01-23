@@ -2,6 +2,7 @@
 #include "structures/vector.h"
 #include "Graph.h"
 #include "FileReader.h"
+#include "DoublyLinkedList.h"
 
 using namespace std;
 
@@ -117,6 +118,24 @@ void testGraphConnections()
 
 }
 
+void testDoublyLinkedList()
+{
+    Node fromNode;
+
+    // has interchange connections
+    fromNode.id = "EW13";
+    Node toNode;
+    toNode.id = "EW2";
+
+    Node toNode2;
+    toNode2.id = "EW4";
+
+    DoublyLinkedList<Node> list;
+    list.addFront(fromNode);
+
+
+}
+
 int main()
 {
     cout << "np-dsa-assignment" << endl;
@@ -124,6 +143,7 @@ int main()
     // testing purposes as there is no unit tests
     testVector();
     testGraphConnections();
+    testDoublyLinkedList();
 
     return 0;
 }
