@@ -143,6 +143,10 @@ void testDoublyLinkedList()
     list.remove(toNode);
     cout << "size of doubly: " << list.getSize() << endl;
    
+     list.addFront(toNode);
+     Node node = list.getAt(0);
+     cout << node.id << endl;
+
 
     DoublyLinkedList<Node*> listptr;
     listptr.addFront(fromNode);
@@ -155,6 +159,9 @@ void testDoublyLinkedList()
     cout << "size of doubly: " << listptr.getSize() << endl;
     listptr.removeAt(0);
     cout << "size of doubly: " << listptr.getSize() << endl;
+
+    Node * getNode = listptr.getAt(0);
+    cout << getNode->id << endl;
 }
 
 int main()

@@ -29,6 +29,7 @@ class DoublyLinkedList
      void removeByListNodePtr(ListNode<T>* listNodeptr);
      void remove(T& nodeToRemove);
      void removeAt(int index);
+     T getAt(int index);
      int getSize();
 };
 
