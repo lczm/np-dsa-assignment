@@ -124,6 +124,13 @@ void testDoublyLinkedList()
 
     // has interchange connections
     fromNode->id = "EW13";
+
+
+    Node* fromNodeAnother = new Node();
+
+    // has interchange connections
+    fromNodeAnother->id = "EW14";
+
     Node toNode;
     toNode.id = "EW2";
 
@@ -141,6 +148,12 @@ void testDoublyLinkedList()
     listptr.addFront(fromNode);
     cout << "size of doubly: " << listptr.getSize() << endl;
     listptr.remove(fromNode);
+    cout << "size of doubly: " << listptr.getSize() << endl;
+
+    listptr.addFront(fromNode);
+    listptr.addFront(fromNodeAnother);
+    cout << "size of doubly: " << listptr.getSize() << endl;
+    listptr.removeAt(0);
     cout << "size of doubly: " << listptr.getSize() << endl;
 }
 
