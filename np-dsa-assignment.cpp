@@ -120,22 +120,22 @@ void testGraphConnections()
 
 void testDoublyLinkedList()
 {
-    Node fromNode;
+    Node * fromNode = new Node();
 
     // has interchange connections
-    fromNode.id = "EW13";
+    fromNode->id = "EW13";
     Node toNode;
     toNode.id = "EW2";
 
     Node toNode2;
     toNode2.id = "EW4";
 
-    DoublyLinkedList<Node> list;
+    DoublyLinkedList<Node*> list;
     list.addFront(fromNode);
     cout <<"size of doubly: " << list.getSize() << endl;
-    list.remove(list.getFrontPtr());
+    list.remove(fromNode);
     cout << "size of doubly: " << list.getSize() << endl;
-
+   
 }
 
 int main()

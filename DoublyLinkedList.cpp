@@ -92,6 +92,27 @@ void DoublyLinkedList<T>::remove(ListNode<T>* listNodeptr)
 }
 
 template <typename T>
+void DoublyLinkedList<T>::remove(T& nodeToRemove)
+{
+    if (size > 0)
+    {
+        ListNode<T>* traverseNode = front;
+        while (traverseNode != NULL)
+        {
+            if (traverseNode->node == nodeToRemove)
+            {
+                remove(traverseNode);
+                break;
+            }
+            else
+            {
+                traverseNode = traverseNode->next;
+            }
+        }
+    }
+}
+
+template <typename T>
 int DoublyLinkedList<T>::getSize()
 {
     return size;
