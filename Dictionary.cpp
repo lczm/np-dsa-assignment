@@ -176,27 +176,5 @@ int Dictionary<T>::getLength()
     return size;
 }
 
-template <typename T>
-void Dictionary<T>::print()
-{
-    if (!isEmpty())
-    {
-        for (int i = 0; i < MAX_SIZE; i++)
-        {
-            cout << "Index [" << i << "] ";
-            if (items[i] != NULL)
-            {
-                DictionaryNode<T>* traverseNode = items[i];
-                while (traverseNode != NULL)
-                {
-                    cout << "Key: " << traverseNode->key << "  Item: " << traverseNode->item << " -->";
-                    traverseNode = traverseNode->next;
-                }
-                cout << "\n";
-            }
-            cout << "\n";
-        }
-    }
-}
 
 #endif

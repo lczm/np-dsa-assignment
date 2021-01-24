@@ -60,9 +60,6 @@ public:
     {
        return (int)c;
     }
-	//------------------- Other useful functions -----------------
-	// display the items in the Dictionary
-	void print();
 };
 
 
