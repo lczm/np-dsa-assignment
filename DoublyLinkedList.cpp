@@ -113,13 +113,16 @@ void DoublyLinkedList<T>::removeAt(int index)
 {
     if (size > 0)
     {
-        ListNode<T> * traverseNode = front;
-        for (int i = 0; i < index; i++)
+        if (index >= 0 and index < size)
         {
-            traverseNode = traverseNode->next;
-        }
+            ListNode<T>* traverseNode = front;
+            for (int i = 0; i < index; i++)
+            {
+                traverseNode = traverseNode->next;
+            }
 
-        removeByListNodePtr(traverseNode);
+            removeByListNodePtr(traverseNode);
+        }
     }
 }
 
@@ -127,14 +130,17 @@ template <typename T>
 T DoublyLinkedList<T>::getAt(int index)
 {
     if (size > 0)
-    {
-        ListNode<T>* traverseNode = front;
-        for (int i = 0; i < index; i++)
+    {   
+        if (index >=0 and index < size)
         {
-            traverseNode = traverseNode->next;
-        }
+            ListNode<T>* traverseNode = front;
+            for (int i = 0; i < index; i++)
+            {
+                traverseNode = traverseNode->next;
+            }
 
-        return traverseNode->node;
+            return traverseNode->node;
+        }
     }
 }
 
