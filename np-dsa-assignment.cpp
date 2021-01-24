@@ -166,6 +166,14 @@ void testDictionary()
     d.add(fromNodeAnother->id, fromNodeAnother);
     Node* nodetest = d.get("EW14");
     cout << nodetest->id << endl;
+
+
+    Node toNode;
+    toNode.id = "EW2";
+    Dictionary<Node> nonPtr;
+    nonPtr.add(toNode.id, toNode);
+    Node nodetest2 = nonPtr.get("EW2");
+    cout << nodetest2.id << endl;
 }
 
 int main()

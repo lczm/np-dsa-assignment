@@ -134,7 +134,6 @@ void Dictionary<T>::remove(string key)
 template <typename T>
 T Dictionary<T>::get(string key)
 {   
-    T item = nullptr;
     if (!isEmpty())
     {
         int hashedValue = hash(key);
@@ -146,7 +145,7 @@ T Dictionary<T>::get(string key)
                 //correspond to the key being deleted
                 if (items[hashedValue]->key == key)
                 {
-                    item = items[hashedValue]->item;
+                    return items[hashedValue]->item;
                 }
             }
             else {
@@ -156,12 +155,11 @@ T Dictionary<T>::get(string key)
                     traverseNode = traverseNode->next;
                 }
 
-                item = traverseNode->item;
+                return traverseNode->item;
             }
         }
     }
 
-    return item;
 }
 
 template <typename T>
