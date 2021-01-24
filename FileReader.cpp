@@ -1,13 +1,18 @@
 #include "FileReader.h"
 #include "Graph.h"
 
+
 FileReader::FileReader()
 {
 }
 
-FileReader::FileReader(Graph* graph)
+FileReader::FileReader(Graph* graph, Dictionary<Node*> * dictionary)
 {
     this->graph = graph;
+    this->dictionary = dictionary;
+    this->readRoutes();
+    this->readInterchanges();
+    this->readStations();
 }
 
 void FileReader::readStations()
@@ -24,7 +29,13 @@ void FileReader::readStations()
         addToVector(mrtInfo, mrtInfoLine);
 
         //will be changed to add to the graph's hashTable for nodes
-        cout <<"Mrt id: " << mrtInfo[0] << " Mrt Name:" << mrtInfo[1] << endl;
+
+        Node* node = new Node();
+        node->id = mrtInfo[0];
+        node->name = mrtInfo[1];
+
+        dictionary->add(node->id, node);
+        //cout <<"Mrt id: " << mrtInfo[0] << " Mrt Name:" << mrtInfo[1] << endl;
     }
 
     myfile.close();

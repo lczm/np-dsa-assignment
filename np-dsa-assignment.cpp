@@ -82,28 +82,14 @@ void testVector()
 void testGraphConnections()
 {
     Graph graph;
-    FileReader filereader(&graph);
-
-    filereader.readRoutes();
-    filereader.readInterchanges();
-    filereader.readStations();
-    Node fromNode;
-
-    //has interchange connections
-    fromNode.id = "EW13";
-    Node toNode;
-    toNode.id = "EW2";
-
-    Node toNode2;
-    toNode2.id = "EW4";
-
-
+    Dictionary<Node*> dic;
+    FileReader filereader(&graph, &dic);
 
     Vector<Connection*> c;
-    graph.getAllConnectionsForNode(fromNode.id, c);
+    graph.getAllConnectionsForNode("EW13", c);
 
     Vector<Connection*> d;
-    graph.getAllConnectionsForNode(toNode.id, d);
+    graph.getAllConnectionsForNode("EW2", d);
 
     cout << "EW13 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
@@ -117,6 +103,7 @@ void testGraphConnections()
         cout << d[i]->toNodeId << endl;
     }
 
+    cout << "Dictionary length" <<  dic.getLength() << endl;
 }
 
 void testDoublyLinkedList()
@@ -164,11 +151,17 @@ void testDoublyLinkedList()
     Node * getNode = listptr.getAt(0);
     cout << getNode->id << endl;
 
+}
 
-    //Dictionary 
-    Dictionary<Node*> * d = new Dictionary<Node*>();
-    d->add(fromNodeAnother->id, fromNodeAnother);
-    Node* nodetest = d->get("EW14");
+void testDictionary()
+{   
+    Node* fromNodeAnother = new Node();
+
+    // has interchange connections
+    fromNodeAnother->id = "EW14";
+    Dictionary<Node*> d;
+    d.add(fromNodeAnother->id, fromNodeAnother);
+    Node* nodetest = d.get("EW14");
     cout << nodetest->id << endl;
 }
 
@@ -180,6 +173,7 @@ int main()
     testVector();
     testGraphConnections();
     testDoublyLinkedList();
+    testDictionary();
 
     return 0;
 }

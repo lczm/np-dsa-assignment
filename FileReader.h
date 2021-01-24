@@ -5,6 +5,8 @@
 #include <sstream> 
 #include "structures/vector.h"
 #include "Graph.h"
+#include "Dictionary.h"
+
 
 using namespace std;
 class FileReader
@@ -15,10 +17,11 @@ class FileReader
     string stationsName = "data/StationsInfo.csv";
     string faresName = "Fares";
     Graph* graph;
+    Dictionary<Node*>* dictionary;
 
    public:
     FileReader();
-    FileReader(Graph* graph);
+    FileReader(Graph* graph, Dictionary<Node*> * dictionary);
     void readStations();
     void readRoutes();
     void readInterchanges();
