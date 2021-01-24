@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="DoublyLinkedList.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="Graph.cpp" />
@@ -150,6 +151,7 @@
     <None Include="data\stations.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Dictionary.h" />
     <ClInclude Include="DoublyLinkedList.h" />
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="Graph.h" />

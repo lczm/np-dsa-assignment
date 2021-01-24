@@ -39,6 +39,9 @@
     <ClCompile Include="DoublyLinkedList.cpp">
       <Filter>Source Files\structures</Filter>
     </ClCompile>
+    <ClCompile Include="Dictionary.cpp">
+      <Filter>Source Files\structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\stations.csv">
@@ -59,6 +62,9 @@
       <Filter>Header Files\structures</Filter>
     </ClInclude>
     <ClInclude Include="DoublyLinkedList.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Dictionary.h">
       <Filter>Header Files\structures</Filter>
     </ClInclude>
   </ItemGroup>

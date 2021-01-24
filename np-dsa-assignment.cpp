@@ -2,6 +2,7 @@
 #include "structures/vector.h"
 #include "Graph.h"
 #include "FileReader.h"
+#include "Dictionary.h"
 #include "DoublyLinkedList.h"
 
 using namespace std;
@@ -162,6 +163,13 @@ void testDoublyLinkedList()
 
     Node * getNode = listptr.getAt(0);
     cout << getNode->id << endl;
+
+
+    //Dictionary 
+    Dictionary<Node*> * d = new Dictionary<Node*>();
+    d->add(fromNodeAnother->id, fromNodeAnother);
+    Node* nodetest = d->get("EW14");
+    cout << nodetest->id << endl;
 }
 
 int main()
