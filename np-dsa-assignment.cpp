@@ -83,7 +83,8 @@ void testGraphConnections()
 {
     Graph graph;
     Dictionary<Node*> dic;
-    FileReader filereader(&graph, &dic);
+    Vector<DoublyLinkedList<Node*>> vector;
+    FileReader filereader(&graph, &dic, &vector);
 
     Vector<Connection*> c;
     graph.getAllConnectionsForNode("EW13", c);
@@ -103,7 +104,9 @@ void testGraphConnections()
         cout << d[i]->toNodeId << endl;
     }
 
-    cout << "Dictionary length" <<  dic.getLength() << endl;
+    cout << "Dictionary length: " <<  dic.getLength() << endl;
+    cout << "Vector length: " << vector.size() << endl;
+    cout << "First station in first line of the doubly linked list: " << vector.at(0).getAt(0)->name << endl;
 }
 
 void testDoublyLinkedList()

@@ -6,13 +6,14 @@ FileReader::FileReader()
 {
 }
 
-FileReader::FileReader(Graph* graph, Dictionary<Node*> * dictionary)
+FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<DoublyLinkedList<Node*>>* v)
 {
     this->graph = graph;
     this->dictionary = dictionary;
+    this->vector = v;
+    this->readStations();
     this->readRoutes();
     this->readInterchanges();
-    this->readStations();
 }
 
 void FileReader::readStations()
@@ -70,6 +71,17 @@ void FileReader::readRoutes()
             stringWeight >> x;
             graph->addConnection(mrts[i], mrts[i + 1], x);
         }
+
+         DoublyLinkedList<Node*> list;
+         for (int i = 0; i < vectorSizeMrt+1; i++)
+            {       
+            
+                 Node* p = dictionary->get(mrts[i]);
+                 list.addBack(p);
+
+            }
+
+         vector->pushBack(list);
     }
 
     myfile.close();

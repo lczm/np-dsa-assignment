@@ -6,7 +6,7 @@
 #include "structures/vector.h"
 #include "Graph.h"
 #include "Dictionary.h"
-
+#include "DoublyLinkedList.h"
 
 using namespace std;
 class FileReader
@@ -18,10 +18,11 @@ class FileReader
     string faresName = "Fares";
     Graph* graph;
     Dictionary<Node*>* dictionary;
+    Vector<DoublyLinkedList<Node*>>* vector;
 
    public:
     FileReader();
-    FileReader(Graph* graph, Dictionary<Node*> * dictionary);
+    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<DoublyLinkedList<Node*>>* v);
     void readStations();
     void readRoutes();
     void readInterchanges();
