@@ -84,9 +84,11 @@ void testGraphConnections()
     Graph graph;
     Dictionary<Node*> dic;
     Vector<DoublyLinkedList<Node*>> vector;
+    graph.setNodeList(&dic);
     FileReader filereader(&graph, &dic, &vector);
-
     Vector<Connection*> c;
+
+
     graph.getAllConnectionsForNode("EW13", c);
 
     Vector<Connection*> d;
@@ -95,13 +97,13 @@ void testGraphConnections()
     cout << "EW13 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
     {
-        cout << c[i]->toNodeId << " ";
+        cout << c[i]->toNode->id << " ";
     }
     cout << " " << endl;
     cout << "EW2 connections: ";
     for (uint32_t i = 0; i < d.size(); i++)
     {
-        cout << d[i]->toNodeId << endl;
+        cout << d[i]->toNode->id << endl;
     }
 
     cout << "Dictionary length: " <<  dic.getLength() << endl;

@@ -4,18 +4,23 @@ Graph::Graph()
 {
 }
 
-bool Graph::addConnection(string fromNode, string toNode, int cost)
+bool Graph::addConnection(string fromNodeId, string toNodeId, int cost)
 {
     // eg connection from sengkang to punggol
+
+    Node* fromNode = nodeList->get(fromNodeId);
+    Node* toNode = nodeList->get(toNodeId);
+
+
     Connection* forwardConnection = new Connection();
-    forwardConnection->fromNodeId = fromNode;
-    forwardConnection->toNodeId = toNode;
+    forwardConnection->fromNode = fromNode;
+    forwardConnection->toNode = toNode;
     forwardConnection->cost = cost;
 
     // eg connection from punggol to sengkang
     Connection* backwardConnection = new Connection();
-    backwardConnection->fromNodeId = toNode;
-    backwardConnection->toNodeId = fromNode;
+    backwardConnection->fromNode = toNode;
+    backwardConnection->toNode = fromNode;
     backwardConnection->cost = cost;
 
     connections.pushBack(forwardConnection);
@@ -23,11 +28,11 @@ bool Graph::addConnection(string fromNode, string toNode, int cost)
     return true;
 }
 
-bool Graph::hasConnection(string fromNode, string toNode)
+bool Graph::hasConnection(string fromNodeId, string toNodeId)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
     {
-        if (connections[i]->fromNodeId == fromNode && connections[i]->toNodeId == toNode)
+        if (connections[i]->fromNode->id == fromNodeId && connections[i]->toNode->id == toNodeId)
         {
             return true;
         }
@@ -39,7 +44,7 @@ void Graph::getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nod
 {
     for (uint32_t i = 0; i < connections.size(); i++)
     {
-        if (connections[i]->fromNodeId == fromNodeId)
+        if (connections[i]->fromNode->id == fromNodeId)
         {
             nodeConnections.pushBack(connections[i]);
         }

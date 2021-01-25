@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "structures/vector.h"
+#include "Dictionary.h"
 using namespace std;
 
 struct Node
@@ -16,8 +17,8 @@ struct Node
 
 struct Connection
 {
-    string fromNodeId;
-    string toNodeId;
+    Node * fromNode;
+    Node* toNode;
     int cost;
 };
 
@@ -25,11 +26,16 @@ class Graph
 {
    private:
     Vector<Connection*> connections;
+    Dictionary<Node*>* nodeList;
 
    public:
     Graph();
-    bool addConnection(string fromNode, string toNode, int cost);
-    bool hasConnection(string fromNode, string toNode);
+    void setNodeList(Dictionary<Node*>* nodeList)
+    {
+        this->nodeList = nodeList;
+    }
+    bool addConnection(string fromNodeId, string toNodeId, int cost);
+    bool hasConnection(string fromNodeId, string toNodeId);
     void getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nodeConnections);
     void getAllGraphConnections(Vector<Connection*>& graphConnections);
     ~Graph();
