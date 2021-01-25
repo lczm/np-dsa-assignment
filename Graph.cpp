@@ -32,6 +32,40 @@ bool Graph::addConnection(string fromNodeId, string toNodeId, int cost)
     return false;
 }
 
+bool Graph::removeAllConnectionsForNodeOneWay(string fromNodeId)
+{
+    Vector<Connection*> nodeConnections;
+    getAllConnectionsForNode(fromNodeId, nodeConnections);
+
+    if (nodeConnections.size() > 0)
+    {
+        for (int i = 0; i < nodeConnections.size(); i++)
+        {
+            removeConnection(nodeConnections[i]->fromNode->id, nodeConnections[i]->toNode->id);
+        }
+        return true;
+    }
+    return false;
+}
+
+bool Graph::removeAllConnectionsForNodeBothWays(string fromNodeId)
+{
+    Vector<Connection*> nodeConnections;
+    getAllConnectionsForNode(fromNodeId, nodeConnections);
+
+     if (nodeConnections.size() > 0)
+     {
+        for (int i = 0; i < nodeConnections.size(); i++)
+        {
+            removeConnection(nodeConnections[i]->fromNode->id, nodeConnections[i]->toNode->id);
+            removeConnection(nodeConnections[i]->toNode->id, nodeConnections[i]->fromNode->id);
+        }
+
+        return true;
+     }
+     return false;
+}
+
 bool Graph::removeConnection(string fromNodeId, string toNodeId)
 {
     if (hasConnection(fromNodeId, toNodeId))
