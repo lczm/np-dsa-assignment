@@ -35,7 +35,11 @@ class Graph
         this->nodeList = nodeList;
     }
     bool addConnection(string fromNodeId, string toNodeId, int cost);
+    bool removeAllConnectionsForNodeOneWay(string fromNodeId);
+    bool removeAllConnectionsForNodeBothWays(string fromNodeId);
+    bool removeConnection(string fromNodeId, string toNodeId);
     bool hasConnection(string fromNodeId, string toNodeId);
+    int  getConnectionIndex(string fromNodeId, string toNodeId);
     void getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nodeConnections);
     void getAllGraphConnections(Vector<Connection*>& graphConnections);
     ~Graph();
