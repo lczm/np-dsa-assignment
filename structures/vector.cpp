@@ -95,7 +95,7 @@ void Vector<T>::remove(uint32_t index)
     // Delete the element at the index
     for (uint32_t i = index; i < _size - 1; i++)
     {
-        _elements[index] = _elements[index + 1];
+        _elements[i] = _elements[i+ 1];
     }
     _size--;
 }

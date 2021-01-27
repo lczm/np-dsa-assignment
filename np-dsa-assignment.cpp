@@ -77,6 +77,22 @@ void testVector()
 
     cout << vPointers.size() << endl;
     cout << altPointers.size() << endl;
+
+    cout << "---" << endl;
+    Vector<int> removeTest;
+    removeTest.pushBack(1);
+    removeTest.pushBack(2);
+    removeTest.pushBack(3);
+    removeTest.pushBack(4);
+    removeTest.pushBack(5);
+    removeTest.pushBack(6);
+    removeTest.remove(2);
+
+    for (size_t i = 0; i < removeTest.size(); i++)
+    {
+        cout << removeTest[i] << endl;
+    }
+    cout << "---" << endl;
 }
 
 void testGraphConnections()
