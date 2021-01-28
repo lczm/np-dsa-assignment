@@ -9,9 +9,11 @@ class MrtLine
    private:
     string mrtLineName;
     DoublyLinkedList<Node*> stationList;
+    Graph* graph;
 
    public:
     MrtLine();
+    MrtLine(Graph * graph);
     void setMrtLineName(string name)
     {
         mrtLineName = name;

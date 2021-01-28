@@ -73,7 +73,7 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
             graph->addConnection(mrts[i], mrts[i + 1], x);
         }
 
-         MrtLine mrtLineNew;
+         MrtLine mrtLineNew(graph);
          mrtLineNew.setMrtLineName("Line" + to_string(lineNo));
          lineNo++;
 

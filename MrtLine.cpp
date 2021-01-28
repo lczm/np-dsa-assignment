@@ -4,6 +4,11 @@ MrtLine::MrtLine()
 {
 }
 
+MrtLine::MrtLine(Graph* graph)
+{
+    this->graph = graph;
+}
+
 void MrtLine::addStationFront(Node*& newNode)
 {
     stationList.addFront(newNode);
