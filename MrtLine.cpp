@@ -111,13 +111,13 @@ void MrtLine::updateConnectionsBetweenStations(int selectedStationIndex, int old
                                                int costPrev,
                                                int costForward, Node* newStation, 
                                                int beforeAfter)
-{
-    // removing old connections
+{   
+    //getting ids
     string selectedStationId = stationList.getAt(selectedStationIndex)->id;
     string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
 
-    graph->removeConnection(selectedStationId, oldConnectionStationId);
-    graph->removeConnection(oldConnectionStationId, selectedStationId);
+    // removing old connections
+    removeConnectionBetweenStations(selectedStationId, oldConnectionStationId);
 
     // adding the new station to the dictionary 
     Dictionary<Node*>* nodeList = graph->getNodeList();
@@ -129,7 +129,6 @@ void MrtLine::updateConnectionsBetweenStations(int selectedStationIndex, int old
     
     //adding to station list
     stationList.addAt(newStation, selectedStationIndex + beforeAfter);
-
 }
 
 void MrtLine::addStationFront(Node*& newNode)
@@ -148,6 +147,8 @@ void MrtLine::removeStation(Node*& newNode)
 
 void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId)
 {
+    graph->removeConnection(fromNodeId, toNodeId);
+    graph->removeConnection(toNodeId, fromNodeId);
 }
 
 void MrtLine::printStationsAll()
