@@ -27,7 +27,7 @@ class MrtLine
     void addStationBack(Node*& newNode);
     void removeStation(Node*& newNode);
     void removeConnectionBetweenStations(string fromNodeId, string toNodeId);
-    void printStationsAll(string stationId);
+    void printStationsAll();
     void printStationsBasedOnDirection(string stationId);
     ~MrtLine();
 

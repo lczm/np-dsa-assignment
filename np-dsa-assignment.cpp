@@ -129,6 +129,7 @@ void testGraphConnections()
     cout << "mrt size:" <<  mrtlines.size() << endl;
     cout << "mrt name:" << mrtlines[0].getMrtLineName() << endl;
     cout << "Dictionary length: " <<  dic.getLength() << endl;
+    mrtlines[0].printStationsAll();
 }
 
 void testDoublyLinkedList()
