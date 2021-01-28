@@ -107,10 +107,10 @@ void testGraphConnections()
 
 
     graph.removeConnection("EW13", "EW8");
-    graph.getAllConnectionsForNode("EW13", c);
+    //graph.getAllConnectionsForNode("EW13", c);
 
     Vector<Connection*> d;
-    graph.getAllConnectionsForNode("EW2", d);
+   // graph.getAllConnectionsForNode("EW2", d);
 
     cout << "EW13 connections: ";
     for (uint32_t i = 0; i < c.size(); i++)
@@ -128,8 +128,22 @@ void testGraphConnections()
 
     cout << "mrt size:" <<  mrtlines.size() << endl;
     cout << "mrt name:" << mrtlines[0].getMrtLineName() << endl;
-    cout << "Dictionary length: " <<  dic.getLength() << endl;
+    graph.getAllGraphConnections(d);
+
+    cout << "d size: " << d.size() << endl;
+    mrtlines[0].addNewStation("EW13", "test", true, 10, 10);
+    mrtlines[0].addNewStation("EW13", "test2", false, 10, 10);
+    cout << "mrt name:" << mrtlines[0].getMrtLineName() << endl;
     mrtlines[0].printStationsAll();
+
+    graph.getAllGraphConnections(c);
+    cout << "c size: " << c.size() << endl;
+    for (uint32_t i = 0; i < c.size(); i++)
+    {
+        cout << c[i]->fromNode->id << " ";
+        cout << c[i]->toNode->id << " ";
+    }
+    
 }
 
 void testDoublyLinkedList()

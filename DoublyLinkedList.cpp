@@ -56,6 +56,45 @@ void DoublyLinkedList<T>::addBack(T& newNode)
 }
 
 template <typename T>
+void DoublyLinkedList<T>::addAt(T& newNode, int index)
+{
+     ListNode<T>* beforeIndexNode;
+
+     ListNode<T> * newListNode = new ListNode<T>();
+     newListNode->node = newNode;
+
+     if (index >= 0 and index < size)
+      { 
+        if (index == 0)
+        {
+            newListNode->next = front;
+            front->prev = newListNode;
+        }    
+        else
+        {
+            ListNode<T>* traverseNode = front;
+            for (int i = 0; i < index-1; i++)
+            {
+              traverseNode = traverseNode->next;
+            }
+
+            beforeIndexNode = traverseNode;
+            newListNode->prev = beforeIndexNode;
+            newListNode->next = beforeIndexNode->next;
+
+            if (beforeIndexNode->next != nullptr)
+            {
+                beforeIndexNode->next->prev = newListNode;
+            }
+
+            beforeIndexNode->next = newListNode;
+        }
+
+        size++;
+     }
+}
+
+template <typename T>
 void DoublyLinkedList<T>::removeByListNodePtr(ListNode<T>* listNodeptr)
 {
     if (size > 0)

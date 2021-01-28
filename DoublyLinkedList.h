@@ -26,6 +26,7 @@ class DoublyLinkedList
      }
      void addFront(T& newNode);
      void addBack(T& newNode);
+     void addAt(T& newNode, int index);
      void removeByListNodePtr(ListNode<T>* listNodeptr);
      void remove(T& nodeToRemove);
      void removeAt(int index);

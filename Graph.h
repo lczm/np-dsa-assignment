@@ -34,6 +34,11 @@ class Graph
     {
         this->nodeList = nodeList;
     }
+    Dictionary<Node*>* & getNodeList()
+    {
+        return nodeList;
+    };
+
     bool addConnection(string fromNodeId, string toNodeId, int cost);
     bool removeAllConnectionsForNodeOneWay(string fromNodeId);
     bool removeAllConnectionsForNodeBothWays(string fromNodeId);

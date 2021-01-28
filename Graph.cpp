@@ -74,7 +74,7 @@ bool Graph::removeConnection(string fromNodeId, string toNodeId)
         Connection* connectionToDelete = connections[connectionIndex];
         connectionToDelete->fromNode = NULL;
         connectionToDelete->toNode = NULL;
-        connectionToDelete->cost = NULL;
+        connectionToDelete->cost = 0;
         connections.remove(connectionIndex);
         delete connectionToDelete;
         return true;
@@ -86,7 +86,11 @@ bool Graph::removeConnection(string fromNodeId, string toNodeId)
 bool Graph::hasConnection(string fromNodeId, string toNodeId)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
-    {
+    {   
+
+        string s = connections[i]->fromNode->id;
+        string t = connections[i]->toNode->id;
+
         if (connections[i]->fromNode->id == fromNodeId && connections[i]->toNode->id == toNodeId)
         {
             return true;
@@ -109,7 +113,8 @@ int Graph::getConnectionIndex(string fromNodeId, string toNodeId)
 void Graph::getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nodeConnections)
 {
     for (uint32_t i = 0; i < connections.size(); i++)
-    {
+    {   
+        string d = connections[i]->fromNode->id;
         if (connections[i]->fromNode->id == fromNodeId)
         {   
             nodeConnections.pushBack(connections[i]);
