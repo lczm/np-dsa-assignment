@@ -7,7 +7,7 @@
 #include "Graph.h"
 #include "Dictionary.h"
 #include "DoublyLinkedList.h"
-
+#include "MrtLine.h"
 using namespace std;
 class FileReader
 {
@@ -18,13 +18,12 @@ class FileReader
     string faresName = "Fares";
     Graph* graph;
     Dictionary<Node*>* dictionary;
-    Vector<DoublyLinkedList<Node*>>* vector;
 
    public:
     FileReader();
-    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<DoublyLinkedList<Node*>>* v);
+    FileReader(Graph* graph, Dictionary<Node*>* dictionary , Vector<MrtLine>& mrtLines);
     void readStations();
-    void readRoutes();
+    void readRoutes(Vector<MrtLine> & mrtLines);
     void readInterchanges();
     void readFares();
     void addToVector(Vector<string>& vectorList, string excelLine);

@@ -4,6 +4,7 @@
 #include "FileReader.h"
 #include "Dictionary.h"
 #include "DoublyLinkedList.h"
+#include "MrtLine.h"
 
 using namespace std;
 
@@ -99,12 +100,13 @@ void testGraphConnections()
 {
     Graph graph;
     Dictionary<Node*> dic;
-    Vector<DoublyLinkedList<Node*>> vector;
+    Vector<MrtLine> mrtlines;
     graph.setNodeList(&dic);
-    FileReader filereader(&graph, &dic, &vector);
+    FileReader filereader(&graph, &dic, mrtlines);
     Vector<Connection*> c;
 
 
+    graph.removeConnection("EW13", "EW8");
     graph.getAllConnectionsForNode("EW13", c);
 
     Vector<Connection*> d;
@@ -122,9 +124,11 @@ void testGraphConnections()
         cout << d[i]->toNode->id << endl;
     }
 
+    cout << "\n";
+
+    cout << "mrt size:" <<  mrtlines.size() << endl;
+    cout << "mrt name:" << mrtlines[0].getMrtLineName() << endl;
     cout << "Dictionary length: " <<  dic.getLength() << endl;
-    cout << "Vector length: " << vector.size() << endl;
-    cout << "First station in first line of the doubly linked list: " << vector.at(0).getAt(0)->name << endl;
 }
 
 void testDoublyLinkedList()
@@ -195,33 +199,6 @@ void testDictionary()
 }
 
 
-//Menu_Function_Railway is a pointer to a function that takes no arguments
-typedef void (*Menu_Function_Railway)(void);
-
-struct Menu_Option
-{
-    char choice;
-    char const* text;
-    Menu_Function_Railway p_processing_function;
-};
-
-void option_One()
-{   
-    cout << "Hello there" << endl;
-    return;
-};
-void option_Two()
-{
-    return;
-};
-
-static const Menu_Option main_menu[] = {
-    {'1', "Option: 1", option_One},
-    {'2', "Option: 2", option_Two},
-};
-
-//size of the entire thing divided by size of one array
-static const size_t quantity_selections = sizeof(main_menu) / sizeof(main_menu[0]);
 int main()
 {
     cout << "np-dsa-assignment" << endl;
@@ -232,41 +209,6 @@ int main()
     testDoublyLinkedList();
     testDictionary();
 
-    bool set = true;
-    while (set)
-    {
-        string menu_title =
-            "\n"
-            "-------------------------------\n"
-            "   Main Menu for railway inc\n"
-            "-------------------------------\n";
-        cout << menu_title << endl;
-        for (int i = 0; i < quantity_selections; ++i)
-        {
-            std::cout << main_menu[i].text << "\n";
-        }
-        cout << "Enter option, press 0 to quit: ";
-        char choice;
-        cin >> choice;
-        for (int i = 0; i < quantity_selections; ++i)
-        {
-            if (choice == main_menu[i].choice)
-            {   
-                cout << "\n";
-                Menu_Function_Railway p_function = main_menu[i].p_processing_function;
-                (p_function)();//executes function
-                break;
-            }
-            else if (choice == '0')
-            {
-                set = false;
-            }
-            else
-            {
-                cout << "Please select the correct option" << endl;
-                break;
-            }
-        }
-    }
+   
     return 0;
 }

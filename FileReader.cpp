@@ -2,17 +2,17 @@
 #include "Graph.h"
 
 
+
 FileReader::FileReader()
 {
 }
 
-FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<DoublyLinkedList<Node*>>* v)
+FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines)
 {
     this->graph = graph;
     this->dictionary = dictionary;
-    this->vector = v;
     this->readStations();
-    this->readRoutes();
+    this->readRoutes(mrtLines);
     this->readInterchanges();
 }
 
@@ -42,10 +42,11 @@ void FileReader::readStations()
     myfile.close();
 }
 
-void FileReader::readRoutes()
+void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
 {
     ifstream myfile;
     myfile.open(this->routesName);
+    int lineNo = 0;
 
     while (myfile.good())
     {
@@ -72,16 +73,17 @@ void FileReader::readRoutes()
             graph->addConnection(mrts[i], mrts[i + 1], x);
         }
 
-         DoublyLinkedList<Node*> list;
+         MrtLine mrtLineNew;
+         mrtLineNew.setMrtLineName("Line" + to_string(lineNo));
+         lineNo++;
+
          for (int i = 0; i < vectorSizeMrt+1; i++)
-            {       
-            
-                 Node* p = dictionary->get(mrts[i]);
-                 list.addBack(p);
+         {       
+           Node* p = dictionary->get(mrts[i]);
+           mrtLineNew.addStationBack(p);
+         }
 
-            }
-
-         vector->pushBack(list);
+         mrtLines.pushBack(mrtLineNew);
     }
 
     myfile.close();
