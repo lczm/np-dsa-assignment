@@ -51,32 +51,35 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     //extracting the string and integers
     int extractedId = extractIntegers(stationId);
     string mrtLineIdentifier = extractString(stationId);
-    int selectedStationPtr = 0;
+    int selectedStationIndex = 0;
 
 
     for (int i = 0; i < stationList.getSize(); i++)
     {
         if (stationList.getAt(i)->id == stationId)
         {
-            selectedStationPtr = i;
+            selectedStationIndex = i;
         }
     }
 
     Node* newStation = new Node();
     newStation->name = newStationName;
 
+    //added infront of the selected station
     if (infront)
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId + 1);
         updateLineIds(newStation->id);
-        updateConnectionsBetweenStations(selectedStationPtr, selectedStationPtr + 1, costPrev,
+        updateConnectionsBetweenStations(selectedStationIndex, selectedStationIndex + 1, costPrev,
                                          costForward, newStation, 1);
     }
+    //added behind the selected station
     else
-    {
+    {   
         newStation->id = mrtLineIdentifier + to_string(extractedId);
         updateLineIds(newStation->id);
-        updateConnectionsBetweenStations(selectedStationPtr, selectedStationPtr - 1, costForward,
+        updateConnectionsBetweenStations(selectedStationIndex, selectedStationIndex - 1,
+                                         costForward,
                                          costPrev, newStation, 0);
     }
   
@@ -91,7 +94,7 @@ void MrtLine::updateLineIds(string newStationId)
     {
         if (extractIntegers(stationList.getAt(i)->id) >= extractIntegers(newStationId))
         {
-            //Update the hash table in containing all the nodes
+            //Update the dictionary in containing all the nodes
             Node* current = nodeList->get(stationList.getAt(i)->id);
             nodeList->remove(stationList.getAt(i)->id);
 
@@ -104,25 +107,28 @@ void MrtLine::updateLineIds(string newStationId)
     }
 }
 
-void MrtLine::updateConnectionsBetweenStations(int selectedStationPtr, int oldStationIndex,
+void MrtLine::updateConnectionsBetweenStations(int selectedStationIndex, int oldStationIndex,
                                                int costPrev,
                                                int costForward, Node* newStation, 
                                                int beforeAfter)
 {
     // removing old connections
+    string selectedStationId = stationList.getAt(selectedStationIndex)->id;
     string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
-    graph->removeConnection(stationList.getAt(selectedStationPtr)->id, oldConnectionStationId);
-    graph->removeConnection(oldConnectionStationId, stationList.getAt(selectedStationPtr)->id);
 
-    // adding new connections
+    graph->removeConnection(selectedStationId, oldConnectionStationId);
+    graph->removeConnection(oldConnectionStationId, selectedStationId);
+
+    // adding the new station to the dictionary 
     Dictionary<Node*>* nodeList = graph->getNodeList();
     nodeList->add(newStation->id, newStation);
 
-
-    graph->addConnection(stationList.getAt(selectedStationPtr)->id, newStation->id, costPrev);
+    //Adding connections between the two stations
+    graph->addConnection(selectedStationId, newStation->id, costPrev);
     graph->addConnection(newStation->id, oldConnectionStationId, costForward);
     
-    stationList.addAt(newStation, selectedStationPtr + beforeAfter);
+    //adding to station list
+    stationList.addAt(newStation, selectedStationIndex + beforeAfter);
 
 }
 
