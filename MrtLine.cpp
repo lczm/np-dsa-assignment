@@ -52,6 +52,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     int extractedId = extractIntegers(stationId);
     string mrtLineIdentifier = extractString(stationId);
     int selectedStationIndex = 0;
+    int increaseByOne = 1;
 
 
     for (int i = 0; i < stationList.getSize(); i++)
@@ -69,7 +70,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     if (infront)
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId + 1);
-        updateLineIdsForAddNewStation(newStation->id);
+        updateLineIdsForStations(newStation->id, increaseByOne);
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex + 1,
                                                   costPrev,
                                          costForward, newStation, 1);
@@ -78,7 +79,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     else
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId);
-        updateLineIdsForAddNewStation(newStation->id);
+        updateLineIdsForStations(newStation->id, increaseByOne);
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex - 1,
                                          costForward,
                                          costPrev, newStation, 0);
@@ -86,20 +87,21 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
   
 }
 
-void MrtLine::updateLineIdsForAddNewStation(string newStationId)
+void MrtLine::updateLineIdsForStations(string selectedStationId, int decreaseOrIncreaseId)
 {
     // Update all the stationIds
-    string mrtLineIdentifier = extractString(newStationId);
+    string mrtLineIdentifier = extractString(selectedStationId);
     Dictionary<Node*>* nodeList = graph->getNodeList();
     for (int i = stationList.getSize()-1; i >= 0; i--)
     {
-        if (extractIntegers(stationList.getAt(i)->id) >= extractIntegers(newStationId))
+        if (extractIntegers(stationList.getAt(i)->id) >= extractIntegers(selectedStationId))
         {
             //Update the dictionary in containing all the nodes
             Node* current = nodeList->get(stationList.getAt(i)->id);
             nodeList->remove(stationList.getAt(i)->id);
 
-            int ChangeExtractedId = extractIntegers(stationList.getAt(i)->id) + 1;
+            int ChangeExtractedId =
+                extractIntegers(stationList.getAt(i)->id) + decreaseOrIncreaseId;
             string id = mrtLineIdentifier + to_string(ChangeExtractedId);
 
             stationList.getAt(i)->id = id;
@@ -150,7 +152,7 @@ void MrtLine::removeStation(string stationId, int costBetween)
 
     Node* prevStation = NULL;
     Node* afterStation = NULL;
-
+    int decreaseByOne = -1;
     if (removeStation != nullptr)
     {
         for (int i = 0; i < stationList.getSize(); i++)
@@ -176,6 +178,7 @@ void MrtLine::removeStation(string stationId, int costBetween)
         {
             graph->addConnection(prevStation->id, afterStation->id, costBetween);
         }
+        updateLineIdsForStations(stationId, decreaseByOne);
     }
 }
 
