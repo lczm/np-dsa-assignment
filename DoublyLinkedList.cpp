@@ -182,7 +182,6 @@ T DoublyLinkedList<T>::getAt(int index)
         }
     }
 
-    return NULL;
 }
 
 template <typename T>
