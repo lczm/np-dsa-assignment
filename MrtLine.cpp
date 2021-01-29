@@ -69,23 +69,24 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     if (infront)
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId + 1);
-        updateLineIds(newStation->id);
-        updateConnectionsBetweenStations(selectedStationIndex, selectedStationIndex + 1, costPrev,
+        updateLineIdsForAddNewStation(newStation->id);
+        updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex + 1,
+                                                  costPrev,
                                          costForward, newStation, 1);
     }
     //added behind the selected station
     else
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId);
-        updateLineIds(newStation->id);
-        updateConnectionsBetweenStations(selectedStationIndex, selectedStationIndex - 1,
+        updateLineIdsForAddNewStation(newStation->id);
+        updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex - 1,
                                          costForward,
                                          costPrev, newStation, 0);
     }
   
 }
 
-void MrtLine::updateLineIds(string newStationId)
+void MrtLine::updateLineIdsForAddNewStation(string newStationId)
 {
     // Update all the stationIds
     string mrtLineIdentifier = extractString(newStationId);
@@ -107,7 +108,7 @@ void MrtLine::updateLineIds(string newStationId)
     }
 }
 
-void MrtLine::updateConnectionsBetweenStations(int selectedStationIndex, int oldStationIndex,
+void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex, int oldStationIndex,
                                                int costPrev,
                                                int costForward, Node* newStation, 
                                                int beforeAfter)
@@ -152,7 +153,10 @@ void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId
 }
 
 void MrtLine::printStationsAll()
-{
+{   
+
+    cout << "MRT Line Name: "<< mrtLineName << endl;
+    cout << "Stations:  " <<  endl;
     for (int i = 0; i < stationList.getSize(); i++)
     {
         cout << "Id:" << stationList.getAt(i)->id << " Name:" << stationList.getAt(i)->name << endl;

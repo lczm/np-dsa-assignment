@@ -32,8 +32,8 @@ class MrtLine
     * 
     */
     void addNewStation(string stationId, string newStationName, bool infront, int costPrev, int costForward);
-    void updateLineIds(string newStationId);
-    void updateConnectionsBetweenStations(int selectedStationPtr, int oldStationIndex, int costPrev,
+    void updateLineIdsForAddNewStation(string newStationId);
+    void updateConnBetweenStationsForAddNewStation(int selectedStationPtr, int oldStationIndex, int costPrev,
                                           int costForward, Node* newStation, int beforeAfter);
     void addStationFront(Node*& newNode);
     void addStationBack(Node*& newNode);
