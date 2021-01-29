@@ -56,9 +56,13 @@ bool Graph::removeAllConnectionsForNodeBothWays(string fromNodeId)
      if (nodeConnections.size() > 0)
      {
         for (int i = 0; i < nodeConnections.size(); i++)
-        {
-            removeConnection(nodeConnections[i]->fromNode->id, nodeConnections[i]->toNode->id);
-            removeConnection(nodeConnections[i]->toNode->id, nodeConnections[i]->fromNode->id);
+        {   
+            //due to connection being deleted
+            string fromNode = nodeConnections[i]->fromNode->id;
+            string toNode = nodeConnections[i]->toNode->id;
+
+            removeConnection(fromNode, toNode);
+            removeConnection(toNode, fromNode);
         }
 
         return true;

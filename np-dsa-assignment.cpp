@@ -143,7 +143,18 @@ void testGraphConnections()
         cout << c[i]->fromNode->id << " ";
         cout << c[i]->toNode->id << " ";
     }
-    
+
+    mrtlines[0].removeStation("EW8", 10);
+    mrtlines[0].printStationsAll();
+
+     Vector<Connection*> f;
+    graph.getAllGraphConnections(f);
+    cout << "c size: " << f.size() << endl;
+    for (uint32_t i = 0; i < f.size(); i++)
+    {
+        cout << f[i]->fromNode->id << " ";
+        cout << f[i]->toNode->id << " ";
+    }
 }
 
 void testDoublyLinkedList()

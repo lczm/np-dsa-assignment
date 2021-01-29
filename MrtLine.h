@@ -37,7 +37,7 @@ class MrtLine
                                           int costForward, Node* newStation, int beforeAfter);
     void addStationFront(Node*& newNode);
     void addStationBack(Node*& newNode);
-    void removeStation(Node*& newNode);
+    void removeStation(string stationId, int costBetween);
     void removeConnectionBetweenStations(string fromNodeId, string toNodeId);
     void printStationsAll();
     void printStationsBasedOnDirection(string stationId);
