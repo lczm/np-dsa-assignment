@@ -168,7 +168,7 @@ void DoublyLinkedList<T>::removeAt(int index)
 template <typename T>
 T DoublyLinkedList<T>::getAt(int index)
 {
-    if (size > 0)
+    if (size > 0 and index < size)
     {   
         if (index >=0 and index < size)
         {
@@ -181,6 +181,8 @@ T DoublyLinkedList<T>::getAt(int index)
             return traverseNode->node;
         }
     }
+
+    return NULL;
 }
 
 template <typename T>

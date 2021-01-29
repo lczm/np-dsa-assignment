@@ -144,7 +144,7 @@ void testGraphConnections()
         cout << c[i]->toNode->id << " ";
     }
 
-    mrtlines[0].removeStation("EW8", 10);
+    mrtlines[0].removeStation("EW31", 10);
     mrtlines[0].printStationsAll();
 
      Vector<Connection*> f;

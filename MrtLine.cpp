@@ -142,21 +142,21 @@ void MrtLine::addStationBack(Node*& newNode)
     stationList.addBack(newNode);
 }
 
-//TODO: Update ids of stations after removal
+//
 void MrtLine::removeStation(string stationId, int costBetween)
 {
     Dictionary<Node*>* nodeList = graph->getNodeList();
     Node* removeStation = nodeList->get(stationId);
 
-    Node* prevStation = nullptr;
-    Node* afterStation = nullptr;
+    Node* prevStation = NULL;
+    Node* afterStation = NULL;
 
     if (removeStation != nullptr)
     {
         for (int i = 0; i < stationList.getSize(); i++)
         {
             if (stationList.getAt(i)->id == stationId)
-            {
+            {   
                 prevStation = stationList.getAt(i - 1);
                 afterStation = stationList.getAt(i + 1);
                 stationList.removeAt(i);
@@ -166,7 +166,7 @@ void MrtLine::removeStation(string stationId, int costBetween)
         }
 
         graph->removeAllConnectionsForNodeBothWays(stationId);
-        if ((prevStation != nullptr)&& (afterStation != nullptr))
+        if ((prevStation != NULL)&& (afterStation != NULL))
         {
             graph->addConnection(prevStation->id, afterStation->id, costBetween);
         }
