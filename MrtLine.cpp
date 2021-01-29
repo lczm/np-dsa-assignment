@@ -157,8 +157,14 @@ void MrtLine::removeStation(string stationId, int costBetween)
         {
             if (stationList.getAt(i)->id == stationId)
             {   
-                prevStation = stationList.getAt(i - 1);
-                afterStation = stationList.getAt(i + 1);
+                if (i - 1 > 0)
+                {
+                    prevStation = stationList.getAt(i - 1);
+                }
+                if (i+1 < stationList.getSize())
+                {
+                    afterStation = stationList.getAt(i + 1);
+                }
                 stationList.removeAt(i);
                 nodeList->remove(stationId);
                 break;
