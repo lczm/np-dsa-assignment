@@ -326,9 +326,10 @@ void addStationToMrtLine()
             errorDetect(station);
             if (station >= 0 && station < mrt->getSize())
             {   
-                int beforeAfter;
+                int beforeCost, afterCost, beforeAfter = 0;
                 string name;
-                cout << "[You have selected " << mrt->getMrtStation(station)->name
+                Node* selected = mrt->getMrtStation(station);
+                cout << "[You have selected " << selected->name
                      << "]"
                      << endl;
                 cout << "Would you like the new station to be before or after the selected station?"
@@ -344,9 +345,6 @@ void addStationToMrtLine()
                 cout << "What is the name of your station?" << endl;
                 std::getline(std::cin, name);
 
-                int beforeCost = 0;
-                int afterCost = 0;
-                Node* selected = mrt->getMrtStation(station);
                 enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
                 mrt->addNewStation(selected->id, name, beforeAfter,
                     beforeCost, afterCost);
@@ -354,10 +352,7 @@ void addStationToMrtLine()
             }
             else
             {
-                if (station == -1 )
-                {
-                    break;
-                }
+                if (station == -1 ){ break;}
                 cout << "Please select the correct station index!";
             }
         }
