@@ -232,6 +232,7 @@ void testVector()
 
 void displayMenu();
 void errorDetect(int& option);
+void enterInputForInt(int& option);
 void addStationToMrtLine();
 void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
                int station, string name);
@@ -307,23 +308,21 @@ void addStationToMrtLine()
     bool exit = false;
     while (exit != true)
     {
-        cout << "[Please enter the option no.]" << endl;
+        cout << "[Please enter a mrt index]" << endl;
         for (int i = 0; i < mrtlines.size(); i++)
         {
             cout << "Option " << i << ") "<< "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
         }
         //based on that line print the train stations
         int lineSelected = 0;
-        cin >> lineSelected;
-        errorDetect(lineSelected);
+        enterInputForInt(lineSelected);
         if (lineSelected >= 0 && lineSelected < mrtlines.size())
         {
             MrtLine * mrt = &mrtlines[lineSelected];   
             mrt->printStationsAll();
             cout << "Select a station index you would like to add your station to" << endl;
             int station;
-            cin >> station;
-            errorDetect(station);
+            enterInputForInt(station);
             if (station >= 0 && station < mrt->getSize())
             {   
                 int beforeCost, afterCost, beforeAfter = 0;
@@ -335,12 +334,14 @@ void addStationToMrtLine()
                 cout << "Would you like the new station to be before or after the selected station?"
                      << endl;
                 cout << "[0 == before/1 == after]" << endl;
-                cin >> beforeAfter;
+                enterInputForInt(beforeAfter);
 
-                //detecting an error in choice
-                errorDetect(beforeAfter);
-                cin.clear();
-                cin.ignore(10000, '\n');
+                //check range
+                while (beforeAfter > 1 || beforeAfter < 0)
+                {
+                    cout << "Enter the correct option (0 or 1)" << endl;
+                    enterInputForInt(beforeAfter);
+                }
 
                 cout << "What is the name of your station?" << endl;
                 std::getline(std::cin, name);
@@ -365,12 +366,21 @@ void addStationToMrtLine()
     }
 }
 
+//for display station
 void displayAllStations()
 {
     for (int i = 0; i < mrtlines.size(); i++)
     {   
         mrtlines[i].printStationsAll();
     }
+}
+
+void enterInputForInt(int &option)
+{
+    cin >> option;
+    errorDetect(option);
+    cin.clear();
+    cin.ignore(10000, '\n');
 }
 
 void errorDetect(int &option)
@@ -384,23 +394,24 @@ void errorDetect(int &option)
     }
 }
 
+//For add station
 void enterCost(int& beforeCost, int& afterCost, int beforeAfter,
     Node * selected, MrtLine* mrt, int station, string name)
 {
     if (beforeAfter == 1)
     {
-        cout << "Cost from " << selected->name << " to " << name << "?";
+        cout << "Cost between " << selected->name << " to " << name << "?";
         cin >> beforeCost;
         errorDetect(beforeCost);
         if (station + 1 < mrt->getSize())
         {
             Node* afterNewMrt = mrt->getMrtStation(station + 1);
-            cout << "Cost from " << name << " to " << afterNewMrt->name << "? ";
+            cout << "Cost between " << name << " to " << afterNewMrt->name << "? ";
             cin >> afterCost;
             errorDetect(afterCost);
         }
     }
-    else
+    else if (beforeAfter == 0)
     {
         cout << "Cost from " << selected->name << " to " << name << "? ";
         cin >> afterCost;
@@ -408,9 +419,10 @@ void enterCost(int& beforeCost, int& afterCost, int beforeAfter,
         if (station - 1 >= 0)
         {
             Node* afterNewMrt = mrt->getMrtStation(station - 1);
-            cout << "Cost from " << name << " to " << afterNewMrt->name << "?";
+            cout << "Cost between " << name << " to " << afterNewMrt->name << "?";
             cin >> beforeCost;
             errorDetect(beforeCost);
         }
     }
+   
 }
