@@ -134,6 +134,10 @@ void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
     }
 }
 
+void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeid)
+{
+}
+
 
 Graph::~Graph()
 {

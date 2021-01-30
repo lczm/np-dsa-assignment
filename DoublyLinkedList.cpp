@@ -63,12 +63,13 @@ void DoublyLinkedList<T>::addAt(T& newNode, int index)
      ListNode<T> * newListNode = new ListNode<T>();
      newListNode->node = newNode;
 
-     if (index >= 0 and index < size)
+     if (index >= 0 and index <= size)
       { 
         if (index == 0)
         {
             newListNode->next = front;
             front->prev = newListNode;
+            front = newListNode;
         }    
         else
         {

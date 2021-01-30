@@ -231,6 +231,8 @@ void testVector()
 
 
 void displayMenu();
+void errorDetect(int& option);
+void addStationToMrtLine();
 void displayAllStations();
 int main()
 {
@@ -252,8 +254,12 @@ int main()
             displayMenu();
             cout << "Enter option: "; 
             cin >> option;
+            cin.clear();
+            cin.ignore(10000, '\n');
             switch (option)
-            {   
+            {   case 1:
+                    addStationToMrtLine();
+                    break;
                 case 6:
                     displayAllStations();
                     break;
@@ -292,11 +298,94 @@ void displayMenu()
     cout << "\n";
 }
 
+//mm yes spaghetti, will refactor
+//just testing if func works
+void addStationToMrtLine()
+{
+    //Ask user to select a line
+    bool exit = false;
+    while (exit != true)
+    {
+        cout << "[Please enter the option no.]" << endl;
+        for (int i = 0; i < mrtlines.size(); i++)
+        {
+            cout << "Option " << i << ") "<< "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
+        }
+        //based on that line print the train stations
+        int lineSelected = 0;
+        cin >> lineSelected;
+        errorDetect(lineSelected);
+
+        if (lineSelected >= 0 && lineSelected < mrtlines.size())
+        {
+            mrtlines[lineSelected].printStationsAll();   
+            cout << "Select a station index you would like to add your station to" << endl;
+            int station;
+            cin >> station;
+            errorDetect(station);
+            if (station >= 0 && station < mrtlines[lineSelected].getSize())
+            {   
+                
+                int beforeAfter;
+                string name;
+                cout << "[You have selected " << mrtlines[lineSelected].getMrtStation(station)->name
+                     << "]"
+                     << endl;
+
+                cout << "Would you like the new station to be before or after the selected station?"
+                     << endl;
+                cout << "[0 == before/1 == after]" << endl;
+                cin >> beforeAfter;
+                errorDetect(beforeAfter);
+                cin.clear();
+                cin.ignore(10000, '\n');
+
+                cout << "What is the name of your station?" << endl;
+                cin >> name;
+
+                mrtlines[lineSelected].addNewStation(
+                    mrtlines[lineSelected].getMrtStation(station)->id,name,beforeAfter, 10, 10);
+
+                mrtlines[lineSelected].printStationsAll();
+            }
+            else
+            {
+                if (station == -1 )
+                {
+                    break;
+                }
+                cout << "Please select the correct station index!";
+            }
+        }
+        else
+        {
+            exit = true;
+        }
+       
+    }
+    //ask user to select a train station to add the new station
+    //check if station exists on the line
+    //ask if user wants to add the station behind or infront of the station
+    //add the station
+    //show the results
+}
+
 void displayAllStations()
 {
     for (int i = 0; i < mrtlines.size(); i++)
     {   
         cout << "\n";
         mrtlines[i].printStationsAll();
+    }
+}
+
+void errorDetect(int &option)
+{
+    while (cin.fail())
+    {
+        cout << "Please enter the correct option!:";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cin >> option;
     }
 }

@@ -117,10 +117,6 @@ void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex
 {   
     //getting ids
     string selectedStationId = stationList.getAt(selectedStationIndex)->id;
-    string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
-
-    // removing old connections
-    removeConnectionBetweenStations(selectedStationId, oldConnectionStationId);
 
     // adding the new station to the dictionary 
     Dictionary<Node*>* nodeList = graph->getNodeList();
@@ -128,7 +124,14 @@ void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex
 
     //Adding connections between the two stations
     graph->addConnection(selectedStationId, newStation->id, costPrev);
-    graph->addConnection(newStation->id, oldConnectionStationId, costForward);
+
+    if (oldStationIndex >= 0 && oldStationIndex < stationList.getSize())
+    {
+        string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
+        removeConnectionBetweenStations(selectedStationId, oldConnectionStationId);
+        graph->addConnection(newStation->id, oldConnectionStationId, costForward);
+    }
+
     
     //adding to station list
     stationList.addAt(newStation, selectedStationIndex + beforeAfter);
@@ -190,17 +193,23 @@ void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId
 
 void MrtLine::printStationsAll()
 {   
-
+    cout << "\n" << endl;
     cout << "MRT Line Name: "<< mrtLineName << endl;
     cout << "Stations:  " <<  endl;
     for (int i = 0; i < stationList.getSize(); i++)
     {
-        cout << "Id:" << stationList.getAt(i)->id << " Name:" << stationList.getAt(i)->name << endl;
+        cout <<"Index: " << i <<  " Id:" << stationList.getAt(i)->id << " Name:" << stationList.getAt(i)->name << endl;
     }
+    cout << "\n" << endl;
 }
 
 void MrtLine::printStationsBasedOnDirection(string stationId)
 {
+}
+
+Node* MrtLine::getMrtStation(int index) 
+{
+    return stationList.getAt(index);
 }
 
 MrtLine::~MrtLine()

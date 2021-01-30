@@ -41,6 +41,12 @@ class MrtLine
     void removeConnectionBetweenStations(string fromNodeId, string toNodeId);
     void printStationsAll();
     void printStationsBasedOnDirection(string stationId);
+    int getSize()
+    {
+        return stationList.getSize();
+    }
+    Node* getMrtStation(int index);
+
     ~MrtLine();
 
 };
