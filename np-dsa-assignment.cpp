@@ -325,6 +325,7 @@ void displayMrtLinesToSelect(TCallback Evt)
     }
 }
 
+/* ADD STATION METHODS BEGIN HERE*/
 void addStationToMrtLineTest()
 {
     // based on that line print the train stations
@@ -406,6 +407,7 @@ void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
         }
     }
 }
+/* ADD STATION METHODS END HERE*/
 
 //for display station
 void displayAllStations()
