@@ -103,6 +103,21 @@ bool Graph::hasConnection(string fromNodeId, string toNodeId)
     return false;
 }
 
+Connection* Graph::getConnection(string fromNodeId, string toNodeId)
+{
+    for (uint32_t i = 0; i < connections.size(); i++)
+    {
+        string s = connections[i]->fromNode->id;
+        string t = connections[i]->toNode->id;
+
+        if (connections[i]->fromNode->id == fromNodeId && connections[i]->toNode->id == toNodeId)
+        {
+            return connections[i];
+        }
+    }
+    return NULL;
+}
+
 int Graph::getConnectionIndex(string fromNodeId, string toNodeId)
 {
     for (uint32_t i = 0; i < connections.size(); i++)

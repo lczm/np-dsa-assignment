@@ -198,7 +198,14 @@ void MrtLine::printStationsAll()
     cout << "Stations:  " <<  endl;
     for (int i = 0; i < stationList.getSize(); i++)
     {
-        cout <<"Index: " << i <<  " Id:" << stationList.getAt(i)->id << " Name:" << stationList.getAt(i)->name << endl;
+        cout <<"Index: " << i <<  " Id:" << stationList.getAt(i)->id << "| Name:" << stationList.getAt(i)->name << endl;
+
+        if (i < stationList.getSize()-1)
+        {
+            cout << "[Cost between: "
+                 << graph->getConnection(stationList.getAt(i)->id, stationList.getAt(i + 1)->id)
+                        ->cost << "]" <<endl;
+        }
     }
     cout << "\n" << endl;
 }
