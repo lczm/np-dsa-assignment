@@ -231,9 +231,13 @@ void testVector()
 
 
 void displayMenu();
+template <typename TCallback>
+void displayMrtLinesToSelect(TCallback Evt);
 void errorDetect(int& option);
 void enterInputForInt(int& option);
-void addStationToMrtLine();
+//void addStationToMrtLine();
+void addStationToMrtLineTest();
+void addStationDetails(int station, MrtLine* mrt);
 void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
                int station, string name);
 void displayAllStations();
@@ -261,7 +265,9 @@ int main()
             cin.ignore(10000, '\n');
             switch (option)
             {   case 1:
-                    addStationToMrtLine();
+                    displayMrtLinesToSelect(addStationToMrtLineTest);
+                    break;
+                case 2:
                     break;
                 case 6:
                     displayAllStations();
@@ -301,68 +307,103 @@ void displayMenu()
     cout << "\n";
 }
 
-//Function for testing purposes
-void addStationToMrtLine()
+template <typename TCallback>
+void displayMrtLinesToSelect(TCallback Evt)
 {
-    //Ask user to select a line
+    // Ask user to select a line
     bool exit = false;
     while (exit != true)
     {
         cout << "[Please enter a mrt index]" << endl;
         for (int i = 0; i < mrtlines.size(); i++)
         {
-            cout << "Option " << i << ") "<< "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
+            cout << "Option " << i << ") "
+                 << "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
         }
-        //based on that line print the train stations
-        int lineSelected = 0;
-        enterInputForInt(lineSelected);
-        if (lineSelected >= 0 && lineSelected < mrtlines.size())
+        Evt();
+        exit = true;
+    }
+}
+
+void addStationToMrtLineTest()
+{
+    // based on that line print the train stations
+    int lineSelected = 0;
+    enterInputForInt(lineSelected);
+    if (lineSelected >= 0 && lineSelected < mrtlines.size())
+    {
+        MrtLine* mrt = &mrtlines[lineSelected];
+        mrt->printStationsAll();
+        cout << "Select a station index you would like to add your station to" << endl;
+        int station;
+        enterInputForInt(station);
+
+        if (station >= 0 && station < mrt->getSize())
         {
-            MrtLine * mrt = &mrtlines[lineSelected];   
-            mrt->printStationsAll();
-            cout << "Select a station index you would like to add your station to" << endl;
-            int station;
-            enterInputForInt(station);
-            if (station >= 0 && station < mrt->getSize())
-            {   
-                int beforeCost, afterCost, beforeAfter = 0;
-                string name;
-                Node* selected = mrt->getMrtStation(station);
-                cout << "[You have selected " << selected->name
-                     << "]"
-                     << endl;
-                cout << "Would you like the new station to be before or after the selected station?"
-                     << endl;
-                cout << "[0 == before/1 == after]" << endl;
-                enterInputForInt(beforeAfter);
-
-                //check range
-                while (beforeAfter > 1 || beforeAfter < 0)
-                {
-                    cout << "Enter the correct option (0 or 1)" << endl;
-                    enterInputForInt(beforeAfter);
-                }
-
-                cout << "What is the name of your station?" << endl;
-                std::getline(std::cin, name);
-
-                enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
-                mrt->addNewStation(selected->id, name, beforeAfter,
-                    beforeCost, afterCost);
-                mrt->printStationsAll();
-            }
-            else
-            {
-                if (station == -1 ){ break;}
-                cout << "Please select the correct station index!";
-            }
+            addStationDetails(station, mrt);
         }
         else
         {
-            exit = true;
+            cout << "Please select the correct station index!";
         }
-        cin.clear();
-        cin.ignore(10000, '\n');
+    }
+}
+
+void addStationDetails(int station, MrtLine* mrt)
+{
+    int beforeCost, afterCost, beforeAfter = 0;
+    string name;
+    Node* selected = mrt->getMrtStation(station);
+    cout << "[You have selected " << selected->name << "]" << endl;
+    cout << "Would you like the new station to be before or after the selected station?" << endl;
+    cout << "[0 == before/1 == after]" << endl;
+    enterInputForInt(beforeAfter);
+
+    // check range
+    while (beforeAfter > 1 || beforeAfter < 0)
+    {
+        cout << "Enter the correct option (0 or 1)" << endl;
+        enterInputForInt(beforeAfter);
+    }
+
+    cout << "What is the name of your station?" << endl;
+    std::getline(std::cin, name);
+
+    enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+    mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
+    mrt->printStationsAll();
+}
+
+
+// For add stationDetails
+void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
+               int station, string name)
+{
+    if (beforeAfter == 1)
+    {
+        cout << "Cost between " << selected->name << " to " << name << "?";
+        cin >> beforeCost;
+        errorDetect(beforeCost);
+        if (station + 1 < mrt->getSize())
+        {
+            Node* afterNewMrt = mrt->getMrtStation(station + 1);
+            cout << "Cost between " << name << " to " << afterNewMrt->name << "? ";
+            cin >> afterCost;
+            errorDetect(afterCost);
+        }
+    }
+    else if (beforeAfter == 0)
+    {
+        cout << "Cost from " << selected->name << " to " << name << "? ";
+        cin >> afterCost;
+        errorDetect(afterCost);
+        if (station - 1 >= 0)
+        {
+            Node* afterNewMrt = mrt->getMrtStation(station - 1);
+            cout << "Cost between " << name << " to " << afterNewMrt->name << "?";
+            cin >> beforeCost;
+            errorDetect(beforeCost);
+        }
     }
 }
 
@@ -394,35 +435,70 @@ void errorDetect(int &option)
     }
 }
 
-//For add station
-void enterCost(int& beforeCost, int& afterCost, int beforeAfter,
-    Node * selected, MrtLine* mrt, int station, string name)
-{
-    if (beforeAfter == 1)
-    {
-        cout << "Cost between " << selected->name << " to " << name << "?";
-        cin >> beforeCost;
-        errorDetect(beforeCost);
-        if (station + 1 < mrt->getSize())
-        {
-            Node* afterNewMrt = mrt->getMrtStation(station + 1);
-            cout << "Cost between " << name << " to " << afterNewMrt->name << "? ";
-            cin >> afterCost;
-            errorDetect(afterCost);
-        }
-    }
-    else if (beforeAfter == 0)
-    {
-        cout << "Cost from " << selected->name << " to " << name << "? ";
-        cin >> afterCost;
-        errorDetect(afterCost);
-        if (station - 1 >= 0)
-        {
-            Node* afterNewMrt = mrt->getMrtStation(station - 1);
-            cout << "Cost between " << name << " to " << afterNewMrt->name << "?";
-            cin >> beforeCost;
-            errorDetect(beforeCost);
-        }
-    }
-   
-}
+
+// Function for testing purposes
+// void addStationToMrtLine()
+//{
+//    //Ask user to select a line
+//    bool exit = false;
+//    while (exit != true)
+//    {
+//        cout << "[Please enter a mrt index]" << endl;
+//        for (int i = 0; i < mrtlines.size(); i++)
+//        {
+//            cout << "Option " << i << ") "<< "Mrt Line name: " << mrtlines[i].getMrtLineName() <<
+//            endl;
+//        }
+//        //based on that line print the train stations
+//        int lineSelected = 0;
+//        enterInputForInt(lineSelected);
+//        if (lineSelected >= 0 && lineSelected < mrtlines.size())
+//        {
+//            MrtLine * mrt = &mrtlines[lineSelected];
+//            mrt->printStationsAll();
+//            cout << "Select a station index you would like to add your station to" << endl;
+//            int station;
+//            enterInputForInt(station);
+//            if (station >= 0 && station < mrt->getSize())
+//            {
+//                int beforeCost, afterCost, beforeAfter = 0;
+//                string name;
+//                Node* selected = mrt->getMrtStation(station);
+//                cout << "[You have selected " << selected->name
+//                     << "]"
+//                     << endl;
+//                cout << "Would you like the new station to be before or after the selected
+//                station?"
+//                     << endl;
+//                cout << "[0 == before/1 == after]" << endl;
+//                enterInputForInt(beforeAfter);
+//
+//                //check range
+//                while (beforeAfter > 1 || beforeAfter < 0)
+//                {
+//                    cout << "Enter the correct option (0 or 1)" << endl;
+//                    enterInputForInt(beforeAfter);
+//                }
+//
+//                cout << "What is the name of your station?" << endl;
+//                std::getline(std::cin, name);
+//
+//                enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+//                mrt->addNewStation(selected->id, name, beforeAfter,
+//                    beforeCost, afterCost);
+//                mrt->printStationsAll();
+//            }
+//            else
+//            {
+//                if (station == -1 ){ break;}
+//                cout << "Please select the correct station index!";
+//            }
+//        }
+//        else
+//        {
+//            exit = true;
+//        }
+//        cin.clear();
+//        cin.ignore(10000, '\n');
+//    }
+//}
