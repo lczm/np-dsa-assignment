@@ -440,7 +440,6 @@ void removeStationToMrtLine()
 
 void removeStationDetails(int station, MrtLine* mrt)
 {
-    string name;
     Node* selected = mrt->getMrtStation(station);
     cout << "[You have selected " << selected->name << "]" << endl;
     int costBetweenStations = 0;
