@@ -250,6 +250,14 @@ int main()
     FileReader filereader(&graph, &dic, mrtlines);
     cout << "np-dsa-assignment" << endl;
 
+    Vector<Node*> v;
+    dic.getAllItems(v);
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << v[i]->name << endl;
+    }
+
     // testing purposes as there is no unit tests
     testVector();
     /*testGraphConnections();

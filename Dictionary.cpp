@@ -174,5 +174,25 @@ int Dictionary<T>::getLength()
     return size;
 }
 
+template <typename T>
+void Dictionary<T>::getAllItems(Vector<T> &dicItems)
+{
+    if (!isEmpty())
+    {
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+            if (items[i] != NULL)
+            {   
+                DictionaryNode<T> * traverseNode = items[i];
+                while (traverseNode != NULL)
+                {
+                    dicItems.pushBack(traverseNode->item);    
+                    traverseNode = traverseNode->next;
+                }
+            }
+        }
+    }
+}
+
 
 #endif

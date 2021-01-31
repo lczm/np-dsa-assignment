@@ -22,6 +22,14 @@ struct Connection
     int cost;
 };
 
+
+struct NodeRecord
+{
+    string nodeId;
+    Connection* connection;
+    int costSoFar;
+};
+
 class Graph
 {
    private:

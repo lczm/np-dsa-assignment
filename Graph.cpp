@@ -151,6 +151,22 @@ void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
 
 void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeid)
 {
+    Dictionary<NodeRecord*> openList;
+    Dictionary<NodeRecord*> closedList;
+
+    //Start record
+    NodeRecord * startRecord = new NodeRecord();
+    startRecord->nodeId = fromNodeId;
+    startRecord->connection = nullptr;
+    startRecord->costSoFar = 0;
+
+    //add to openlist;
+    openList.add(startRecord->nodeId, startRecord);
+
+    while (!openList.isEmpty())
+    {
+    }
+
 }
 
 
