@@ -1,6 +1,6 @@
 #include <iostream>
-#include "structures/trie.h"
 #include "structures/vector.h"
+#include "structures/trie.h"
 #include "Graph.h"
 #include "FileReader.h"
 #include "Dictionary.h"
@@ -10,9 +10,9 @@
 using namespace std;
 
 // Global variables in main
-Graph graph;
-Dictionary<Node*> dic;
-Vector<MrtLine> mrtlines;
+// Graph graph;
+// Dictionary<Node*> dic;
+// Vector<MrtLine> mrtlines;
 
 void testVector()
 {
@@ -100,10 +100,28 @@ void testVector()
         cout << removeTest[i] << endl;
     }
     cout << "---" << endl;
+    cout << "---" << endl;
+
+    // Copy constructor test
+    Vector<int> a;
+    a.pushBack(1);
+    a.pushBack(2);
+    a.pushBack(3);
+
+    Vector<int> b;
+    b.pushBack(4);
+    b = a;
+
+    cout << b.size() << endl;
+    for (uint32_t i = 0; i < b.size(); i++)
+    {
+        cout << b[i] << endl;
+    }
 }
 
 void testTrie()
 {
+    cout << "---testTrie---" << endl;
     Trie trie;
 
     trie.insert("0");
@@ -121,12 +139,20 @@ void testTrie()
     cout << trie.search("a") << endl;
     cout << trie.search("ay") << endl;
 
+    Vector<string> a;
+    a.pushBack("Hello");
+    a.pushBack("Hello2");
+
+    Vector<string> b;
+    b = a;
+
     Vector<string> completions = trie.complete("Boo");
     cout << completions.size() << endl;
     for (uint32_t i = 0; i < completions.size(); i++)
     {
         cout << completions[i] << endl;
     }
+    cout << "---testTrie---" << endl;
 }
 
 // void testGraphConnections()
@@ -473,67 +499,68 @@ void errorDetect(int& option)
 
 // Function for testing purposes
 // void addStationToMrtLine()
-//{
-//    //Ask user to select a line
-//    bool exit = false;
-//    while (exit != true)
-//    {
-//        cout << "[Please enter a mrt index]" << endl;
-//        for (int i = 0; i < mrtlines.size(); i++)
-//        {
-//            cout << "Option " << i << ") "<< "Mrt Line name: " << mrtlines[i].getMrtLineName() <<
-//            endl;
-//        }
-//        //based on that line print the train stations
-//        int lineSelected = 0;
-//        enterInputForInt(lineSelected);
-//        if (lineSelected >= 0 && lineSelected < mrtlines.size())
-//        {
-//            MrtLine * mrt = &mrtlines[lineSelected];
-//            mrt->printStationsAll();
-//            cout << "Select a station index you would like to add your station to" << endl;
-//            int station;
-//            enterInputForInt(station);
-//            if (station >= 0 && station < mrt->getSize())
-//            {
-//                int beforeCost, afterCost, beforeAfter = 0;
-//                string name;
-//                Node* selected = mrt->getMrtStation(station);
-//                cout << "[You have selected " << selected->name
-//                     << "]"
-//                     << endl;
-//                cout << "Would you like the new station to be before or after the selected
-//                station?"
-//                     << endl;
-//                cout << "[0 == before/1 == after]" << endl;
-//                enterInputForInt(beforeAfter);
-//
-//                //check range
-//                while (beforeAfter > 1 || beforeAfter < 0)
-//                {
-//                    cout << "Enter the correct option (0 or 1)" << endl;
-//                    enterInputForInt(beforeAfter);
-//                }
-//
-//                cout << "What is the name of your station?" << endl;
-//                std::getline(std::cin, name);
-//
-//                enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
-//                mrt->addNewStation(selected->id, name, beforeAfter,
-//                    beforeCost, afterCost);
-//                mrt->printStationsAll();
-//            }
-//            else
-//            {
-//                if (station == -1 ){ break;}
-//                cout << "Please select the correct station index!";
-//            }
-//        }
-//        else
-//        {
-//            exit = true;
-//        }
-//        cin.clear();
-//        cin.ignore(10000, '\n');
-//    }
-//}
+// {
+//     // Ask user to select a line
+//     bool exit = false;
+//     while (exit != true)
+//     {
+//         cout << "[Please enter a mrt index]" << endl;
+//         for (int i = 0; i < mrtlines.size(); i++)
+//         {
+//             cout << "Option " << i << ") "
+//                  << "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
+//         }
+//         // based on that line print the train stations
+//         int lineSelected = 0;
+//         enterInputForInt(lineSelected);
+//         if (lineSelected >= 0 && lineSelected < mrtlines.size())
+//         {
+//             MrtLine* mrt = &mrtlines[lineSelected];
+//             mrt->printStationsAll();
+//             cout << "Select a station index you would like to add your station to" << endl;
+//             int station;
+//             enterInputForInt(station);
+//             if (station >= 0 && station < mrt->getSize())
+//             {
+//                 int beforeCost, afterCost, beforeAfter = 0;
+//                 string name;
+//                 Node* selected = mrt->getMrtStation(station);
+//                 cout << "[You have selected " << selected->name << "]" << endl;
+//                 cout << "Would you like the new station to be before or after the selected
+//                     station
+//                     ? "
+//                           << endl;
+//                 cout << "[0 == before/1 == after]" << endl;
+//                 enterInputForInt(beforeAfter);
+
+//                 // check range
+//                 while (beforeAfter > 1 || beforeAfter < 0)
+//                 {
+//                     cout << "Enter the correct option (0 or 1)" << endl;
+//                     enterInputForInt(beforeAfter);
+//                 }
+
+//                 cout << "What is the name of your station?" << endl;
+//                 std::getline(std::cin, name);
+
+//                 enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+//                 mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
+//                 mrt->printStationsAll();
+//             }
+//             else
+//             {
+//                 if (station == -1)
+//                 {
+//                     break;
+//                 }
+//                 cout << "Please select the correct station index!";
+//             }
+//         }
+//         else
+//         {
+//             exit = true;
+//         }
+//         cin.clear();
+//         cin.ignore(10000, '\n');
+//     }
+// }

@@ -62,6 +62,7 @@ void Trie::suggestions(TrieNode* node, string prefix, Vector<string>& completion
 {
     if (node->end)
     {
+        // completions.push_back(prefix);
         completions.pushBack(prefix);
     }
 
@@ -150,13 +151,6 @@ Vector<string> Trie::complete(string key)
 
     // Populate completions with values
     suggestions(traversal, key, completions);
-
-    completions.pushBack("HelloFromCompletions");
-
-    for (uint32_t i = 0; i < completions.size(); i++)
-    {
-        cout << completions[i] << endl;
-    }
 
     return completions;
 }

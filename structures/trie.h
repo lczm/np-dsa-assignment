@@ -2,7 +2,6 @@
 
 #include <string>
 #include <iostream>
-
 #include "vector.h"
 
 using namespace std;
@@ -63,7 +62,7 @@ const int TRIE_SIZE = 36;
 
 struct TrieNode
 {
-    struct TrieNode* children[TRIE_SIZE];
+    TrieNode* children[TRIE_SIZE];
     bool end = false;
 
     // Initialize all children to nullptr
