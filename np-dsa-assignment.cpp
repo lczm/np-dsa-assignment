@@ -238,8 +238,11 @@ void enterInputForInt(int& option);
 //void addStationToMrtLine();
 void addStationToMrtLineTest();
 void addStationDetails(int station, MrtLine* mrt);
-void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
+void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
+                                   MrtLine* mrt,
                int station, string name);
+void removeStationToMrtLine();
+void removeStationDetails(int station, MrtLine* mrt);
 void displayAllStations();
 int main()
 {
@@ -268,6 +271,7 @@ int main()
                     displayMrtLinesToSelect(addStationToMrtLineTest);
                     break;
                 case 2:
+                    displayMrtLinesToSelect(removeStationToMrtLine);
                     break;
                 case 6:
                     displayAllStations();
@@ -370,14 +374,14 @@ void addStationDetails(int station, MrtLine* mrt)
     cout << "What is the name of your station?" << endl;
     std::getline(std::cin, name);
 
-    enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+    enterCostForAddStationDetails(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
     mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
     mrt->printStationsAll();
 }
 
 
 // For add stationDetails
-void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
+void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
                int station, string name)
 {
     if (beforeAfter == 1)
@@ -408,6 +412,61 @@ void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
     }
 }
 /* ADD STATION METHODS END HERE*/
+
+/* REMOVE STATION METHODS BEGIN HERE*/
+void removeStationToMrtLine()
+{
+    // based on that line print the train stations
+    int lineSelected = 0;
+    enterInputForInt(lineSelected);
+    if (lineSelected >= 0 && lineSelected < mrtlines.size())
+    {
+        MrtLine* mrt = &mrtlines[lineSelected];
+        mrt->printStationsAll();
+        cout << "Select a station index you want to remove" << endl;
+        int station;
+        enterInputForInt(station);
+
+        if (station >= 0 && station < mrt->getSize())
+        {
+            removeStationDetails(station, mrt);
+        }
+        else
+        {
+            cout << "Please select the correct station index!";
+        }
+    }
+}
+
+void removeStationDetails(int station, MrtLine* mrt)
+{
+    string name;
+    Node* selected = mrt->getMrtStation(station);
+    cout << "[You have selected " << selected->name << "]" << endl;
+    int costBetweenStations = 0;
+
+    Node* prevStation = NULL;
+    Node* afterStation = NULL;
+    if (station - 1 >= 0)
+    {
+        prevStation = mrt->getMrtStation(station - 1);
+    }
+    if (station + 1 < mrt->getSize())
+    {
+        afterStation = mrt->getMrtStation(station + 1);
+    }
+
+    if ((prevStation != NULL) && (afterStation != NULL))
+    {
+        cout << "Cost between " << prevStation->name << " and " << afterStation->name << "? "
+             << endl;
+        enterInputForInt(costBetweenStations);
+    }
+
+    mrt->removeStation(selected->id, costBetweenStations);
+    mrt->printStationsAll();
+}
+/* REMOVE STATION METHODS END HERE*/
 
 //for display station
 void displayAllStations()
