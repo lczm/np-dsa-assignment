@@ -154,11 +154,7 @@ T Dictionary<T>::get(string key)
                 {
                     traverseNode = traverseNode->next;
                 }
-                if (traverseNode == NULL)
-                {
-                    return;
-                }
-
+               
                 return traverseNode->item;
             }
         }
