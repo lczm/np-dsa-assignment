@@ -217,14 +217,29 @@ void Dictionary<T>::getAllKeys(Vector<string>& keys)
 template <typename T>
 bool Dictionary<T>::hasKey(string selectedKey)
 {   
-    Vector<string> keys;
-    this->getAllKeys(keys);
-
-    for (int i = 0; i < keys.size(); i++)
+    int hashedValue = hash(selectedKey);
+    if (items[hashedValue] != NULL)
     {
-        if (keys[i] == selectedKey)
+        if (items[hashedValue]->next == NULL)
         {
-            return true;
+        
+            if (items[hashedValue]->key == selectedKey)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            DictionaryNode<T>* traverseNode = items[hashedValue];
+            while (traverseNode->key != selectedKey)
+            {
+                traverseNode = traverseNode->next;
+            }
+
+            if (traverseNode != NULL)
+            {
+                return true;
+            }
         }
     }
 
