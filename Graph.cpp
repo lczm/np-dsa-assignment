@@ -149,6 +149,22 @@ void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
     }
 }
 
+
+NodeRecord* getMin(Vector<NodeRecord*> &v, int start, int end)
+{
+    if (start == end)
+    {
+        return v.at(start);
+    }
+    else
+    {
+        int mid = (start + end) / 2;
+        return min(
+            getMin(v, start, mid), getMin(v, mid + 1, end),
+            [](const NodeRecord* a, const NodeRecord* b) { return a->costSoFar < b->costSoFar;});
+    }
+}
+
 void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeid)
 {
     Dictionary<NodeRecord*> openList;
@@ -160,11 +176,29 @@ void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeid)
     startRecord->connection = nullptr;
     startRecord->costSoFar = 0;
 
+    //test Record
+    NodeRecord* startRecord1 = new NodeRecord();
+    startRecord1->nodeId = "EW20";
+    startRecord1->connection = nullptr;
+    startRecord1->costSoFar = 10;
+
+     NodeRecord* startRecord2 = new NodeRecord();
+    startRecord2->nodeId = "EW21";
+    startRecord2->connection = nullptr;
+    startRecord2->costSoFar = -20;
+
     //add to openlist;
     openList.add(startRecord->nodeId, startRecord);
+    openList.add(startRecord1->nodeId, startRecord1);
+    openList.add(startRecord2->nodeId, startRecord2);
+
 
     while (!openList.isEmpty())
     {
+        Vector<NodeRecord*> records;
+        openList.getAllItems(records);
+        NodeRecord* current = getMin(records, 0, records.size() - 1);
+        return;
     }
 
 }
