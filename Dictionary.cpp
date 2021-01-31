@@ -136,26 +136,29 @@ T Dictionary<T>::get(string key)
 {   
     if (!isEmpty())
     {
-        int hashedValue = hash(key);
-        if (items[hashedValue] != NULL)
+        if (hasKey(key))
         {
-            if (items[hashedValue]->next == NULL) {
+            int hashedValue = hash(key);
+            if (items[hashedValue] != NULL)
+            {
+                if (items[hashedValue]->next == NULL) {
 
-                //in the case that there is only 1 value and it does not
-                //correspond to the key being deleted
-                if (items[hashedValue]->key == key)
-                {
-                    return items[hashedValue]->item;
+                    //in the case that there is only 1 value and it does not
+                    //correspond to the key being deleted
+                    if (items[hashedValue]->key == key)
+                    {
+                        return items[hashedValue]->item;
+                    }
                 }
-            }
-            else {
-                DictionaryNode<T>* traverseNode = items[hashedValue];
-                while (traverseNode->key != key)
-                {
-                    traverseNode = traverseNode->next;
-                }
+                else {
+                    DictionaryNode<T>* traverseNode = items[hashedValue];
+                    while (traverseNode->key != key)
+                    {
+                        traverseNode = traverseNode->next;
+                    }
                
-                return traverseNode->item;
+                    return traverseNode->item;
+                }
             }
         }
     }

@@ -193,7 +193,7 @@ void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId
 
 void MrtLine::printStationsAll()
 {   
-    cout << "\n" << endl;
+    cout << "---------------------------------------------------------" << endl;
     cout << "MRT Line Name: "<< mrtLineName << endl;
     cout << "Stations:  " <<  endl;
     for (int i = 0; i < stationList.getSize(); i++)
@@ -207,7 +207,6 @@ void MrtLine::printStationsAll()
                         ->cost << "]" <<endl;
         }
     }
-    cout << "\n" << endl;
 }
 
 void MrtLine::printStationsBasedOnDirection(string stationId)
