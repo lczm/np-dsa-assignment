@@ -24,6 +24,17 @@ Vector<T>::Vector(uint32_t size, T fill)
 }
 
 template <typename T>
+Vector<T>::Vector(const Vector<T>& other)
+{
+    this->_elements = new T[other._size];
+    for (uint32_t i = 0; i < other._size; i++)
+    {
+        this->_elements[i] = other._elements[i];
+    }
+    this->_size = other._size;
+}
+
+template <typename T>
 Vector<T>::~Vector()
 {
     if (_elements != nullptr)
@@ -95,7 +106,7 @@ void Vector<T>::remove(uint32_t index)
     // Delete the element at the index
     for (uint32_t i = index; i < _size - 1; i++)
     {
-        _elements[i] = _elements[i+ 1];
+        _elements[i] = _elements[i + 1];
     }
     _size--;
 }
@@ -154,6 +165,28 @@ T& Vector<T>::operator[](uint32_t index)
         throw out_of_range(errorMessage.c_str());
     }
     return _elements[index];
+}
+
+// Copy assignment operator
+template <typename T>
+Vector<T>& Vector<T>::operator=(Vector<T>& other)
+{
+    if (this->capacity() < other.capacity())
+    {
+        delete[] this->_elements;
+
+        this->_elements = new T[other.capacity()];
+        // this->expand(other.capacity());
+    }
+
+    for (uint32_t i = 0; i < other.size(); i++)
+    {
+        this->_elements[i] = other[i];
+    }
+
+    this->_size = other.size();
+    this->_capacity = other.capacity();
+    return *this;
 }
 
 #endif

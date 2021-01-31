@@ -145,6 +145,7 @@
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="MrtLine.cpp" />
     <ClCompile Include="np-dsa-assignment.cpp" />
+    <ClCompile Include="structures\trie.cpp" />
     <ClCompile Include="structures\vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +158,7 @@
     <ClInclude Include="FileReader.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="MrtLine.h" />
+    <ClInclude Include="structures\trie.h" />
     <ClInclude Include="structures\vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

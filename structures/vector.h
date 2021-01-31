@@ -26,6 +26,7 @@ class Vector
     // Constructors
     Vector();
     Vector(uint32_t size, T fill = T());
+    Vector(const Vector<T>& other);
 
     // Destructors
     ~Vector();
@@ -44,6 +45,9 @@ class Vector
     // O(1) random accessors
     T& at(uint32_t);
     T& operator[](uint32_t index);
+
+    // Copy assignment operators
+    Vector<T>& operator=(Vector<T>& other);
 };
 
 #include "vector.cpp"

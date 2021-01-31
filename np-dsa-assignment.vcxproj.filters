@@ -45,6 +45,9 @@
     <ClCompile Include="MrtLine.cpp">
       <Filter>Source Files\structures</Filter>
     </ClCompile>
+    <ClCompile Include="structures\trie.cpp">
+      <Filter>Source Files\structures</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\stations.csv">
@@ -71,6 +74,9 @@
       <Filter>Header Files\structures</Filter>
     </ClInclude>
     <ClInclude Include="MrtLine.h">
+      <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\trie.h">
       <Filter>Header Files\structures</Filter>
     </ClInclude>
   </ItemGroup>
