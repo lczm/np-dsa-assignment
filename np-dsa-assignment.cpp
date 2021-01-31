@@ -105,6 +105,10 @@ void testVector()
 void testTrie()
 {
     Trie trie;
+
+    trie.insert("0");
+    trie.insert("a");
+    trie.insert("A");
 }
 
 // void testGraphConnections()

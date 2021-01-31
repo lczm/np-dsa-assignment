@@ -1,5 +1,8 @@
 #pragma once
 
+#include <string>
+#include <iostream>
+
 using namespace std;
 
 /*
@@ -22,6 +25,18 @@ using namespace std;
 
     Therefore, the trie node children will need to have a size of
     26 + 10 = 36.
+
+  The trie children layout will also need to be determined.
+    For the 36 characters, how will each of them be laid out.
+
+    It will be laid out as such
+    < ----------------------------------------------------- > Len : 36
+    < ----------- > (10) < -------------------------------- > (26)
+    < ----0-9---- > (10) < ---------------A-Z-------------- > (26)
+
+    It is important that the layout stays the same and consistent.
+    So that the TrieNode is able to access it's children by
+    O(1) time complexity.
 
   Edge cases:
     There are some situations in which, the trie may not be able to deal
@@ -52,10 +67,19 @@ struct TrieNode
 
 class Trie
 {
+    // Private Attributes
    private:
     TrieNode* root = nullptr;
 
+    // Private methods
+   private:
+    uint32_t getIndex(char key);
+
+    // Public methods
    public:
     Trie();
     ~Trie();
+
+    void insert(string key);
+    void search(string key);
 };
