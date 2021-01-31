@@ -547,7 +547,7 @@ void shortestPath()
     }
     else
     {
-        cout << "There is are no paths between these stations." << endl;
+        cout << "There are no paths between these stations." << endl;
     }
 }
 
