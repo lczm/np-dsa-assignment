@@ -243,6 +243,7 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
                int station, string name);
 void removeStationToMrtLine();
 void removeStationDetails(int station, MrtLine* mrt);
+void shortestPath();
 void displayAllStations();
 int main()
 {
@@ -290,6 +291,9 @@ int main()
                     break;
                 case 2:
                     displayMrtLinesToSelect(removeStationToMrtLine);
+                    break;
+                case 5:
+                    shortestPath();
                     break;
                 case 6:
                     displayAllStations();
@@ -484,6 +488,68 @@ void removeStationDetails(int station, MrtLine* mrt)
     mrt->printStationsAll();
 }
 /* REMOVE STATION METHODS END HERE*/
+
+/* SHORTEST PATH TO STATION BEGINS HERE*/
+void shortestPath()
+{
+    displayAllStations();
+    string fromNodeId;
+    string toNodeId;
+
+    auto printStep = [](string startEnd) {
+        cout << "Please enter the station ID you would like to " << startEnd << " at" << endl;
+    };
+
+    cout << "[Station IDs are case sensitive]" << endl;
+    printStep("start");
+    cin >> fromNodeId;
+
+    printStep("end");
+    cin >> toNodeId;
+
+    //check if the same station
+    if (fromNodeId == toNodeId)
+    {
+        cout << "You have given the same station ID!" << endl;
+        return;
+    }
+
+    auto printInvalid = [](string nodeId) 
+    { cout << "The station Id " << nodeId << " does not exist!" << endl; };
+
+    //check if invalid station
+    if (!dic.hasKey(fromNodeId))
+    {
+        printInvalid(fromNodeId);
+        return;
+    }
+
+    if (!dic.hasKey(toNodeId))
+    {
+        printInvalid(toNodeId);
+        return;
+    }
+
+    Vector<Connection*> connections;
+    graph.shortestPathBetweenStations(fromNodeId, toNodeId, connections);
+
+    if (connections.size() > 0)
+    {
+        cout << "\n" << endl;
+        cout << "Shortest path: " << endl;
+        for (int i = connections.size()-1; i >=0 ; i--)
+        {
+            cout << connections[i]->fromNode->id << " to " << connections[i]->toNode->id
+                 << "| cost: " << connections[i]->cost << endl;
+        }
+    }
+    else
+    {
+        cout << "There is are no paths between these stations." << endl;
+    }
+}
+
+/* SHORTEST PATH TO STATION ENDS HERE*/
 
 //for display station
 void displayAllStations()
