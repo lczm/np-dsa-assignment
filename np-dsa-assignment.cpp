@@ -564,6 +564,7 @@ void displayAllStations()
     {   
         mrtlines[i].printStationsAll();
     }
+    cout << "---------------------------------------------------------" << endl;
 }
 
 void enterInputForInt(int &option)
