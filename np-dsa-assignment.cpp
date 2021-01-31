@@ -406,31 +406,35 @@ void addStationDetails(int station, MrtLine* mrt)
 void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
                int station, string name)
 {
+    auto costBetweenText = [](string fromName, string toName) {
+        cout << "Cost between " << fromName << " to " << toName << "?";
+    };
     if (beforeAfter == 1)
-    {
-        cout << "Cost between " << selected->name << " to " << name << "?";
+    {   
+        costBetweenText(selected->name, name);
         cin >> beforeCost;
         errorDetect(beforeCost);
         if (station + 1 < mrt->getSize())
         {
             Node* afterNewMrt = mrt->getMrtStation(station + 1);
-            cout << "Cost between " << name << " to " << afterNewMrt->name << "? ";
+            costBetweenText(name, afterNewMrt->name);
             cin >> afterCost;
             errorDetect(afterCost);
         }
     }
     else if (beforeAfter == 0)
-    {
-        cout << "Cost from " << selected->name << " to " << name << "? ";
-        cin >> afterCost;
-        errorDetect(afterCost);
+    {   
         if (station - 1 >= 0)
         {
             Node* afterNewMrt = mrt->getMrtStation(station - 1);
-            cout << "Cost between " << name << " to " << afterNewMrt->name << "?";
+            costBetweenText(afterNewMrt->name, name);
             cin >> beforeCost;
             errorDetect(beforeCost);
         }
+
+        costBetweenText(name, selected->name);
+        cin >> afterCost;
+        errorDetect(afterCost);
     }
 }
 /* ADD STATION METHODS END HERE*/
