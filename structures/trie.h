@@ -85,6 +85,7 @@ class Trie
     // Private methods
    private:
     uint32_t getIndex(char key);
+    // char getChar(uint32_t index);
 
     // Public methods
    public:
@@ -93,6 +94,5 @@ class Trie
 
     void insert(string key);
     bool search(string key);
-
-    Vector<string> complete(string key);
+    void complete(string key);
 };

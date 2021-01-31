@@ -33,6 +33,10 @@ uint32_t Trie::getIndex(char key)
     }
 }
 
+// char Trie::getChar(uint32_t index)
+// {
+// }
+
 void Trie::insert(string key)
 {
     TrieNode* traversal = root;
@@ -60,22 +64,41 @@ bool Trie::search(string key)
         uint32_t index = getIndex(key[i]);
         if (traversal->children[index] == nullptr)
         {
+            cout << "returning false : " << key[i] << endl;
             return false;
         }
         traversal = traversal->children[index];
     }
-    return false;
+
+    if (traversal->end)
+        return true;
+    else
+        return false;
 }
 
-Vector<string> Trie::complete(string key)
+// TODO : Check that this can be done in one pass?
+// searching is one pass, and completing is one pass.
+// possibly inefficient if the trie is really large.
+void Trie::complete(string key)
 {
     // Check that the key exists within the trie
     // before trying to complete.
     if (!search(key))
     {
         // Key does not exist, return empty vector
-        return {};
+        cout << "Key does not exist" << endl;
+        return;
     }
 
     // Key exists. Store the rest of the completions in a Vector
+    TrieNode* traversal = root;
+    for (uint32_t i = 0; i < key.size(); i++)
+    {
+        uint32_t index = getIndex(key[i]);
+        traversal = traversal->children[index];
+    }
+
+    if (!traversal->end)
+    {
+    }
 }

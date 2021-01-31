@@ -109,10 +109,13 @@ void testTrie()
     trie.insert("0");
     trie.insert("a");
     trie.insert("A");
+    trie.insert("Hello");
 
-    trie.search("Hello");
-    trie.search("there");
-    trie.search("a");
+    cout << trie.search("Hello") << endl;
+    // cout << trie.search("there") << endl;
+    // cout << trie.search("a") << endl;
+
+    // trie.complete("He");
 }
 
 // void testGraphConnections()
