@@ -8,7 +8,7 @@
 
 using namespace std;
 
-//Global variables in main
+// Global variables in main
 Graph graph;
 Dictionary<Node*> dic;
 Vector<MrtLine> mrtlines;
@@ -101,7 +101,12 @@ void testVector()
     cout << "---" << endl;
 }
 
-//void testGraphConnections()
+void testTrie()
+{
+    cout << "Hello from trie" << endl;
+}
+
+// void testGraphConnections()
 //{
 //    Graph graph;
 //    Dictionary<Node*> dic;
@@ -162,7 +167,8 @@ void testVector()
 //    }
 //}
 //
-//void testDoublyLinkedList()
+
+// void testDoublyLinkedList()
 //{
 //    Node * fromNode = new Node();
 //
@@ -186,7 +192,7 @@ void testVector()
 //    cout <<"size of doubly: " << list.getSize() << endl;
 //    list.remove(toNode);
 //    cout << "size of doubly: " << list.getSize() << endl;
-//   
+//
 //     list.addFront(toNode);
 //     Node node = list.getAt(0);
 //     cout << node.id << endl;
@@ -208,9 +214,9 @@ void testVector()
 //    cout << getNode->id << endl;
 //
 //}
-//
-//void testDictionary()
-//{   
+
+// void testDictionary()
+//{
 //    Node* fromNodeAnother = new Node();
 //
 //    // has interchange connections
@@ -229,18 +235,18 @@ void testVector()
 //    cout << nodetest2.id << endl;
 //}
 
-
 void displayMenu();
 template <typename TCallback>
 void displayMrtLinesToSelect(TCallback Evt);
 void errorDetect(int& option);
 void enterInputForInt(int& option);
-//void addStationToMrtLine();
+// void addStationToMrtLine();
 void addStationToMrtLineTest();
 void addStationDetails(int station, MrtLine* mrt);
 void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
                int station, string name);
 void displayAllStations();
+
 int main()
 {
     graph.setNodeList(&dic);
@@ -248,10 +254,15 @@ int main()
     cout << "np-dsa-assignment" << endl;
 
     // testing purposes as there is no unit tests
-    testVector();
-    /*testGraphConnections();
-    testDoublyLinkedList();
-    testDictionary();*/
+    // testVector();
+    // testGraphConnections();
+    // testDoublyLinkedList();
+    // testDictionary();
+
+    testTrie();
+
+    return 0;
+
     bool exit = false;
     while (exit != true)
     {
@@ -259,12 +270,13 @@ int main()
         while (option != -1)
         {
             displayMenu();
-            cout << "Enter option: "; 
+            cout << "Enter option: ";
             cin >> option;
             cin.clear();
             cin.ignore(10000, '\n');
             switch (option)
-            {   case 1:
+            {
+                case 1:
                     displayMrtLinesToSelect(addStationToMrtLineTest);
                     break;
                 case 2:
@@ -294,7 +306,7 @@ int main()
 }
 
 void displayMenu()
-{   
+{
     cout << "\n";
     cout << "Welcome to Railway inc. (Enter -1 to log off) " << endl;
     cout << "Please select an option " << endl;
@@ -375,7 +387,6 @@ void addStationDetails(int station, MrtLine* mrt)
     mrt->printStationsAll();
 }
 
-
 // For add stationDetails
 void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
                int station, string name)
@@ -409,16 +420,16 @@ void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
 }
 /* ADD STATION METHODS END HERE*/
 
-//for display station
+// for display station
 void displayAllStations()
 {
     for (int i = 0; i < mrtlines.size(); i++)
-    {   
+    {
         mrtlines[i].printStationsAll();
     }
 }
 
-void enterInputForInt(int &option)
+void enterInputForInt(int& option)
 {
     cin >> option;
     errorDetect(option);
@@ -426,7 +437,7 @@ void enterInputForInt(int &option)
     cin.ignore(10000, '\n');
 }
 
-void errorDetect(int &option)
+void errorDetect(int& option)
 {
     while (cin.fail())
     {
@@ -436,7 +447,6 @@ void errorDetect(int &option)
         cin >> option;
     }
 }
-
 
 // Function for testing purposes
 // void addStationToMrtLine()
