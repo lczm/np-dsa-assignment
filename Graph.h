@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <algorithm>
 #include "structures/vector.h"
 #include "Dictionary.h"
 using namespace std;

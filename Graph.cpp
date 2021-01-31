@@ -159,7 +159,7 @@ NodeRecord* getMin(Vector<NodeRecord*> &v, int start, int end)
     else
     {
         int mid = (start + end) / 2;
-        return min(
+        return std::min(
             getMin(v, start, mid), getMin(v, mid + 1, end),
             [](const NodeRecord* a, const NodeRecord* b) { return a->costSoFar < b->costSoFar;});
     }
