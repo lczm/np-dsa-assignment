@@ -109,6 +109,10 @@ void testTrie()
     trie.insert("0");
     trie.insert("a");
     trie.insert("A");
+
+    trie.search("Hello");
+    trie.search("there");
+    trie.search("a");
 }
 
 // void testGraphConnections()

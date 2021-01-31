@@ -39,10 +39,43 @@ void Trie::insert(string key)
 
     for (uint32_t i = 0; i < key.size(); i++)
     {
-        cout << getIndex(key[i]) << endl;
+        uint32_t index = getIndex(key[i]);
+        if (traversal->children[index] == nullptr)
+        {
+            traversal->children[index] = new TrieNode();
+        }
+        traversal = traversal->children[index];
     }
+
+    // After iterating over the key, it is the 'end' of the node.
+    traversal->end = true;
 }
 
-void Trie::search(string key)
+bool Trie::search(string key)
 {
+    TrieNode* traversal = root;
+
+    for (uint32_t i = 0; i < key.size(); i++)
+    {
+        uint32_t index = getIndex(key[i]);
+        if (traversal->children[index] == nullptr)
+        {
+            return false;
+        }
+        traversal = traversal->children[index];
+    }
+    return false;
+}
+
+Vector<string> Trie::complete(string key)
+{
+    // Check that the key exists within the trie
+    // before trying to complete.
+    if (!search(key))
+    {
+        // Key does not exist, return empty vector
+        return {};
+    }
+
+    // Key exists. Store the rest of the completions in a Vector
 }

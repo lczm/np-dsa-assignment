@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+#include "vector.h"
+
 using namespace std;
 
 /*
@@ -63,6 +65,15 @@ struct TrieNode
 {
     struct TrieNode* children[TRIE_SIZE];
     bool end = false;
+
+    // Initialize all children to nullptr
+    TrieNode()
+    {
+        for (uint32_t i = 0; i < TRIE_SIZE; i++)
+        {
+            children[i] = nullptr;
+        }
+    }
 };
 
 class Trie
@@ -81,5 +92,7 @@ class Trie
     ~Trie();
 
     void insert(string key);
-    void search(string key);
+    bool search(string key);
+
+    Vector<string> complete(string key);
 };
