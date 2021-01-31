@@ -1,4 +1,5 @@
 #include <iostream>
+#include "structures/trie.h"
 #include "structures/vector.h"
 #include "Graph.h"
 #include "FileReader.h"
@@ -103,7 +104,7 @@ void testVector()
 
 void testTrie()
 {
-    cout << "Hello from trie" << endl;
+    Trie trie;
 }
 
 // void testGraphConnections()

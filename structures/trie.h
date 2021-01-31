@@ -1,5 +1,7 @@
 #pragma once
 
+using namespace std;
+
 /*
  Determining how big a node should hold:
     This is done by determining the range of values that
@@ -40,12 +42,19 @@
     more user friendly and intuitive.
  */
 
+const int TRIE_SIZE = 36;
+
 struct TrieNode
 {
+    struct TrieNode* children[TRIE_SIZE];
+    bool end = false;
 };
 
 class Trie
 {
+   private:
+    TrieNode* root = nullptr;
+
    public:
     Trie();
     ~Trie();
