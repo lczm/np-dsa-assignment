@@ -33,9 +33,63 @@ uint32_t Trie::getIndex(char key)
     }
 }
 
-// char Trie::getChar(uint32_t index)
-// {
-// }
+// This assumes all upper case.
+char Trie::getChar(uint32_t index)
+{
+    if (index >= 0 && index <= 9)
+    {
+        return index;
+    }
+    else if (index >= 10 && index <= 36)
+    {
+        return index + 65 - 10;
+    }
+}
+
+bool Trie::isLastNode(TrieNode* node)
+{
+    for (uint32_t i = 0; i < TRIE_SIZE; i++)
+    {
+        if (node->children[i] != nullptr)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+void Trie::suggestions(TrieNode* node, string prefix, Vector<string>& completions)
+{
+    if (node->end)
+    {
+        completions.pushBack(prefix);
+    }
+
+    // If it is the last node, return as you cannot further recurse
+    if (isLastNode(node))
+    {
+        return;
+    }
+
+    // Go over every possible index
+    for (uint32_t i = 0; i < TRIE_SIZE; i++)
+    {
+        // If the children exists, then get it.
+        if (node->children[i] != nullptr)
+        {
+            // Add the child character to the prefix.
+            prefix += getChar(i);
+
+            // Recurse down, if the recurse-d children does not
+            // have anything, this will return with nothing.
+            suggestions(node->children[i], prefix, completions);
+
+            // Remove it afterwards, as the other words
+            // do not require this.
+            prefix.pop_back();
+        }
+    }
+}
 
 void Trie::insert(string key)
 {
@@ -55,6 +109,7 @@ void Trie::insert(string key)
     traversal->end = true;
 }
 
+// TODO : Search word vs search exist
 bool Trie::search(string key)
 {
     TrieNode* traversal = root;
@@ -64,7 +119,6 @@ bool Trie::search(string key)
         uint32_t index = getIndex(key[i]);
         if (traversal->children[index] == nullptr)
         {
-            cout << "returning false : " << key[i] << endl;
             return false;
         }
         traversal = traversal->children[index];
@@ -76,19 +130,10 @@ bool Trie::search(string key)
         return false;
 }
 
-// TODO : Check that this can be done in one pass?
-// searching is one pass, and completing is one pass.
-// possibly inefficient if the trie is really large.
-void Trie::complete(string key)
+Vector<string> Trie::complete(string key)
 {
-    // Check that the key exists within the trie
+    // TODO : Check that the key exists within the trie
     // before trying to complete.
-    if (!search(key))
-    {
-        // Key does not exist, return empty vector
-        cout << "Key does not exist" << endl;
-        return;
-    }
 
     // Key exists. Store the rest of the completions in a Vector
     TrieNode* traversal = root;
@@ -98,7 +143,20 @@ void Trie::complete(string key)
         traversal = traversal->children[index];
     }
 
-    if (!traversal->end)
+    Vector<string> completions;
+
+    // No further keys to look for, return empty vector
+    if (isLastNode(traversal)) return completions;
+
+    // Populate completions with values
+    suggestions(traversal, key, completions);
+
+    completions.pushBack("HelloFromCompletions");
+
+    for (uint32_t i = 0; i < completions.size(); i++)
     {
+        cout << completions[i] << endl;
     }
+
+    return completions;
 }

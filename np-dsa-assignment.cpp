@@ -110,12 +110,23 @@ void testTrie()
     trie.insert("a");
     trie.insert("A");
     trie.insert("Hello");
+    trie.insert("HelloThere");
+    trie.insert("Hey");
+    trie.insert("Here");
+    trie.insert("Boop");
+    trie.insert("Book");
 
     cout << trie.search("Hello") << endl;
-    // cout << trie.search("there") << endl;
-    // cout << trie.search("a") << endl;
+    cout << trie.search("there") << endl;
+    cout << trie.search("a") << endl;
+    cout << trie.search("ay") << endl;
 
-    // trie.complete("He");
+    Vector<string> completions = trie.complete("Boo");
+    cout << completions.size() << endl;
+    for (uint32_t i = 0; i < completions.size(); i++)
+    {
+        cout << completions[i] << endl;
+    }
 }
 
 // void testGraphConnections()

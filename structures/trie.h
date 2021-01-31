@@ -85,7 +85,9 @@ class Trie
     // Private methods
    private:
     uint32_t getIndex(char key);
-    // char getChar(uint32_t index);
+    char getChar(uint32_t index);
+    bool isLastNode(TrieNode* node);
+    void suggestions(TrieNode* node, string prefix, Vector<string>& completions);
 
     // Public methods
    public:
@@ -94,5 +96,5 @@ class Trie
 
     void insert(string key);
     bool search(string key);
-    void complete(string key);
+    Vector<string> complete(string key);
 };
