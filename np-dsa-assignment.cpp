@@ -10,9 +10,9 @@
 using namespace std;
 
 // Global variables in main
-// Graph graph;
-// Dictionary<Node*> dic;
-// Vector<MrtLine> mrtlines;
+Graph graph;
+Dictionary<Node*> dic;
+Vector<MrtLine> mrtlines;
 
 void testVector()
 {
@@ -147,11 +147,17 @@ void testTrie()
     b = a;
 
     Vector<string> completions = trie.complete("Boo");
-    cout << completions.size() << endl;
     for (uint32_t i = 0; i < completions.size(); i++)
     {
         cout << completions[i] << endl;
     }
+
+    Vector<string> completions2 = trie.complete("H");
+    for (uint32_t i = 0; i < completions2.size(); i++)
+    {
+        cout << completions2[i] << endl;
+    }
+
     cout << "---testTrie---" << endl;
 }
 
