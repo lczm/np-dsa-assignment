@@ -194,5 +194,42 @@ void Dictionary<T>::getAllItems(Vector<T> &dicItems)
     }
 }
 
+template <typename T>
+void Dictionary<T>::getAllKeys(Vector<string>& keys)
+{
+    if (!isEmpty())
+    {
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+            if (items[i] != NULL)
+            {
+                DictionaryNode<T>* traverseNode = items[i];
+                while (traverseNode != NULL)
+                {
+                    keys.pushBack(traverseNode->key);
+                    traverseNode = traverseNode->next;
+                }
+            }
+        }
+    }
+}
+
+template <typename T>
+bool Dictionary<T>::hasKey(string selectedKey)
+{   
+    Vector<string> keys;
+    this->getAllKeys(keys);
+
+    for (int i = 0; i < keys.size(); i++)
+    {
+        if (keys[i] == selectedKey)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 
 #endif

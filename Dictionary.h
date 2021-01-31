@@ -63,6 +63,8 @@ public:
     }
 
     void getAllItems(Vector<T> &dicItems);
+    void getAllKeys(Vector<string> & keys);
+    bool hasKey(string selectedKey);
 };
 
 

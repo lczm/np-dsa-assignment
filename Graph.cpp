@@ -165,40 +165,85 @@ NodeRecord* getMin(Vector<NodeRecord*> &v, int start, int end)
     }
 }
 
-void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeid)
+void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeId,
+                                                       Vector<Connection*>& cons)
 {
     Dictionary<NodeRecord*> openList;
     Dictionary<NodeRecord*> closedList;
-
     //Start record
     NodeRecord * startRecord = new NodeRecord();
     startRecord->nodeId = fromNodeId;
     startRecord->connection = nullptr;
     startRecord->costSoFar = 0;
 
-    //test Record
-    NodeRecord* startRecord1 = new NodeRecord();
-    startRecord1->nodeId = "EW20";
-    startRecord1->connection = nullptr;
-    startRecord1->costSoFar = 10;
-
-     NodeRecord* startRecord2 = new NodeRecord();
-    startRecord2->nodeId = "EW21";
-    startRecord2->connection = nullptr;
-    startRecord2->costSoFar = -20;
-
-    //add to openlist;
     openList.add(startRecord->nodeId, startRecord);
-    openList.add(startRecord1->nodeId, startRecord1);
-    openList.add(startRecord2->nodeId, startRecord2);
-
+    NodeRecord* current = nullptr; 
 
     while (!openList.isEmpty())
     {
         Vector<NodeRecord*> records;
         openList.getAllItems(records);
-        NodeRecord* current = getMin(records, 0, records.size() - 1);
+        current = getMin(records, 0, records.size() - 1);
+        
+        if (current->nodeId == toNodeId)
+        {
+            break;
+        }
+
+        Vector<Connection*> connections;
+        this->getAllConnectionsForNode(current->nodeId, connections);
+
+        for (int i = 0; i < connections.size(); i++)
+        {
+            Node* endNode = connections[i]->toNode;
+            int endNodeCost = current->costSoFar + connections[i]->cost;
+
+            //get closed list keys
+           
+            if (closedList.hasKey(endNode->id))
+            {
+                continue;
+            }
+            else if (openList.hasKey(endNode->id))
+            {
+                if (openList.get(endNode->id)->costSoFar > endNodeCost)
+                {
+                    openList.get(endNode->id)->costSoFar = endNodeCost;
+                    openList.get(endNode->id)->connection = connections[i];
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            else
+            {
+                NodeRecord* endNodeRecord = new NodeRecord();
+                endNodeRecord->nodeId = endNode->id;
+                endNodeRecord->connection = connections[i];
+                endNodeRecord->costSoFar = endNodeCost;
+                openList.add(endNodeRecord->nodeId, endNodeRecord);
+            }
+        }
+
+        openList.remove(current->nodeId);
+        closedList.add(current->nodeId, current);
+
+    }
+
+    if (current->nodeId != toNodeId)
+    {
         return;
+    }
+    else
+    {
+        while (current->nodeId != fromNodeId)
+        {
+            cons.pushBack(current->connection);
+            current = closedList.get(current->connection->fromNode->id);
+        }
+
+        //add reverse
     }
 
 }

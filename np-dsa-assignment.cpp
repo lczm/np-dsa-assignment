@@ -258,6 +258,14 @@ int main()
         cout << v[i]->name << endl;
     }
 
+    Vector<Connection*> cons;
+    graph.shortestPathBetweenStations("EW8", "NS24", cons);
+
+    for (int i = 0; i < cons.size(); i++)
+    {
+        cout << cons[i]->fromNode->id << " to " << cons[i]->toNode->id << " cost:" << cons[i]->cost << endl;
+    }
+
     // testing purposes as there is no unit tests
     testVector();
     /*testGraphConnections();
