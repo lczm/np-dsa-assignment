@@ -22,6 +22,14 @@ struct Connection
     int cost;
 };
 
+
+struct NodeRecord
+{
+    string nodeId;
+    Connection* connection;
+    int costSoFar;
+};
+
 class Graph
 {
    private:
@@ -48,6 +56,7 @@ class Graph
     int  getConnectionIndex(string fromNodeId, string toNodeId);
     void getAllConnectionsForNode(string fromNodeId, Vector<Connection*>& nodeConnections);
     void getAllGraphConnections(Vector<Connection*>& graphConnections);
-    void shortestPathBetweenStations(string fromNodeId, string toNodeid);
+    void shortestPathBetweenStations(string fromNodeId, string toNodeId,
+                                                    Vector<Connection*> &cons);
     ~Graph();
 };

@@ -2,6 +2,7 @@
 // Dictionary.h - - Specification of Dictionary ADT
 #include<string>
 #include<iostream>
+#include "structures/vector.h"
 using namespace std;
 
 const int MAX_SIZE = 100;
@@ -60,6 +61,10 @@ public:
     {
        return (int)c;
     }
+
+    void getAllItems(Vector<T> &dicItems);
+    void getAllKeys(Vector<string> & keys);
+    bool hasKey(string selectedKey);
 };
 
 

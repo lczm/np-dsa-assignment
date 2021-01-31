@@ -298,8 +298,11 @@ void enterInputForInt(int& option);
 // void addStationToMrtLine();
 void addStationToMrtLineTest();
 void addStationDetails(int station, MrtLine* mrt);
-void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
-               int station, string name);
+void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
+                                   MrtLine* mrt, int station, string name);
+void removeStationToMrtLine();
+void removeStationDetails(int station, MrtLine* mrt);
+void shortestPath();
 void displayAllStations();
 
 int main()
@@ -307,6 +310,25 @@ int main()
     graph.setNodeList(&dic);
     FileReader filereader(&graph, &dic, mrtlines);
     cout << "np-dsa-assignment" << endl;
+
+    Vector<Node*> v;
+    dic.getAllItems(v);
+
+    dic.hasKey("j");
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        cout << v[i]->name << endl;
+    }
+
+    Vector<Connection*> cons;
+    graph.shortestPathBetweenStations("EW8", "NS24", cons);
+
+    for (int i = 0; i < cons.size(); i++)
+    {
+        cout << cons[i]->fromNode->id << " to " << cons[i]->toNode->id << " cost:" << cons[i]->cost
+             << endl;
+    }
 
     // testing purposes as there is no unit tests
     // testVector();
@@ -335,6 +357,10 @@ int main()
                     displayMrtLinesToSelect(addStationToMrtLineTest);
                     break;
                 case 2:
+                    displayMrtLinesToSelect(removeStationToMrtLine);
+                    break;
+                case 5:
+                    shortestPath();
                     break;
                 case 6:
                     displayAllStations();
@@ -437,43 +463,165 @@ void addStationDetails(int station, MrtLine* mrt)
     cout << "What is the name of your station?" << endl;
     std::getline(std::cin, name);
 
-    enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+    enterCostForAddStationDetails(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
     mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
     mrt->printStationsAll();
 }
 
 // For add stationDetails
-void enterCost(int& beforeCost, int& afterCost, int beforeAfter, Node* selected, MrtLine* mrt,
-               int station, string name)
+void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
+                                   MrtLine* mrt, int station, string name)
 {
+    auto costBetweenText = [](string fromName, string toName) {
+        cout << "Cost between " << fromName << " to " << toName << "?";
+    };
     if (beforeAfter == 1)
     {
-        cout << "Cost between " << selected->name << " to " << name << "?";
+        costBetweenText(selected->name, name);
         cin >> beforeCost;
         errorDetect(beforeCost);
         if (station + 1 < mrt->getSize())
         {
             Node* afterNewMrt = mrt->getMrtStation(station + 1);
-            cout << "Cost between " << name << " to " << afterNewMrt->name << "? ";
+            costBetweenText(name, afterNewMrt->name);
             cin >> afterCost;
             errorDetect(afterCost);
         }
     }
     else if (beforeAfter == 0)
     {
-        cout << "Cost from " << selected->name << " to " << name << "? ";
-        cin >> afterCost;
-        errorDetect(afterCost);
         if (station - 1 >= 0)
         {
             Node* afterNewMrt = mrt->getMrtStation(station - 1);
-            cout << "Cost between " << name << " to " << afterNewMrt->name << "?";
+            costBetweenText(afterNewMrt->name, name);
             cin >> beforeCost;
             errorDetect(beforeCost);
         }
+
+        costBetweenText(name, selected->name);
+        cin >> afterCost;
+        errorDetect(afterCost);
     }
 }
 /* ADD STATION METHODS END HERE*/
+
+/* REMOVE STATION METHODS BEGIN HERE*/
+void removeStationToMrtLine()
+{
+    // based on that line print the train stations
+    int lineSelected = 0;
+    enterInputForInt(lineSelected);
+    if (lineSelected >= 0 && lineSelected < mrtlines.size())
+    {
+        MrtLine* mrt = &mrtlines[lineSelected];
+        mrt->printStationsAll();
+        cout << "Select a station index you want to remove" << endl;
+        int station;
+        enterInputForInt(station);
+
+        if (station >= 0 && station < mrt->getSize())
+        {
+            removeStationDetails(station, mrt);
+        }
+        else
+        {
+            cout << "Please select the correct station index!";
+        }
+    }
+}
+
+void removeStationDetails(int station, MrtLine* mrt)
+{
+    Node* selected = mrt->getMrtStation(station);
+    cout << "[You have selected " << selected->name << "]" << endl;
+    int costBetweenStations = 0;
+
+    Node* prevStation = NULL;
+    Node* afterStation = NULL;
+    if (station - 1 >= 0)
+    {
+        prevStation = mrt->getMrtStation(station - 1);
+    }
+    if (station + 1 < mrt->getSize())
+    {
+        afterStation = mrt->getMrtStation(station + 1);
+    }
+
+    if ((prevStation != NULL) && (afterStation != NULL))
+    {
+        cout << "Cost between " << prevStation->name << " and " << afterStation->name << "? "
+             << endl;
+        enterInputForInt(costBetweenStations);
+    }
+
+    mrt->removeStation(selected->id, costBetweenStations);
+    mrt->printStationsAll();
+}
+/* REMOVE STATION METHODS END HERE*/
+
+/* SHORTEST PATH TO STATION BEGINS HERE*/
+void shortestPath()
+{
+    displayAllStations();
+    string fromNodeId;
+    string toNodeId;
+
+    auto printStep = [](string startEnd) {
+        cout << "Please enter the station ID you would like to " << startEnd << " at" << endl;
+    };
+
+    cout << "[Station IDs are case sensitive]" << endl;
+    printStep("start");
+    cin >> fromNodeId;
+
+    printStep("end");
+    cin >> toNodeId;
+
+    // check if the same station
+    if (fromNodeId == toNodeId)
+    {
+        cout << "You have given the same station ID!" << endl;
+        return;
+    }
+
+    auto checkIfValidStation = [](string nodeId) {
+        auto printInvalid = [](string nodeId) {
+            cout << "The station Id " << nodeId << " does not exist!" << endl;
+        };
+
+        if (!dic.hasKey(nodeId))
+        {
+            printInvalid(nodeId);
+            return false;
+        }
+        return true;
+    };
+
+    if (!checkIfValidStation(fromNodeId) || !checkIfValidStation(toNodeId))
+    {
+        return;
+    }
+
+    Vector<Connection*> connections;
+    graph.shortestPathBetweenStations(fromNodeId, toNodeId, connections);
+
+    if (connections.size() > 0)
+    {
+        cout << "\n" << endl;
+        cout << "Shortest path: " << endl;
+        for (int i = connections.size() - 1; i >= 0; i--)
+        {
+            cout << connections[i]->fromNode->id << " to " << connections[i]->toNode->id
+                 << "| cost: " << connections[i]->cost << endl;
+        }
+    }
+    else
+    {
+        cout << "There are no paths between these stations." << endl;
+    }
+}
+
+/* SHORTEST PATH TO STATION ENDS HERE*/
 
 // for display station
 void displayAllStations()
@@ -482,6 +630,7 @@ void displayAllStations()
     {
         mrtlines[i].printStationsAll();
     }
+    cout << "---------------------------------------------------------" << endl;
 }
 
 void enterInputForInt(int& option)

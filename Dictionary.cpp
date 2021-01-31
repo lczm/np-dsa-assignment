@@ -136,26 +136,29 @@ T Dictionary<T>::get(string key)
 {   
     if (!isEmpty())
     {
-        int hashedValue = hash(key);
-        if (items[hashedValue] != NULL)
+        if (hasKey(key))
         {
-            if (items[hashedValue]->next == NULL) {
+            int hashedValue = hash(key);
+            if (items[hashedValue] != NULL)
+            {
+                if (items[hashedValue]->next == NULL) {
 
-                //in the case that there is only 1 value and it does not
-                //correspond to the key being deleted
-                if (items[hashedValue]->key == key)
-                {
-                    return items[hashedValue]->item;
+                    //in the case that there is only 1 value and it does not
+                    //correspond to the key being deleted
+                    if (items[hashedValue]->key == key)
+                    {
+                        return items[hashedValue]->item;
+                    }
                 }
-            }
-            else {
-                DictionaryNode<T>* traverseNode = items[hashedValue];
-                while (traverseNode->key != key)
-                {
-                    traverseNode = traverseNode->next;
+                else {
+                    DictionaryNode<T>* traverseNode = items[hashedValue];
+                    while (traverseNode->key != key)
+                    {
+                        traverseNode = traverseNode->next;
+                    }
+               
+                    return traverseNode->item;
                 }
-
-                return traverseNode->item;
             }
         }
     }
@@ -172,6 +175,78 @@ template <typename T>
 int Dictionary<T>::getLength()
 {
     return size;
+}
+
+template <typename T>
+void Dictionary<T>::getAllItems(Vector<T> &dicItems)
+{
+    if (!isEmpty())
+    {
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+            if (items[i] != NULL)
+            {   
+                DictionaryNode<T> * traverseNode = items[i];
+                while (traverseNode != NULL)
+                {
+                    dicItems.pushBack(traverseNode->item);    
+                    traverseNode = traverseNode->next;
+                }
+            }
+        }
+    }
+}
+
+template <typename T>
+void Dictionary<T>::getAllKeys(Vector<string>& keys)
+{
+    if (!isEmpty())
+    {
+        for (int i = 0; i < MAX_SIZE; i++)
+        {
+            if (items[i] != NULL)
+            {
+                DictionaryNode<T>* traverseNode = items[i];
+                while (traverseNode != NULL)
+                {
+                    keys.pushBack(traverseNode->key);
+                    traverseNode = traverseNode->next;
+                }
+            }
+        }
+    }
+}
+
+template <typename T>
+bool Dictionary<T>::hasKey(string selectedKey)
+{   
+    int hashedValue = hash(selectedKey);
+    if (items[hashedValue] != NULL)
+    {
+        if (items[hashedValue]->next == NULL)
+        {
+        
+            if (items[hashedValue]->key == selectedKey)
+            {
+                return true;
+            }
+        }
+        else
+        {
+            DictionaryNode<T>* traverseNode = items[hashedValue];
+            while (traverseNode != NULL && traverseNode->key != selectedKey)
+            {
+                traverseNode = traverseNode->next;
+            }
+
+            if (traverseNode != NULL)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 
