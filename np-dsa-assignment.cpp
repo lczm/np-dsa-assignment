@@ -253,6 +253,8 @@ int main()
     Vector<Node*> v;
     dic.getAllItems(v);
 
+    dic.hasKey("j");
+
     for (int i = 0; i < v.size(); i++)
     {
         cout << v[i]->name << endl;

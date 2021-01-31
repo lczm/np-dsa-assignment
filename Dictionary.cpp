@@ -231,7 +231,7 @@ bool Dictionary<T>::hasKey(string selectedKey)
         else
         {
             DictionaryNode<T>* traverseNode = items[hashedValue];
-            while (traverseNode->key != selectedKey)
+            while (traverseNode != NULL && traverseNode->key != selectedKey)
             {
                 traverseNode = traverseNode->next;
             }
