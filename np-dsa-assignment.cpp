@@ -514,19 +514,21 @@ void shortestPath()
         return;
     }
 
-    auto printInvalid = [](string nodeId) 
-    { cout << "The station Id " << nodeId << " does not exist!" << endl; };
-
-    //check if invalid station
-    if (!dic.hasKey(fromNodeId))
+    auto checkIfValidStation = [](string nodeId)
     {
-        printInvalid(fromNodeId);
-        return;
-    }
+        auto printInvalid = [](string nodeId) 
+        { cout << "The station Id " << nodeId << " does not exist!" << endl;};
 
-    if (!dic.hasKey(toNodeId))
+        if (!dic.hasKey(nodeId))
+        {
+            printInvalid(nodeId);
+            return false;
+        }
+        return true;
+    };
+
+    if (!checkIfValidStation(fromNodeId) || !checkIfValidStation(toNodeId))
     {
-        printInvalid(toNodeId);
         return;
     }
 
