@@ -377,8 +377,9 @@ void displayMenu()
     cout << "Option 2: Remove a train station" << endl;
     cout << "Option 3: Add an interchange/connection between mrt lines" << endl;
     cout << "Option 4: Remove an interchange/connection between mrt lines" << endl;
-    cout << "Option 5: Find the shortest path between stations" << endl;
-    cout << "Option 6: Print all Mrt Lines and stations" << endl;
+    cout << "Option 5: Add a new mrt line/extension" << endl;
+    cout << "Option 6: Find the shortest path between stations" << endl;
+    cout << "Option 7: Print all Mrt Lines and stations" << endl;
     cout << "\n";
 }
 
