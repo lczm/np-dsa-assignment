@@ -341,10 +341,10 @@ int main()
                 case 3:
                     addStationInterchangeOrConnectionBetweenMrtLines();
                     break;
-                case 5:
+                case 6:
                     shortestPath();
                     break;
-                case 6:
+                case 7:
                     displayAllStations();
                     break;
                 default:
