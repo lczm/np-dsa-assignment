@@ -295,7 +295,8 @@ template <typename TCallback>
 void displayMrtLinesToSelect(TCallback Evt);
 void errorDetect(int& option);
 void enterInputForInt(int& option);
-// void addStationToMrtLine();
+string extractStringMain(string stationId);
+    // void addStationToMrtLine();
 void addStationToMrtLineTest();
 void addStationDetails(int station, MrtLine* mrt);
 void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
@@ -303,6 +304,7 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
 void removeStationToMrtLine();
 void removeStationDetails(int station, MrtLine* mrt);
 void shortestPath();
+void addStationInterchangeBetweenMrtLines();
 void displayAllStations();
 
 int main()
@@ -355,6 +357,9 @@ int main()
                     break;
                 case 2:
                     displayMrtLinesToSelect(removeStationToMrtLine);
+                    break;
+                case 3:
+                    addStationInterchangeBetweenMrtLines();
                     break;
                 case 5:
                     shortestPath();
@@ -556,6 +561,70 @@ void removeStationDetails(int station, MrtLine* mrt)
 }
 /* REMOVE STATION METHODS END HERE*/
 
+
+/* ADD STATION INTERCHANGE BEGINS HERE*/
+void addStationInterchangeBetweenMrtLines()
+{   
+    displayAllStations();
+    string fromNodeId;
+    string toNodeId;
+
+    cout << "[Station IDs must be from different mrt lines]" << endl;
+    auto printStep = [](string num) {
+        cout << "Please enter the " << num << " station ID: "
+             << endl;
+    };
+
+    cout << "[Station IDs are case sensitive]" << endl;
+    printStep("first");
+    cin >> fromNodeId;
+
+    printStep("second");
+    cin >> toNodeId;
+
+    // check if the same station
+    if (fromNodeId == toNodeId)
+    {
+        cout << "You have given the same station ID!" << endl;
+        return;
+    }
+
+    auto checkIfValidStation = [](string nodeId) {
+        auto printInvalid = [](string nodeId) {
+            cout << "The station Id " << nodeId << " does not exist!" << endl;
+        };
+
+        if (!dic.hasKey(nodeId))
+        {
+            printInvalid(nodeId);
+            return false;
+        }
+        return true;
+    };
+
+    if (!checkIfValidStation(fromNodeId) || !checkIfValidStation(toNodeId))
+    {
+        return;
+    }
+
+    if (extractStringMain(fromNodeId) == extractStringMain(toNodeId))
+    {
+        cout << "You have given stations on the same mrt line!" << endl;
+        return;
+    }
+
+    if (graph.hasConnection(fromNodeId, toNodeId))
+    {
+        cout << "There is already an interchange between these two stations!" << endl;
+        return;
+    }
+    else
+    {
+        graph.addConnection(fromNodeId, toNodeId, 0);
+    }
+}
+/* ADD STATION INTERCHANGE ENDS HERE*/
+
 /* SHORTEST PATH TO STATION BEGINS HERE*/
 void shortestPath()
 {
@@ -648,7 +717,20 @@ void errorDetect(int& option)
         cin >> option;
     }
 }
+string extractStringMain(string stationId)
+{
+    string lineIdentifier;
 
+    for (int i = 0; i < stationId.size(); i++)
+    {
+        if (isalpha(stationId[i]))
+        {
+            lineIdentifier += stationId[i];
+        }
+    }
+
+    return lineIdentifier;
+}
 // Function for testing purposes
 // void addStationToMrtLine()
 // {
