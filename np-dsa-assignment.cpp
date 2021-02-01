@@ -595,7 +595,7 @@ void addStationInterchangeBetweenMrtLines()
 
     if (graph.hasConnection(fromNodeId, toNodeId))
     {
-        cout << "There is already an interchange between these two stations!" << endl;
+        cout << "There is already a connection between these two stations!" << endl;
         return;
     }
     else

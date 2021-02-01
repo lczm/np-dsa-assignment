@@ -13,6 +13,7 @@ FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLi
     this->dictionary = dictionary;
     this->readStations();
     this->readRoutes(mrtLines);
+    this->readMrtLineNames(mrtLines);
     this->readInterchanges();
 }
 
@@ -48,6 +49,8 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
     myfile.open(this->routesName);
     int lineNo = 0;
 
+    Dictionary<int> mrtCount;
+
     while (myfile.good())
     {
         Vector<string> mrts;
@@ -74,15 +77,29 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
         }
 
          MrtLine mrtLineNew(graph);
-         mrtLineNew.setMrtLineName("Line" + to_string(lineNo));
-         lineNo++;
+      /*   mrtLineNew.setMrtLineName("Line" + to_string(lineNo));
+         lineNo++;*/
 
          for (int i = 0; i < vectorSizeMrt+1; i++)
          {       
            Node* p = dictionary->get(mrts[i]);
-           mrtLineNew.addStationBack(p);
-         }
 
+           if (!(mrtCount.hasKey(p->id)))
+           {
+             mrtCount.add(p->id, 1);
+           }
+           else
+           {
+               int count = mrtCount.get(p->id);
+               count++;
+               mrtCount.remove(p->id);
+               mrtCount.add(p->id, count);
+           }
+           if (!(mrtCount.get(p->id) > 1))
+           {
+             mrtLineNew.addStationBack(p);
+           }
+         }
          mrtLines.pushBack(mrtLineNew);
     }
 
@@ -119,6 +136,28 @@ void FileReader::readInterchanges()
 
 void FileReader::readFares()
 {
+}
+
+void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines)
+{
+    ifstream myfile;
+    myfile.open("data/mrtLineNames.csv");
+
+    int num = 0;
+
+    while (myfile.good())
+    {
+
+        string mrtLineName;
+        std::getline(myfile, mrtLineName, '\n');
+        // will be changed to add to the graph's hashTable for nodes
+        mrtLines[num].setMrtLineName(mrtLineName);
+      
+        if (num < mrtLines.size()-1)
+        {
+            num++;
+        }
+    }
 }
 
 void FileReader::addToVector(Vector<string>& vectorList, string excelLine)

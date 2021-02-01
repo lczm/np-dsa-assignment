@@ -26,5 +26,6 @@ class FileReader
     void readRoutes(Vector<MrtLine> & mrtLines);
     void readInterchanges();
     void readFares();
+    void readMrtLineNames(Vector<MrtLine>& mrtLines);
     void addToVector(Vector<string>& vectorList, string excelLine);
 };
