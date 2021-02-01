@@ -312,26 +312,6 @@ int main()
     graph.setNodeList(&dic);
     FileReader filereader(&graph, &dic, mrtlines);
     cout << "np-dsa-assignment" << endl;
-
-    Vector<Node*> v;
-    dic.getAllItems(v);
-
-    dic.hasKey("j");
-
-    for (int i = 0; i < v.size(); i++)
-    {
-        cout << v[i]->name << endl;
-    }
-
-    Vector<Connection*> cons;
-    graph.shortestPathBetweenStations("EW8", "NS24", cons);
-
-    for (int i = 0; i < cons.size(); i++)
-    {
-        cout << cons[i]->fromNode->id << " to " << cons[i]->toNode->id << " cost:" << cons[i]->cost
-             << endl;
-    }
-
     // testing purposes as there is no unit tests
     // testVector();
     // testGraphConnections();
@@ -731,70 +711,3 @@ string extractStringMain(string stationId)
 
     return lineIdentifier;
 }
-// Function for testing purposes
-// void addStationToMrtLine()
-// {
-//     // Ask user to select a line
-//     bool exit = false;
-//     while (exit != true)
-//     {
-//         cout << "[Please enter a mrt index]" << endl;
-//         for (int i = 0; i < mrtlines.size(); i++)
-//         {
-//             cout << "Option " << i << ") "
-//                  << "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
-//         }
-//         // based on that line print the train stations
-//         int lineSelected = 0;
-//         enterInputForInt(lineSelected);
-//         if (lineSelected >= 0 && lineSelected < mrtlines.size())
-//         {
-//             MrtLine* mrt = &mrtlines[lineSelected];
-//             mrt->printStationsAll();
-//             cout << "Select a station index you would like to add your station to" << endl;
-//             int station;
-//             enterInputForInt(station);
-//             if (station >= 0 && station < mrt->getSize())
-//             {
-//                 int beforeCost, afterCost, beforeAfter = 0;
-//                 string name;
-//                 Node* selected = mrt->getMrtStation(station);
-//                 cout << "[You have selected " << selected->name << "]" << endl;
-//                 cout << "Would you like the new station to be before or after the selected
-//                     station
-//                     ? "
-//                           << endl;
-//                 cout << "[0 == before/1 == after]" << endl;
-//                 enterInputForInt(beforeAfter);
-
-//                 // check range
-//                 while (beforeAfter > 1 || beforeAfter < 0)
-//                 {
-//                     cout << "Enter the correct option (0 or 1)" << endl;
-//                     enterInputForInt(beforeAfter);
-//                 }
-
-//                 cout << "What is the name of your station?" << endl;
-//                 std::getline(std::cin, name);
-
-//                 enterCost(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
-//                 mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
-//                 mrt->printStationsAll();
-//             }
-//             else
-//             {
-//                 if (station == -1)
-//                 {
-//                     break;
-//                 }
-//                 cout << "Please select the correct station index!";
-//             }
-//         }
-//         else
-//         {
-//             exit = true;
-//         }
-//         cin.clear();
-//         cin.ignore(10000, '\n');
-//     }
-// }
