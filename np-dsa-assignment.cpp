@@ -304,7 +304,7 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
 void removeStationToMrtLine();
 void removeStationDetails(int station, MrtLine* mrt);
 void shortestPath();
-void addStationInterchangeBetweenMrtLines();
+void addStationInterchangeOrConnectionBetweenMrtLines();
 void displayAllStations();
 
 int main()
@@ -339,7 +339,7 @@ int main()
                     displayMrtLinesToSelect(removeStationToMrtLine);
                     break;
                 case 3:
-                    addStationInterchangeBetweenMrtLines();
+                    addStationInterchangeOrConnectionBetweenMrtLines();
                     break;
                 case 5:
                     shortestPath();
@@ -375,8 +375,8 @@ void displayMenu()
     cout << "Please select an option " << endl;
     cout << "Option 1: Add a train station" << endl;
     cout << "Option 2: Remove a train station" << endl;
-    cout << "Option 3: Add an interchange between stations" << endl;
-    cout << "Option 4: Remove an interchange between stations" << endl;
+    cout << "Option 3: Add an interchange/connection between mrt lines" << endl;
+    cout << "Option 4: Remove an interchange/connection between mrt lines" << endl;
     cout << "Option 5: Find the shortest path between stations" << endl;
     cout << "Option 6: Print all Mrt Lines and stations" << endl;
     cout << "\n";
@@ -543,7 +543,7 @@ void removeStationDetails(int station, MrtLine* mrt)
 
 
 /* ADD STATION INTERCHANGE BEGINS HERE*/
-void addStationInterchangeBetweenMrtLines()
+void addStationInterchangeOrConnectionBetweenMrtLines()
 {   
     displayAllStations();
     string fromNodeId;
@@ -599,8 +599,12 @@ void addStationInterchangeBetweenMrtLines()
         return;
     }
     else
-    {
-        graph.addConnection(fromNodeId, toNodeId, 0);
+    {   
+        int cost = 0;
+        cout << "Cost between the two stations (0 for interchange)" << endl;
+        cin >> cost;
+        errorDetect(cost);
+        graph.addConnection(fromNodeId, toNodeId, cost);
     }
 }
 /* ADD STATION INTERCHANGE ENDS HERE*/
