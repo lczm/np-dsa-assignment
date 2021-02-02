@@ -304,7 +304,9 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
 void removeStationToMrtLine();
 void removeStationDetails(int station, MrtLine* mrt);
 void shortestPath();
+bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId);
 void addStationInterchangeOrConnectionBetweenMrtLines();
+void removeStationInterchangeOrConnectionBetweenMrtLines();
 void displayAllStations();
 
 int main()
@@ -340,6 +342,9 @@ int main()
                     break;
                 case 3:
                     addStationInterchangeOrConnectionBetweenMrtLines();
+                    break;
+                case 4:
+                    removeStationInterchangeOrConnectionBetweenMrtLines();
                     break;
                 case 6:
                     shortestPath();
@@ -550,10 +555,61 @@ void addStationInterchangeOrConnectionBetweenMrtLines()
     string fromNodeId;
     string toNodeId;
 
+     bool valid = removeAddMrtConnectionsValidation(fromNodeId, toNodeId);
+
+     if (valid)
+     {
+        if (graph.hasConnection(fromNodeId, toNodeId))
+        {
+            cout << "There is already a connection between these two stations!" << endl;
+            return;
+        }
+        else
+        {   
+            int cost = 0;
+            cout << "Cost between the two stations (0 for interchange)" << endl;
+            cin >> cost;
+            errorDetect(cost);
+            graph.addConnection(fromNodeId, toNodeId, cost);
+        }
+     }
+}
+/* ADD STATION INTERCHANGE ENDS HERE*/
+
+
+/* REMOVE STATION INTERCHANGE STARTS HERE*/
+void removeStationInterchangeOrConnectionBetweenMrtLines()
+{
+    displayAllStations();
+    string fromNodeId;
+    string toNodeId;
+
+    bool valid = removeAddMrtConnectionsValidation(fromNodeId, toNodeId);
+
+    if (valid)
+    {
+        if (!(graph.hasConnection(fromNodeId, toNodeId)))
+        {
+            cout << "There are no connections between these two stations!" << endl;
+            return;
+        }
+        else
+        {   
+            //remove connection
+            graph.removeConnection(fromNodeId, toNodeId);
+            graph.removeConnection(toNodeId, fromNodeId);
+        }
+    }
+}
+
+/* REMOVE STATION INTERCHANGE ENDS HERE*/
+
+/* Helper func for add/remove mrt interchange*/
+bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
+{
     cout << "[Station IDs must be from different mrt lines]" << endl;
     auto printStep = [](string num) {
-        cout << "Please enter the " << num << " station ID: "
-             << endl;
+        cout << "Please enter the " << num << " station ID: " << endl;
     };
 
     cout << "[Station IDs are case sensitive]" << endl;
@@ -567,7 +623,7 @@ void addStationInterchangeOrConnectionBetweenMrtLines()
     if (fromNodeId == toNodeId)
     {
         cout << "You have given the same station ID!" << endl;
-        return;
+        return false;
     }
 
     auto checkIfValidStation = [](string nodeId) {
@@ -585,30 +641,18 @@ void addStationInterchangeOrConnectionBetweenMrtLines()
 
     if (!checkIfValidStation(fromNodeId) || !checkIfValidStation(toNodeId))
     {
-        return;
+        return false;
     }
 
     if (extractStringMain(fromNodeId) == extractStringMain(toNodeId))
     {
         cout << "You have given stations on the same mrt line!" << endl;
-        return;
+        return false;
     }
 
-    if (graph.hasConnection(fromNodeId, toNodeId))
-    {
-        cout << "There is already a connection between these two stations!" << endl;
-        return;
-    }
-    else
-    {   
-        int cost = 0;
-        cout << "Cost between the two stations (0 for interchange)" << endl;
-        cin >> cost;
-        errorDetect(cost);
-        graph.addConnection(fromNodeId, toNodeId, cost);
-    }
+    return true;
 }
-/* ADD STATION INTERCHANGE ENDS HERE*/
+
 
 /* SHORTEST PATH TO STATION BEGINS HERE*/
 void shortestPath()
