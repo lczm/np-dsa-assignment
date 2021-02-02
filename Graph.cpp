@@ -150,7 +150,27 @@ void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
 }
 
 
-NodeRecord* getMin(Vector<NodeRecord*> &v, int start, int end)
+//NodeRecord* getMin(Vector<NodeRecord*> &v, int start, int end)
+//{
+//    if (start == end)
+//    {
+//        return v.at(start);
+//    }
+//    else
+//    {
+//        int mid = (start + end) / 2;
+//        return std::min(
+//            getMin(v, start, mid), getMin(v, mid + 1, end),
+//            [](const NodeRecord* a, const NodeRecord* b) { return a->costSoFar < b->costSoFar;});
+//    }
+//}
+
+NodeRecord* minCost( NodeRecord* a, NodeRecord* b){
+
+    return (a->costSoFar < b->costSoFar) ? a :  b;
+};
+
+NodeRecord* getMin(Vector<NodeRecord*>& v, int start, int end)
 {
     if (start == end)
     {
@@ -159,11 +179,10 @@ NodeRecord* getMin(Vector<NodeRecord*> &v, int start, int end)
     else
     {
         int mid = (start + end) / 2;
-        return std::min(
-            getMin(v, start, mid), getMin(v, mid + 1, end),
-            [](const NodeRecord* a, const NodeRecord* b) { return a->costSoFar < b->costSoFar;});
+        return minCost(getMin(v, start, mid), getMin(v, mid + 1, end));
     }
 }
+
 
 void Graph::shortestPathBetweenStations(string fromNodeId, string toNodeId,
                                                        Vector<Connection*>& cons)
