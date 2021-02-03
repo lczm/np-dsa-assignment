@@ -44,7 +44,7 @@ MrtLine::MrtLine(Graph* graph)
 }
 
 
-//will refactor
+// will refactor
 void MrtLine::addNewStation(string stationId, string newStationName, bool infront, int costPrev,
                             int costForward)
 {   
@@ -194,7 +194,7 @@ void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId
 void MrtLine::printStationsAll()
 {   
     cout << "---------------------------------------------------------" << endl;
-    cout << "MRT Line Name: "<< mrtLineName << endl;
+    cout << "MRT Line Name: "<< mrtLineName << " (" << mrtPrefix << ")" << endl;
     cout << "Stations:  " <<  endl;
     for (int i = 0; i < stationList.getSize(); i++)
     {

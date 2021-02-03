@@ -9,6 +9,7 @@ class MrtLine
 {
    private:
     string mrtLineName;
+    string mrtPrefix;
     DoublyLinkedList<Node*> stationList;
     Graph* graph;
 
@@ -23,6 +24,16 @@ class MrtLine
     string getMrtLineName()
     {
         return mrtLineName;
+    }
+
+    void setMrtPrefix(string mrtPrefix)
+    {
+        this->mrtPrefix = mrtPrefix;
+    }
+
+    string getMrtPrefix()
+    {
+        return mrtPrefix;
     }
 
     /*

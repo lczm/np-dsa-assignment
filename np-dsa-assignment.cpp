@@ -336,6 +336,43 @@ void displayAllStations()
     cout << "---------------------------------------------------------" << endl;
 }
 
+void addMrtLine()
+{
+    string mrtPrefix;
+    cout << "Please enter the prefix of your new mrt line [No numbers allowed]" << endl;
+    cin >> mrtPrefix;
+    cin.clear();
+    cin.ignore(10000, '\n');
+
+    //this is to make we remove any numbers from the input
+    extractStringMain(mrtPrefix);
+
+    auto toUpperCase = [](string &str) {
+        for (auto& c : str) c = toupper(c);
+    };
+
+    toUpperCase(mrtPrefix);
+
+    for (int i = 0; i < mrtlines.size(); i++)
+    {
+        if (mrtlines[i].getMrtPrefix() == mrtPrefix)
+        {
+            cout << "Mrt prefix already exists! " << endl;
+            return;
+        }
+    }
+
+    string mrtName;
+    cout << "Please enter the name of your new mrt line/extension" << endl;
+    std::getline(std::cin, mrtName);
+
+
+    MrtLine mrtline(&graph);
+    mrtline.setMrtPrefix(mrtPrefix);
+    mrtline.setMrtLineName(mrtName);
+    mrtlines.pushBack(mrtline);
+}
+
 /* SHORTEST PATH TO STATION BEGINS HERE*/
 void shortestPath()
 {
@@ -633,18 +670,34 @@ void addStationToMrtLineTest()
     if (lineSelected >= 0 && lineSelected < mrtlines.size())
     {
         MrtLine* mrt = &mrtlines[lineSelected];
-        mrt->printStationsAll();
-        cout << "Select a station index you would like to add your station to" << endl;
-        int station;
-        enterInputForInt(station);
 
-        if (station >= 0 && station < mrt->getSize())
+        if (mrt->getSize() == 0)
         {
-            addStationDetails(station, mrt);
+            string name;
+            cout << "What is the name of your station?" << endl;
+            std::getline(std::cin, name);
+            Node* newStation = new Node();
+
+            newStation->id = mrt->getMrtPrefix() + "1";
+            newStation->name = name;
+            dic.add(newStation->id, newStation);
+            mrt->addStationFront(newStation);
         }
         else
         {
-            cout << "Please select the correct station index!";
+            mrt->printStationsAll();
+            cout << "Select a station index you would like to add your station to" << endl;
+            int station;
+            enterInputForInt(station);
+
+            if (station >= 0 && station < mrt->getSize())
+            {
+                addStationDetails(station, mrt);
+            }
+            else
+            {
+                cout << "Please select the correct station index!";
+            }
         }
     }
 }
@@ -723,6 +776,9 @@ int main()
                     break;
                 case 4:
                     removeStationInterchangeOrConnectionBetweenMrtLines();
+                    break;
+                case 5:
+                    addMrtLine();
                     break;
                 case 6:
                     shortestPath();
