@@ -133,7 +133,7 @@ void testTrie()
     trie.insert("Here");
     trie.insert("Boop");
     trie.insert("Book");
-    trie.insert("EW1 PasirRis");
+    trie.insert("EW1,PasirRis");
 
     cout << trie.search("Hello") << endl;
     cout << trie.search("there") << endl;

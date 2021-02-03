@@ -12,7 +12,7 @@ Trie::~Trie()
 
 uint32_t Trie::getIndex(char key)
 {
-    if (key == 32)
+    if (key == 32 || key == 44)
     {
         return 0;
     }
