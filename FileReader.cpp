@@ -165,7 +165,16 @@ void FileReader::addToVector(Vector<string>& vectorList, string excelLine)
     string placeHolder;
     for (int i = 0; i < excelLine.size(); i++)
     {
-        if (excelLine[i] == ',')
+        if (i == excelLine.size() - 1)
+        {
+            placeHolder.push_back(excelLine[i]);
+            vectorList.pushBack(placeHolder);
+
+            // This does not matter as it ends the line, but for completeness
+            // just reset it.
+            placeHolder = "";
+        }
+        else if (excelLine[i] == ',')
         {
             vectorList.pushBack(placeHolder);
             placeHolder = "";
