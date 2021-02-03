@@ -133,6 +133,7 @@ void testTrie()
     trie.insert("Here");
     trie.insert("Boop");
     trie.insert("Book");
+    trie.insert("EW1 PasirRis");
 
     cout << trie.search("Hello") << endl;
     cout << trie.search("there") << endl;
@@ -156,6 +157,12 @@ void testTrie()
     for (uint32_t i = 0; i < completions2.size(); i++)
     {
         cout << completions2[i] << endl;
+    }
+
+    Vector<string> ew = trie.complete("E");
+    for (uint32_t i = 0; i < ew.size(); i++)
+    {
+        cout << ew[i] << endl;
     }
 
     cout << "---testTrie---" << endl;
@@ -319,7 +326,9 @@ int main()
     // testGraphConnections();
     // testDoublyLinkedList();
     // testDictionary();
-    // testTrie();
+    testTrie();
+
+    return 0;
 
     bool exit = false;
     while (exit != true)

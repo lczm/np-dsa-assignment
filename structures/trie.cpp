@@ -12,20 +12,24 @@ Trie::~Trie()
 
 uint32_t Trie::getIndex(char key)
 {
-    if (key >= 48 && key <= 57)  // 0-9
+    if (key == 32)
     {
-        return key - 48;
+        return 0;
+    }
+    else if (key >= 48 && key <= 57)  // 0-9
+    {
+        return key - 48 + 1;
     }
     else if (key >= 65 && key <= 90)  // A-Z
     {
-        return key - 65 + 10;
+        return key - 65 + 10 + 1;
     }
     else if (key >= 97 && key <= 122)  // a-z
     {
         // Shift it down to the A-Z character set
         // then calculate index, minus 65, add the
         // offset of 10 (numbers)
-        return key - (97 - 65) - 65 + 10;
+        return key - (97 - 65) - 65 + 10 + 1;
     }
     else
     {
@@ -36,13 +40,18 @@ uint32_t Trie::getIndex(char key)
 // This assumes all upper case.
 char Trie::getChar(uint32_t index)
 {
-    if (index >= 0 && index <= 9)
+    if (index == 0)
     {
-        return index;
+        return 32;
     }
-    else if (index >= 10 && index <= 36)
+    else if (index >= 1 && index <= 10)
     {
-        return index + 65 - 10;
+        // return index - 1;
+        return index + 48 - 1;
+    }
+    else if (index >= 11 && index <= 37)
+    {
+        return index + 65 - 10 - 1;
     }
 }
 

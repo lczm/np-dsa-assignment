@@ -24,16 +24,19 @@ using namespace std;
     Hence, it will need to deal with the basic alphabets (A-Z).
     There are 26 of those. And 0-9. There are 10 of these.
 
+    The trie will also need to deal with spaces, as the user may type
+    spaces. That will take up another spac.e
+
     Therefore, the trie node children will need to have a size of
-    26 + 10 = 36.
+    26 + 10 + 1= 37.
 
   The trie children layout will also need to be determined.
     For the 36 characters, how will each of them be laid out.
 
     It will be laid out as such
-    < ----------------------------------------------------- > Len : 36
-    < ----------- > (10) < -------------------------------- > (26)
-    < ----0-9---- > (10) < ---------------A-Z-------------- > (26)
+    < --------------------------------------------------------------- > Len : 37
+    < -- > (1) < ----------- > (10) < -------------------------------> (26) 
+    < () > (1) < ----0-9---- > (10) < ---------------A-Z------------ > (26)
 
     It is important that the layout stays the same and consistent.
     So that the TrieNode is able to access it's children by
@@ -58,7 +61,7 @@ using namespace std;
     more user friendly and intuitive.
  */
 
-const int TRIE_SIZE = 36;
+const int TRIE_SIZE = 37;
 
 struct TrieNode
 {
