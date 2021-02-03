@@ -290,369 +290,51 @@ void testTrie()
 //    cout << nodetest2.id << endl;
 //}
 
-void displayMenu();
-template <typename TCallback>
-void displayMrtLinesToSelect(TCallback Evt);
-void errorDetect(int& option);
-void enterInputForInt(int& option);
-string extractStringMain(string stationId);
-    // void addStationToMrtLine();
-void addStationToMrtLineTest();
-void addStationDetails(int station, MrtLine* mrt);
-void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
-                                   MrtLine* mrt, int station, string name);
-void removeStationToMrtLine();
-void removeStationDetails(int station, MrtLine* mrt);
-void shortestPath();
-bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId);
-void addStationInterchangeOrConnectionBetweenMrtLines();
-void removeStationInterchangeOrConnectionBetweenMrtLines();
-void displayAllStations();
 
-int main()
+
+string extractStringMain(string stationId)
 {
-    graph.setNodeList(&dic);
-    FileReader filereader(&graph, &dic, mrtlines);
-    cout << "np-dsa-assignment" << endl;
-    // testing purposes as there is no unit tests
-    // testVector();
-    // testGraphConnections();
-    // testDoublyLinkedList();
-    // testDictionary();
-    // testTrie();
+    string lineIdentifier;
 
-    bool exit = false;
-    while (exit != true)
+    for (int i = 0; i < stationId.size(); i++)
     {
-        int option = 0;
-        while (option != -1)
+        if (isalpha(stationId[i]))
         {
-            displayMenu();
-            cout << "Enter option: ";
-            cin >> option;
-            cin.clear();
-            cin.ignore(10000, '\n');
-            switch (option)
-            {
-                case 1:
-                    displayMrtLinesToSelect(addStationToMrtLineTest);
-                    break;
-                case 2:
-                    displayMrtLinesToSelect(removeStationToMrtLine);
-                    break;
-                case 3:
-                    addStationInterchangeOrConnectionBetweenMrtLines();
-                    break;
-                case 4:
-                    removeStationInterchangeOrConnectionBetweenMrtLines();
-                    break;
-                case 6:
-                    shortestPath();
-                    break;
-                case 7:
-                    displayAllStations();
-                    break;
-                default:
-                    cout << "Please select the correct option" << endl;
-                    break;
-            }
-        }
-
-        cout << "Are you sure you want to exit? (y/n) " << endl;
-        char ans;
-        cin >> ans;
-        if (toupper(ans) == 'Y')
-        {
-            exit = true;
-        }
-        else
-        {
-            exit = false;
+            lineIdentifier += stationId[i];
         }
     }
-    return 0;
+
+    return lineIdentifier;
 }
 
-void displayMenu()
+void errorDetect(int& option)
 {
-    cout << "\n";
-    cout << "Welcome to Railway inc. (Enter -1 to log off) " << endl;
-    cout << "Please select an option " << endl;
-    cout << "Option 1: Add a train station" << endl;
-    cout << "Option 2: Remove a train station" << endl;
-    cout << "Option 3: Add an interchange/connection between mrt lines" << endl;
-    cout << "Option 4: Remove an interchange/connection between mrt lines" << endl;
-    cout << "Option 5: Add a new mrt line/extension" << endl;
-    cout << "Option 6: Find the shortest path between stations" << endl;
-    cout << "Option 7: Print all Mrt Lines and stations" << endl;
-    cout << "\n";
+    while (cin.fail())
+    {
+        cout << "Please enter the correct option!:";
+        cin.clear();
+        cin.ignore(10000, '\n');
+        cin >> option;
+    }
 }
 
-template <typename TCallback>
-void displayMrtLinesToSelect(TCallback Evt)
+void enterInputForInt(int& option)
 {
-    // Ask user to select a line
-    bool exit = false;
-    while (exit != true)
-    {
-        cout << "[Please enter a mrt index]" << endl;
-        for (int i = 0; i < mrtlines.size(); i++)
-        {
-            cout << "Option " << i << ") "
-                 << "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
-        }
-        Evt();
-        exit = true;
-    }
+    cin >> option;
+    errorDetect(option);
+    cin.clear();
+    cin.ignore(10000, '\n');
 }
 
-/* ADD STATION METHODS BEGIN HERE*/
-void addStationToMrtLineTest()
+// for display station
+void displayAllStations()
 {
-    // based on that line print the train stations
-    int lineSelected = 0;
-    enterInputForInt(lineSelected);
-    if (lineSelected >= 0 && lineSelected < mrtlines.size())
+    for (int i = 0; i < mrtlines.size(); i++)
     {
-        MrtLine* mrt = &mrtlines[lineSelected];
-        mrt->printStationsAll();
-        cout << "Select a station index you would like to add your station to" << endl;
-        int station;
-        enterInputForInt(station);
-
-        if (station >= 0 && station < mrt->getSize())
-        {
-            addStationDetails(station, mrt);
-        }
-        else
-        {
-            cout << "Please select the correct station index!";
-        }
+        mrtlines[i].printStationsAll();
     }
+    cout << "---------------------------------------------------------" << endl;
 }
-
-void addStationDetails(int station, MrtLine* mrt)
-{
-    int beforeCost, afterCost, beforeAfter = 0;
-    string name;
-    Node* selected = mrt->getMrtStation(station);
-    cout << "[You have selected " << selected->name << "]" << endl;
-    cout << "Would you like the new station to be before or after the selected station?" << endl;
-    cout << "[0 == before/1 == after]" << endl;
-    enterInputForInt(beforeAfter);
-
-    // check range
-    while (beforeAfter > 1 || beforeAfter < 0)
-    {
-        cout << "Enter the correct option (0 or 1)" << endl;
-        enterInputForInt(beforeAfter);
-    }
-
-    cout << "What is the name of your station?" << endl;
-    std::getline(std::cin, name);
-
-    enterCostForAddStationDetails(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
-    mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
-    mrt->printStationsAll();
-}
-
-// For add stationDetails
-void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
-                                   MrtLine* mrt, int station, string name)
-{
-    auto costBetweenText = [](string fromName, string toName) {
-        cout << "Cost between " << fromName << " to " << toName << "?";
-    };
-    if (beforeAfter == 1)
-    {
-        costBetweenText(selected->name, name);
-        cin >> beforeCost;
-        errorDetect(beforeCost);
-        if (station + 1 < mrt->getSize())
-        {
-            Node* afterNewMrt = mrt->getMrtStation(station + 1);
-            costBetweenText(name, afterNewMrt->name);
-            cin >> afterCost;
-            errorDetect(afterCost);
-        }
-    }
-    else if (beforeAfter == 0)
-    {
-        if (station - 1 >= 0)
-        {
-            Node* afterNewMrt = mrt->getMrtStation(station - 1);
-            costBetweenText(afterNewMrt->name, name);
-            cin >> beforeCost;
-            errorDetect(beforeCost);
-        }
-
-        costBetweenText(name, selected->name);
-        cin >> afterCost;
-        errorDetect(afterCost);
-    }
-}
-/* ADD STATION METHODS END HERE*/
-
-/* REMOVE STATION METHODS BEGIN HERE*/
-void removeStationToMrtLine()
-{
-    // based on that line print the train stations
-    int lineSelected = 0;
-    enterInputForInt(lineSelected);
-    if (lineSelected >= 0 && lineSelected < mrtlines.size())
-    {
-        MrtLine* mrt = &mrtlines[lineSelected];
-        mrt->printStationsAll();
-        cout << "Select a station index you want to remove" << endl;
-        int station;
-        enterInputForInt(station);
-
-        if (station >= 0 && station < mrt->getSize())
-        {
-            removeStationDetails(station, mrt);
-        }
-        else
-        {
-            cout << "Please select the correct station index!";
-        }
-    }
-}
-
-void removeStationDetails(int station, MrtLine* mrt)
-{
-    Node* selected = mrt->getMrtStation(station);
-    cout << "[You have selected " << selected->name << "]" << endl;
-    int costBetweenStations = 0;
-
-    Node* prevStation = NULL;
-    Node* afterStation = NULL;
-    if (station - 1 >= 0)
-    {
-        prevStation = mrt->getMrtStation(station - 1);
-    }
-    if (station + 1 < mrt->getSize())
-    {
-        afterStation = mrt->getMrtStation(station + 1);
-    }
-
-    if ((prevStation != NULL) && (afterStation != NULL))
-    {
-        cout << "Cost between " << prevStation->name << " and " << afterStation->name << "? "
-             << endl;
-        enterInputForInt(costBetweenStations);
-    }
-
-    mrt->removeStation(selected->id, costBetweenStations);
-    mrt->printStationsAll();
-}
-/* REMOVE STATION METHODS END HERE*/
-
-
-/* ADD STATION INTERCHANGE BEGINS HERE*/
-void addStationInterchangeOrConnectionBetweenMrtLines()
-{   
-    displayAllStations();
-    string fromNodeId;
-    string toNodeId;
-
-     bool valid = removeAddMrtConnectionsValidation(fromNodeId, toNodeId);
-
-     if (valid)
-     {
-        if (graph.hasConnection(fromNodeId, toNodeId))
-        {
-            cout << "There is already a connection between these two stations!" << endl;
-            return;
-        }
-        else
-        {   
-            int cost = 0;
-            cout << "Cost between the two stations (0 for interchange)" << endl;
-            cin >> cost;
-            errorDetect(cost);
-            graph.addConnection(fromNodeId, toNodeId, cost);
-        }
-     }
-}
-/* ADD STATION INTERCHANGE ENDS HERE*/
-
-
-/* REMOVE STATION INTERCHANGE STARTS HERE*/
-void removeStationInterchangeOrConnectionBetweenMrtLines()
-{
-    displayAllStations();
-    string fromNodeId;
-    string toNodeId;
-
-    bool valid = removeAddMrtConnectionsValidation(fromNodeId, toNodeId);
-
-    if (valid)
-    {
-        if (!(graph.hasConnection(fromNodeId, toNodeId)))
-        {
-            cout << "There are no connections between these two stations!" << endl;
-            return;
-        }
-        else
-        {   
-            //remove connection
-            graph.removeConnection(fromNodeId, toNodeId);
-            graph.removeConnection(toNodeId, fromNodeId);
-        }
-    }
-}
-
-/* REMOVE STATION INTERCHANGE ENDS HERE*/
-
-/* Helper func for add/remove mrt interchange*/
-bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
-{
-    cout << "[Station IDs must be from different mrt lines]" << endl;
-    auto printStep = [](string num) {
-        cout << "Please enter the " << num << " station ID: " << endl;
-    };
-
-    cout << "[Station IDs are case sensitive]" << endl;
-    printStep("first");
-    cin >> fromNodeId;
-
-    printStep("second");
-    cin >> toNodeId;
-
-    // check if the same station
-    if (fromNodeId == toNodeId)
-    {
-        cout << "You have given the same station ID!" << endl;
-        return false;
-    }
-
-    auto checkIfValidStation = [](string nodeId) {
-        auto printInvalid = [](string nodeId) {
-            cout << "The station Id " << nodeId << " does not exist!" << endl;
-        };
-
-        if (!dic.hasKey(nodeId))
-        {
-            printInvalid(nodeId);
-            return false;
-        }
-        return true;
-    };
-
-    if (!checkIfValidStation(fromNodeId) || !checkIfValidStation(toNodeId))
-    {
-        return false;
-    }
-
-    if (extractStringMain(fromNodeId) == extractStringMain(toNodeId))
-    {
-        cout << "You have given stations on the same mrt line!" << endl;
-        return false;
-    }
-
-    return true;
-}
-
 
 /* SHORTEST PATH TO STATION BEGINS HERE*/
 void shortestPath()
@@ -718,45 +400,354 @@ void shortestPath()
 
 /* SHORTEST PATH TO STATION ENDS HERE*/
 
-// for display station
-void displayAllStations()
+/* Helper func for add/remove mrt interchange*/
+bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
 {
-    for (int i = 0; i < mrtlines.size(); i++)
+    cout << "[Station IDs must be from different mrt lines]" << endl;
+    auto printStep = [](string num) {
+        cout << "Please enter the " << num << " station ID: " << endl;
+    };
+
+    cout << "[Station IDs are case sensitive]" << endl;
+    printStep("first");
+    cin >> fromNodeId;
+
+    printStep("second");
+    cin >> toNodeId;
+
+    // check if the same station
+    if (fromNodeId == toNodeId)
     {
-        mrtlines[i].printStationsAll();
+        cout << "You have given the same station ID!" << endl;
+        return false;
     }
-    cout << "---------------------------------------------------------" << endl;
-}
 
-void enterInputForInt(int& option)
-{
-    cin >> option;
-    errorDetect(option);
-    cin.clear();
-    cin.ignore(10000, '\n');
-}
+    auto checkIfValidStation = [](string nodeId) {
+        auto printInvalid = [](string nodeId) {
+            cout << "The station Id " << nodeId << " does not exist!" << endl;
+        };
 
-void errorDetect(int& option)
-{
-    while (cin.fail())
-    {
-        cout << "Please enter the correct option!:";
-        cin.clear();
-        cin.ignore(10000, '\n');
-        cin >> option;
-    }
-}
-string extractStringMain(string stationId)
-{
-    string lineIdentifier;
-
-    for (int i = 0; i < stationId.size(); i++)
-    {
-        if (isalpha(stationId[i]))
+        if (!dic.hasKey(nodeId))
         {
-            lineIdentifier += stationId[i];
+            printInvalid(nodeId);
+            return false;
+        }
+        return true;
+    };
+
+    if (!checkIfValidStation(fromNodeId) || !checkIfValidStation(toNodeId))
+    {
+        return false;
+    }
+
+    if (extractStringMain(fromNodeId) == extractStringMain(toNodeId))
+    {
+        cout << "You have given stations on the same mrt line!" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+/* REMOVE STATION INTERCHANGE STARTS HERE*/
+void removeStationInterchangeOrConnectionBetweenMrtLines()
+{
+    displayAllStations();
+    string fromNodeId;
+    string toNodeId;
+
+    bool valid = removeAddMrtConnectionsValidation(fromNodeId, toNodeId);
+
+    if (valid)
+    {
+        if (!(graph.hasConnection(fromNodeId, toNodeId)))
+        {
+            cout << "There are no connections between these two stations!" << endl;
+            return;
+        }
+        else
+        {
+            // remove connection
+            graph.removeConnection(fromNodeId, toNodeId);
+            graph.removeConnection(toNodeId, fromNodeId);
         }
     }
-
-    return lineIdentifier;
 }
+
+/* REMOVE STATION INTERCHANGE ENDS HERE*/
+
+/* ADD STATION INTERCHANGE BEGINS HERE*/
+void addStationInterchangeOrConnectionBetweenMrtLines()
+{
+    displayAllStations();
+    string fromNodeId;
+    string toNodeId;
+
+    bool valid = removeAddMrtConnectionsValidation(fromNodeId, toNodeId);
+
+    if (valid)
+    {
+        if (graph.hasConnection(fromNodeId, toNodeId))
+        {
+            cout << "There is already a connection between these two stations!" << endl;
+            return;
+        }
+        else
+        {
+            int cost = 0;
+            cout << "Cost between the two stations (0 for interchange)" << endl;
+            cin >> cost;
+            errorDetect(cost);
+            graph.addConnection(fromNodeId, toNodeId, cost);
+        }
+    }
+}
+/* ADD STATION INTERCHANGE ENDS HERE*/
+
+
+/* REMOVE STATION METHODS BEGIN HERE*/
+void removeStationDetails(int station, MrtLine* mrt)
+{
+    Node* selected = mrt->getMrtStation(station);
+    cout << "[You have selected " << selected->name << "]" << endl;
+    int costBetweenStations = 0;
+
+    Node* prevStation = NULL;
+    Node* afterStation = NULL;
+    if (station - 1 >= 0)
+    {
+        prevStation = mrt->getMrtStation(station - 1);
+    }
+    if (station + 1 < mrt->getSize())
+    {
+        afterStation = mrt->getMrtStation(station + 1);
+    }
+
+    if ((prevStation != NULL) && (afterStation != NULL))
+    {
+        cout << "Cost between " << prevStation->name << " and " << afterStation->name << "? "
+             << endl;
+        enterInputForInt(costBetweenStations);
+    }
+
+    mrt->removeStation(selected->id, costBetweenStations);
+    mrt->printStationsAll();
+}
+
+
+void removeStationToMrtLine()
+{
+    // based on that line print the train stations
+    int lineSelected = 0;
+    enterInputForInt(lineSelected);
+    if (lineSelected >= 0 && lineSelected < mrtlines.size())
+    {
+        MrtLine* mrt = &mrtlines[lineSelected];
+        mrt->printStationsAll();
+        cout << "Select a station index you want to remove" << endl;
+        int station;
+        enterInputForInt(station);
+
+        if (station >= 0 && station < mrt->getSize())
+        {
+            removeStationDetails(station, mrt);
+        }
+        else
+        {
+            cout << "Please select the correct station index!";
+        }
+    }
+}
+
+/* REMOVE STATION METHODS END HERE*/
+
+/* ADD STATION METHODS BEGIN HERE*/
+// For add stationDetails
+void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAfter, Node* selected,
+                                   MrtLine* mrt, int station, string name)
+{
+    auto costBetweenText = [](string fromName, string toName) {
+        cout << "Cost between " << fromName << " to " << toName << "?";
+    };
+    if (beforeAfter == 1)
+    {
+        costBetweenText(selected->name, name);
+        cin >> beforeCost;
+        errorDetect(beforeCost);
+        if (station + 1 < mrt->getSize())
+        {
+            Node* afterNewMrt = mrt->getMrtStation(station + 1);
+            costBetweenText(name, afterNewMrt->name);
+            cin >> afterCost;
+            errorDetect(afterCost);
+        }
+    }
+    else if (beforeAfter == 0)
+    {
+        if (station - 1 >= 0)
+        {
+            Node* afterNewMrt = mrt->getMrtStation(station - 1);
+            costBetweenText(afterNewMrt->name, name);
+            cin >> beforeCost;
+            errorDetect(beforeCost);
+        }
+
+        costBetweenText(name, selected->name);
+        cin >> afterCost;
+        errorDetect(afterCost);
+    }
+}
+
+void addStationDetails(int station, MrtLine* mrt)
+{
+    int beforeCost, afterCost, beforeAfter = 0;
+    string name;
+    Node* selected = mrt->getMrtStation(station);
+    cout << "[You have selected " << selected->name << "]" << endl;
+    cout << "Would you like the new station to be before or after the selected station?" << endl;
+    cout << "[0 == before/1 == after]" << endl;
+    enterInputForInt(beforeAfter);
+
+    // check range
+    while (beforeAfter > 1 || beforeAfter < 0)
+    {
+        cout << "Enter the correct option (0 or 1)" << endl;
+        enterInputForInt(beforeAfter);
+    }
+
+    cout << "What is the name of your station?" << endl;
+    std::getline(std::cin, name);
+
+    enterCostForAddStationDetails(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+    mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
+    mrt->printStationsAll();
+}
+
+
+
+void addStationToMrtLineTest()
+{
+    // based on that line print the train stations
+    int lineSelected = 0;
+    enterInputForInt(lineSelected);
+    if (lineSelected >= 0 && lineSelected < mrtlines.size())
+    {
+        MrtLine* mrt = &mrtlines[lineSelected];
+        mrt->printStationsAll();
+        cout << "Select a station index you would like to add your station to" << endl;
+        int station;
+        enterInputForInt(station);
+
+        if (station >= 0 && station < mrt->getSize())
+        {
+            addStationDetails(station, mrt);
+        }
+        else
+        {
+            cout << "Please select the correct station index!";
+        }
+    }
+}
+/* ADD STATION METHODS END HERE*/
+
+template <typename TCallback>
+void displayMrtLinesToSelect(TCallback Evt)
+{
+    // Ask user to select a line
+    bool exit = false;
+    while (exit != true)
+    {
+        cout << "[Please enter a mrt index]" << endl;
+        for (int i = 0; i < mrtlines.size(); i++)
+        {
+            cout << "Option " << i << ") "
+                 << "Mrt Line name: " << mrtlines[i].getMrtLineName() << endl;
+        }
+        Evt();
+        exit = true;
+    }
+}
+
+void displayMenu()
+{
+    cout << "\n";
+    cout << "Welcome to Railway inc. (Enter -1 to log off) " << endl;
+    cout << "Please select an option " << endl;
+    cout << "Option 1: Add a train station" << endl;
+    cout << "Option 2: Remove a train station" << endl;
+    cout << "Option 3: Add an interchange/connection between mrt lines" << endl;
+    cout << "Option 4: Remove an interchange/connection between mrt lines" << endl;
+    cout << "Option 5: Add a new mrt line/extension" << endl;
+    cout << "Option 6: Find the shortest path between stations" << endl;
+    cout << "Option 7: Print all Mrt Lines and stations" << endl;
+    cout << "\n";
+}
+
+
+
+
+
+int main()
+{
+    graph.setNodeList(&dic);
+    FileReader filereader(&graph, &dic, mrtlines);
+    cout << "np-dsa-assignment" << endl;
+    // testing purposes as there is no unit tests
+    // testVector();
+    // testGraphConnections();
+    // testDoublyLinkedList();
+    // testDictionary();
+    // testTrie();
+
+    bool exit = false;
+    while (exit != true)
+    {
+        int option = 0;
+        while (option != -1)
+        {
+            displayMenu();
+            cout << "Enter option: ";
+            cin >> option;
+            cin.clear();
+            cin.ignore(10000, '\n');
+            switch (option)
+            {
+                case 1:
+                    displayMrtLinesToSelect(addStationToMrtLineTest);
+                    break;
+                case 2:
+                    displayMrtLinesToSelect(removeStationToMrtLine);
+                    break;
+                case 3:
+                    addStationInterchangeOrConnectionBetweenMrtLines();
+                    break;
+                case 4:
+                    removeStationInterchangeOrConnectionBetweenMrtLines();
+                    break;
+                case 6:
+                    shortestPath();
+                    break;
+                case 7:
+                    displayAllStations();
+                    break;
+                default:
+                    cout << "Please select the correct option" << endl;
+                    break;
+            }
+        }
+
+        cout << "Are you sure you want to exit? (y/n) " << endl;
+        char ans;
+        cin >> ans;
+        if (toupper(ans) == 'Y')
+        {
+            exit = true;
+        }
+        else
+        {
+            exit = false;
+        }
+    }
+    return 0;
+}
+
