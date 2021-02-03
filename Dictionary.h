@@ -62,8 +62,8 @@ public:
        return (int)c;
     }
 
-    void getAllItems(Vector<T> &dicItems);
-    void getAllKeys(Vector<string> & keys);
+    void getAllItems(Vector<T>& dicItems);
+    void getAllKeys(Vector<string>& keys);
     bool hasKey(string selectedKey);
 };
 
