@@ -1,21 +1,7 @@
 #include "FileReader.h"
 #include "Graph.h"
+#include "helper.h"
 
-//will create common file for this func
-string extractStringFileReader(string stationId)
-{
-    string lineIdentifier;
-
-    for (int i = 0; i < stationId.size(); i++)
-    {
-        if (isalpha(stationId[i]))
-        {
-            lineIdentifier += stationId[i];
-        }
-    }
-
-    return lineIdentifier;
-}
 
 FileReader::FileReader()
 {
@@ -115,7 +101,7 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
            }
          }
 
-         string prefix = extractStringFileReader(mrtLineNew.getMrtStation(0)->id);
+         string prefix = extract_string(mrtLineNew.getMrtStation(0)->id);
          mrtLineNew.setMrtPrefix(prefix);
          mrtLines.pushBack(mrtLineNew);
     }

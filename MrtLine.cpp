@@ -1,4 +1,5 @@
 #include "MrtLine.h"
+#include "helper.h"
 
 int extractIntegers(string stationId)
 {
@@ -19,21 +20,6 @@ int extractIntegers(string stationId)
     return x;
 }
 
-string extractString(string stationId)
-{
-    string lineIdentifier;
-
-    for (int i = 0; i < stationId.size(); i++)
-    {
-        if (isalpha(stationId[i]))
-        {
-            lineIdentifier += stationId[i];
-        }
-    }
-
-    return lineIdentifier;
-}
-
 MrtLine::MrtLine()
 {
 }
@@ -50,7 +36,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
 {   
     //extracting the string and integers
     int extractedId = extractIntegers(stationId);
-    string mrtLineIdentifier = extractString(stationId);
+    string mrtLineIdentifier = extract_string(stationId);
     int selectedStationIndex = 0;
     int increaseByOne = 1;
 
@@ -90,7 +76,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
 void MrtLine::updateLineIdsForStations(string selectedStationId, int decreaseOrIncreaseId)
 {
     // Update all the stationIds
-    string mrtLineIdentifier = extractString(selectedStationId);
+    string mrtLineIdentifier = extract_string(selectedStationId);
     Dictionary<Node*>* nodeList = graph->getNodeList();
     for (int i = stationList.getSize()-1; i >= 0; i--)
     {

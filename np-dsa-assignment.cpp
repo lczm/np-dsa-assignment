@@ -6,6 +6,7 @@
 #include "Dictionary.h"
 #include "DoublyLinkedList.h"
 #include "MrtLine.h"
+#include "helper.h"
 
 using namespace std;
 
@@ -291,22 +292,6 @@ void testTrie()
 //}
 
 
-
-string extractStringMain(string stationId)
-{
-    string lineIdentifier;
-
-    for (int i = 0; i < stationId.size(); i++)
-    {
-        if (isalpha(stationId[i]))
-        {
-            lineIdentifier += stationId[i];
-        }
-    }
-
-    return lineIdentifier;
-}
-
 void errorDetect(int& option)
 {
     while (cin.fail())
@@ -345,7 +330,7 @@ void addMrtLine()
     cin.ignore(10000, '\n');
 
     //this is to make we remove any numbers from the input
-    extractStringMain(mrtPrefix);
+    extract_string(mrtPrefix);
 
     auto toUpperCase = [](string &str) {
         for (auto& c : str) c = toupper(c);
@@ -477,7 +462,7 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
         return false;
     }
 
-    if (extractStringMain(fromNodeId) == extractStringMain(toNodeId))
+    if (extract_string(fromNodeId) == extract_string(toNodeId))
     {
         cout << "You have given stations on the same mrt line!" << endl;
         return false;
