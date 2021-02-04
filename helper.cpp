@@ -12,5 +12,5 @@ string extract_string(string str)
         }
     }
 
-    return str;
+    return lineIdentifier;
 }
