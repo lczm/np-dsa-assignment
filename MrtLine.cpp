@@ -40,7 +40,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     int selectedStationIndex = 0;
     int increaseByOne = 1;
 
-
+    //getting the selected station index
     for (int i = 0; i < stationList.getSize(); i++)
     {
         if (stationList.getAt(i)->id == stationId)
@@ -57,6 +57,9 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId + 1);
         updateLineIdsForStations(newStation->id, increaseByOne);
+
+
+        //NS12(SelectedStationIndex) <--(costPrev)--> NS13[newStation] <--(costFoward)--> NS14
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex + 1,
                                                   costPrev,
                                          costForward, newStation, 1);
@@ -64,6 +67,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     //added behind the selected station
     else
     {   
+        //NS10<--(costPrev)-->NS11[newStation] <--(costForward)--> NS12(SelectedStationIndex)
         newStation->id = mrtLineIdentifier + to_string(extractedId);
         updateLineIdsForStations(newStation->id, increaseByOne);
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex - 1,
@@ -111,6 +115,7 @@ void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex
     //Adding connections between the two stations
     graph->addConnection(selectedStationId, newStation->id, costPrev);
 
+    //If the station is within the range of the DLL 
     if (oldStationIndex >= 0 && oldStationIndex < stationList.getSize())
     {
         string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
