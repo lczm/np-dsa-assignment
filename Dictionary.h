@@ -9,7 +9,7 @@ const int MAX_SIZE = 100;
 // Name: Abicharan Bhaskaran
 // ID: S10177176J
 // Group: 02
-//
+// Class: P07
 template <typename T>
 struct DictionaryNode
 {

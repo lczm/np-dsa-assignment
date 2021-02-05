@@ -4,7 +4,7 @@ using namespace std;
 // Name: Abicharan Bhaskaran
 // ID: S10177176J
 // Group: 02
-// 
+// Class: P07
 template <typename T>
 struct ListNode
 {   

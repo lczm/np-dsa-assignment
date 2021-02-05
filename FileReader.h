@@ -12,7 +12,7 @@ using namespace std;
 // Name: Abicharan Bhaskaran (S10177176J)
 // Name: Chua Ze Ming (S10177361C)
 // Group: 02
-//
+// Class: P07
 class FileReader
 {
    private:

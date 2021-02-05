@@ -7,7 +7,7 @@ using namespace std;
 // Name: Abicharan Bhaskaran
 // ID: S10177176J
 // Group: 02
-// 
+// Class: P07
 struct Node
 {
     string id;
