@@ -4,6 +4,10 @@
 #include <sstream>
 #include "DoublyLinkedList.h"
 
+// Name: Abicharan Bhaskaran
+// ID: S10177176J
+// Group: 02
+// 
 using namespace std;
 class MrtLine
 {

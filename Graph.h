@@ -4,7 +4,10 @@
 #include "structures/vector.h"
 #include "Dictionary.h"
 using namespace std;
-
+// Name: Abicharan Bhaskaran
+// ID: S10177176J
+// Group: 02
+// 
 struct Node
 {
     string id;

@@ -9,6 +9,10 @@
 #include "helper.h"
 
 using namespace std;
+// Name: Abicharan Bhaskaran (S10177176J)
+// Name: Chua Ze Ming (S10177361C)
+// Group: 02
+//
 
 // Global variables in main
 Graph graph;
