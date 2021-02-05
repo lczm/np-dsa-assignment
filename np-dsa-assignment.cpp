@@ -321,6 +321,9 @@ void displayAllStations()
     cout << "---------------------------------------------------------" << endl;
 }
 
+//This func allows the user to add a mrtline to the vector of mrt lines
+//The function also checks if the prefix given exists
+//The prefix is used to name the mrt station ids (E.g. EW1)
 void addMrtLine()
 {
     string mrtPrefix;
@@ -338,6 +341,7 @@ void addMrtLine()
 
     toUpperCase(mrtPrefix);
 
+    //We check if the prefix already exists
     for (int i = 0; i < mrtlines.size(); i++)
     {
         if (mrtlines[i].getMrtPrefix() == mrtPrefix)
@@ -359,6 +363,10 @@ void addMrtLine()
 }
 
 /* SHORTEST PATH TO STATION BEGINS HERE*/
+// The fucntion allows the user to enter a start and end station
+// In order to get the shortest path
+// Entries are rejected if they are the same station or
+// If the station id provided does not exist
 void shortestPath()
 {
     displayAllStations();
@@ -404,6 +412,9 @@ void shortestPath()
     Vector<Connection*> connections;
     graph.shortestPathBetweenStations(fromNodeId, toNodeId, connections);
 
+    //The graph shortest path func returns the shortest path
+    //However it is from the end node to the start node
+    //Thus, we need to print from the end to the start of the list
     if (connections.size() > 0)
     {
         cout << "\n" << endl;
@@ -423,6 +434,12 @@ void shortestPath()
 /* SHORTEST PATH TO STATION ENDS HERE*/
 
 /* Helper func for add/remove mrt interchange*/
+// This function acts as a validator for the add and remove connections between mrt lines
+// It checks 
+// 1. If the stations given are the same
+// 2. If the station ids provided exist
+// 3. Stations given are on the same mrt line
+
 bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
 {
     cout << "[Station IDs must be from different mrt lines]" << endl;
@@ -472,6 +489,8 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
 }
 
 /* REMOVE STATION INTERCHANGE STARTS HERE*/
+// This function allows the user to remove a connection
+// Between two mrt lines/extensions
 void removeStationInterchangeOrConnectionBetweenMrtLines()
 {
     displayAllStations();
@@ -499,6 +518,8 @@ void removeStationInterchangeOrConnectionBetweenMrtLines()
 /* REMOVE STATION INTERCHANGE ENDS HERE*/
 
 /* ADD STATION INTERCHANGE BEGINS HERE*/
+// This function allows the user to add a connection
+// Between two mrt lines/extensions
 void addStationInterchangeOrConnectionBetweenMrtLines()
 {
     displayAllStations();
@@ -528,6 +549,8 @@ void addStationInterchangeOrConnectionBetweenMrtLines()
 
 
 /* REMOVE STATION METHODS BEGIN HERE*/
+//This function allows the user to remove a mrt station
+//From a line
 void removeStationDetails(int station, MrtLine* mrt)
 {
     Node* selected = mrt->getMrtStation(station);
@@ -557,6 +580,8 @@ void removeStationDetails(int station, MrtLine* mrt)
 }
 
 
+// This function allows the user to remove a mrt station
+// From a line
 void removeStationToMrtLine()
 {
     // based on that line print the train stations
@@ -591,6 +616,9 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
     auto costBetweenText = [](string fromName, string toName) {
         cout << "Cost between " << fromName << " to " << toName << "?";
     };
+
+    // beforeAfter states if the new station will be added before or
+    // after the selected station
     if (beforeAfter == 1)
     {
         costBetweenText(selected->name, name);
@@ -620,6 +648,8 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
     }
 }
 
+// This function allow the user to specify 
+// If they would like the new station before or after the selected station
 void addStationDetails(int station, MrtLine* mrt)
 {
     int beforeCost, afterCost, beforeAfter = 0;
@@ -630,7 +660,7 @@ void addStationDetails(int station, MrtLine* mrt)
     cout << "[0 == before/1 == after]" << endl;
     enterInputForInt(beforeAfter);
 
-    // check range
+    // Check range
     while (beforeAfter > 1 || beforeAfter < 0)
     {
         cout << "Enter the correct option (0 or 1)" << endl;
@@ -640,8 +670,13 @@ void addStationDetails(int station, MrtLine* mrt)
     cout << "What is the name of your station?" << endl;
     std::getline(std::cin, name);
 
+    // Enter the details for cost between stations
     enterCostForAddStationDetails(beforeCost, afterCost, beforeAfter, selected, mrt, station, name);
+
+    // Add new station and update costs
     mrt->addNewStation(selected->id, name, beforeAfter, beforeCost, afterCost);
+
+    // Print all of the stations
     mrt->printStationsAll();
 }
 
@@ -656,6 +691,8 @@ void addStationToMrtLineTest()
     {
         MrtLine* mrt = &mrtlines[lineSelected];
 
+        //If there is no mrt stations
+        //We cannot request for the index
         if (mrt->getSize() == 0)
         {
             string name;
@@ -668,6 +705,8 @@ void addStationToMrtLineTest()
             dic.add(newStation->id, newStation);
             mrt->addStationFront(newStation);
         }
+
+        //If there are mrt stations we can request for the index
         else
         {
             mrt->printStationsAll();
@@ -688,6 +727,7 @@ void addStationToMrtLineTest()
 }
 /* ADD STATION METHODS END HERE*/
 
+//Function displays all of the mrt lines one can select
 template <typename TCallback>
 void displayMrtLinesToSelect(TCallback Evt)
 {
