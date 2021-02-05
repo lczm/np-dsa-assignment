@@ -62,8 +62,13 @@ public:
        return (int)c;
     }
 
+    //Gets all items that are in the dictionary
     void getAllItems(Vector<T>& dicItems);
+
+    //Gets all the keys in a dictionary
     void getAllKeys(Vector<string>& keys);
+
+    //Checks if the dictionary has the key
     bool hasKey(string selectedKey);
 };
 

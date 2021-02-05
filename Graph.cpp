@@ -165,11 +165,15 @@ void Graph::getAllGraphConnections(Vector<Connection*>& graphConnections)
 //    }
 //}
 
+//Compares two node records and returns the min of the two
 NodeRecord* minCost( NodeRecord* a, NodeRecord* b){
 
     return (a->costSoFar < b->costSoFar) ? a :  b;
 };
 
+
+//Recursive algorithm that get the lowest cost in an unordered list
+//and returns the NodeRecord that has the lowest cost
 NodeRecord* getMin(Vector<NodeRecord*>& v, int start, int end)
 {
     if (start == end)
