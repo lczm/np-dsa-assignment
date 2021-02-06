@@ -1,4 +1,6 @@
 #include <iostream>
+#include <conio.h>
+
 #include "structures/vector.h"
 #include "structures/trie.h"
 #include "Graph.h"
@@ -20,6 +22,7 @@ using namespace std;
 Graph graph;
 Dictionary<Node*> dic;
 Vector<MrtLine> mrtlines;
+Trie trie;
 
 void errorDetect(int& option)
 {
@@ -40,6 +43,60 @@ int enterInputForInt()
     cin.clear();
     cin.ignore(10000, '\n');
     return option;
+}
+
+int enterInputForString(Trie trie, Vector<string> names)
+{
+    int option;
+    bool cont;
+    string inputString;
+
+    // Input loop to get the string of the input.
+    while (true)
+    {
+        // Get a character without waiting for the user to press enter.
+        // This is from conio.h, originally defined for C. For
+        // C++ compatibility, the naming scheme has changed to _getch().
+        // '\r' -> Carriage Return / Enter
+        // Concatenate to string.
+        char c = _getch();
+        if (c == '\r')  // Enter key
+        {
+            cout << endl;
+            break;
+        }
+        else if (c == '\b')  // Backspace key
+        {
+            // Remove the last character
+            inputString.pop_back();
+        }
+        else if (c == '\t')  // Tab key
+        {
+            cout << "Suggestions for : " << inputString << endl;
+            Vector<string> suggestions = trie.complete(inputString);
+            for (uint32_t i = 0; i < suggestions.size(); i++)
+            {
+                cout << suggestions[i] << endl;
+            }
+        }
+        else
+        {
+            inputString += c;
+        }
+
+        // VT100 escape code. Supported on Windows 10
+        // Clears the current line before CR
+        // Without this, the user would not bee the 'deleted key'
+        printf("%c[2K", 27);
+
+        // Carriage return so that the user does not see the history of his inputs
+        cout << "\r" << flush;
+        // Show what the current string is.
+        cout << inputString;
+    }
+    cout << endl;
+
+    return 0;
 }
 
 // for display station
@@ -433,7 +490,8 @@ void addStationToMrtLineTest()
         {
             mrt->printStationsAll();
             cout << "Select a station index you would like to add your station to" << endl;
-            int station = enterInputForInt();
+            // int station = enterInputForInt();
+            int station = enterInputForString(trie, mrt->getMrtStationNames());
 
             if (station >= 0 && station < mrt->getSize())
             {
@@ -485,8 +543,6 @@ void displayMenu()
 
 int main()
 {
-    Trie trie;
-
     graph.setNodeList(&dic);
 
     // Fill up all the data structures.

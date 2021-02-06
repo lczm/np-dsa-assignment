@@ -209,6 +209,16 @@ Node* MrtLine::getMrtStation(int index)
     return stationList.getAt(index);
 }
 
+Vector<string> MrtLine::getMrtStationNames()
+{
+    Vector<string> names;
+    for (uint32_t i = 0; i < stationList.getSize(); i++)
+    {
+        names.pushBack(stationList.getAt(i)->name);
+    }
+    return names;
+}
+
 MrtLine::~MrtLine()
 {
 }
