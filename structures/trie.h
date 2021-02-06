@@ -34,9 +34,9 @@ using namespace std;
     For the 36 characters, how will each of them be laid out.
 
     It will be laid out as such
-    < --------------------------------------------------------------- > Len : 37
-    < -- > (1) < ----------- > (10) < -------------------------------> (26)
-    < () > (1) < ----0-9---- > (10) < ---------------A-Z------------ > (26)
+    < --------------------------------------------------------------- > Len : 65
+    < -- > (3) < ----------- > (10) < -------------------------------> (26 * 2)
+    < () > (3) < ----0-9---- > (10) < ---------------A-z------------ > (26 * 2)
 
     It is important that the layout stays the same and consistent.
     So that the TrieNode is able to access it's children by
@@ -61,7 +61,7 @@ using namespace std;
     more user friendly and intuitive.
  */
 
-const int TRIE_SIZE = 39;
+const int TRIE_SIZE = 65;
 
 struct TrieNode
 {

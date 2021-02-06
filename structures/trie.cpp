@@ -47,10 +47,10 @@ uint32_t Trie::getIndex(char key)
     }
     else if (key >= 97 && key <= 122)  // a-z
     {
-        // Shift it down to the A-Z character set
-        // then calculate index, minus 65, add the
-        // offset of 10 (numbers)
-        return key - (97 - 65) - 65 + 10 + 3;
+        // Offset the 26 the is caused by A-Z
+        // Offset the 10 numbers
+        // Offset the 3 special digits
+        return key - 97 + 26 + 10 + 3;
     }
     else
     {
@@ -78,9 +78,13 @@ char Trie::getChar(uint32_t index)
         // return index - 1;
         return index + 48 - 3;
     }
-    else if (index >= 13 && index <= 39)  // a-Z
+    else if (index >= 13 && index <= 38)  // A-Z
     {
         return index + 65 - 10 - 3;
+    }
+    else if (index >= 39 && index <= 65)  // a-z
+    {
+        return index + 97 - 26 - 10 - 3;
     }
 }
 
