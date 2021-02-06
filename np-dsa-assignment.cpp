@@ -768,7 +768,8 @@ void displayMenu()
     cout << "Option 5: Add a new mrt line/extension" << endl;
     cout << "Option 6: Find the shortest path between stations" << endl;
     cout << "Option 7: Print all Mrt Lines and stations" << endl;
-    cout << "\n";
+    cout << "Option 8: Quit" << endl;
+    cout << endl;
 }
 
 int main()
@@ -785,7 +786,7 @@ int main()
     // testGraphConnections();
     // testDoublyLinkedList();
     // testDictionary();
-    testTrie(trie);
+    // testTrie(trie);
 
     bool exit = false;
     while (exit != true)
@@ -800,27 +801,38 @@ int main()
             cin.ignore(10000, '\n');
             switch (option)
             {
+                // Add a train station
                 case 1:
                     displayMrtLinesToSelect(addStationToMrtLineTest);
                     break;
+                // Remove a train station
                 case 2:
                     displayMrtLinesToSelect(removeStationToMrtLine);
                     break;
+                // Add an interchange/connection between mrt lines
                 case 3:
                     addStationInterchangeOrConnectionBetweenMrtLines();
                     break;
+                // Remove an interchange/connection between mrt lines
                 case 4:
                     removeStationInterchangeOrConnectionBetweenMrtLines();
                     break;
+                // Add a new mrt line/extension
                 case 5:
                     addMrtLine();
                     break;
+                // Find the shortest path between stations
                 case 6:
                     shortestPath();
                     break;
+                // Print all Mrt Lines and stations
                 case 7:
                     displayAllStations();
                     break;
+                case 8:
+                    option = -1;
+                    break;
+                // None of the above, go back.
                 default:
                     cout << "Please select the correct option" << endl;
                     break;
