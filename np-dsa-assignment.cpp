@@ -48,7 +48,6 @@ int enterInputForInt()
 int enterInputForString(Trie trie, Vector<string> names)
 {
     int option;
-    bool cont;
     string inputString;
 
     // Input loop to get the string of the input.
@@ -63,6 +62,13 @@ int enterInputForString(Trie trie, Vector<string> names)
         if (c == '\r')  // Enter key
         {
             cout << endl;
+
+            // If the string input are integers, convert the string to an int and return
+            if (std::all_of(inputString.begin(), inputString.end(), ::isdigit))
+            {
+                return stoi(inputString);
+            }
+
             break;
         }
         else if (c == '\b')  // Backspace key
