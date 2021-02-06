@@ -31,9 +31,7 @@ void FileReader::readStations(Trie& trie)
         string mrtInfoLine;
         std::getline(myfile, mrtInfoLine, '\n');
 
-        cout << mrtInfoLine << endl;
         trie.insert(mrtInfoLine);
-
         addToVector(mrtInfo, mrtInfoLine);
 
         // will be changed to add to the graph's hashTable for nodes
@@ -158,7 +156,7 @@ void FileReader::readFares()
 void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines)
 {
     ifstream myfile;
-    myfile.open("data/mrtLineNames.csv");
+    myfile.open(mrtLineName);
 
     int num = 0;
 

@@ -23,6 +23,7 @@ class FileReader
     const string interchangesName = "data/Interchanges.csv";
     const string stationsName = "data/StationsInfo.csv";
     const string faresName = "data/fares.csv";
+    const string mrtLineName = "data/mrtLineNames.csv";
 
     Graph* graph;
     Dictionary<Node*>* dictionary;

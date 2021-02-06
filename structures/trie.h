@@ -25,17 +25,17 @@ using namespace std;
     There are 26 of those. And 0-9. There are 10 of these.
 
     The trie will also need to deal with spaces, as the user may type
-    spaces. That will take up another spac.e
+    spaces. That will take up another space / commas / dashes
 
     Therefore, the trie node children will need to have a size of
-    26 + 10 + 1= 37.
+    26 + 10 + 1 = 37.
 
   The trie children layout will also need to be determined.
     For the 36 characters, how will each of them be laid out.
 
     It will be laid out as such
     < --------------------------------------------------------------- > Len : 37
-    < -- > (1) < ----------- > (10) < -------------------------------> (26) 
+    < -- > (1) < ----------- > (10) < -------------------------------> (26)
     < () > (1) < ----0-9---- > (10) < ---------------A-Z------------ > (26)
 
     It is important that the layout stays the same and consistent.

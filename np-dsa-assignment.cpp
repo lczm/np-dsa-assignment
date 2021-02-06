@@ -168,6 +168,14 @@ void testTrie(Trie& trie)
         cout << completions3[i] << endl;
     }
 
+    cout << "---" << endl;
+
+    Vector<string> completions4 = trie.complete("East");
+    for (uint32_t i = 0; i < completions4.size(); i++)
+    {
+        cout << completions4[i] << endl;
+    }
+
     cout << "---testTrie---" << endl;
 }
 
