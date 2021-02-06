@@ -2,13 +2,16 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <sstream> 
+#include <sstream>
 #include "structures/vector.h"
+#include "structures/trie.h"
 #include "Graph.h"
 #include "Dictionary.h"
 #include "DoublyLinkedList.h"
 #include "MrtLine.h"
+
 using namespace std;
+
 // Name: Abicharan Bhaskaran (S10177176J)
 // Name: Chua Ze Ming (S10177361C)
 // Group: 02
@@ -16,33 +19,34 @@ using namespace std;
 class FileReader
 {
    private:
-    string routesName = "data/Routes.csv";
-    string interchangesName = "data/Interchanges.csv";
-    string stationsName = "data/StationsInfo.csv";
-    string faresName = "Fares";
+    const string routesName = "data/Routes.csv";
+    const string interchangesName = "data/Interchanges.csv";
+    const string stationsName = "data/StationsInfo.csv";
+    const string faresName = "data/fares.csv";
+
     Graph* graph;
     Dictionary<Node*>* dictionary;
 
    public:
     FileReader();
-    FileReader(Graph* graph, Dictionary<Node*>* dictionary , Vector<MrtLine>& mrtLines);
+    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines, Trie& trie);
 
-    //Read all stations (Id and name)
-    void readStations();
+    // Read all stations (Id and name)
+    void readStations(Trie& trie);
 
-    //Read all routes between stations
-    void readRoutes(Vector<MrtLine> & mrtLines);
+    // Read all routes between stations
+    void readRoutes(Vector<MrtLine>& mrtLines);
 
-    //Read all interchanges in the network
+    // Read all interchanges in the network
     void readInterchanges();
 
     void readFares();
 
-    //Read the names of the mrt lines
+    // Read the names of the mrt lines
     void readMrtLineNames(Vector<MrtLine>& mrtLines);
 
-    //Converts a string with commas into a vector of strings
-    //Example: EW1, [random name]
-    //Result: ["EW1", "Random name"]
+    // Converts a string with commas into a vector of strings
+    // Example: EW1, [random name]
+    // Result: ["EW1", "Random name"]
     void addToVector(Vector<string>& vectorList, string excelLine);
 };

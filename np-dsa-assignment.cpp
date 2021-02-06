@@ -12,7 +12,6 @@ using namespace std;
 // Name: Abicharan Bhaskaran (S10177176J)
 // Name: Chua Ze Ming (S10177361C)
 // Group: 02
-//
 
 // Global variables in main
 Graph graph;
@@ -124,10 +123,9 @@ void testVector()
     }
 }
 
-void testTrie()
+void testTrie(Trie& trie)
 {
     cout << "---testTrie---" << endl;
-    Trie trie;
 
     trie.insert("0");
     trie.insert("a");
@@ -164,10 +162,10 @@ void testTrie()
         cout << completions2[i] << endl;
     }
 
-    Vector<string> ew = trie.complete("E");
-    for (uint32_t i = 0; i < ew.size(); i++)
+    Vector<string> completions3 = trie.complete("EW");
+    for (uint32_t i = 0; i < completions3.size(); i++)
     {
-        cout << ew[i] << endl;
+        cout << completions3[i] << endl;
     }
 
     cout << "---testTrie---" << endl;
@@ -302,7 +300,6 @@ void testTrie()
 //    cout << nodetest2.id << endl;
 //}
 
-
 void errorDetect(int& option)
 {
     while (cin.fail())
@@ -332,9 +329,9 @@ void displayAllStations()
     cout << "---------------------------------------------------------" << endl;
 }
 
-//This func allows the user to add a mrtline to the vector of mrt lines
-//The function also checks if the prefix given exists
-//The prefix is used to name the mrt station ids (E.g. EW1)
+// This func allows the user to add a mrtline to the vector of mrt lines
+// The function also checks if the prefix given exists
+// The prefix is used to name the mrt station ids (E.g. EW1)
 void addMrtLine()
 {
     string mrtPrefix;
@@ -343,16 +340,16 @@ void addMrtLine()
     cin.clear();
     cin.ignore(10000, '\n');
 
-    //this is to make we remove any numbers from the input
+    // this is to make we remove any numbers from the input
     extract_string(mrtPrefix);
 
-    auto toUpperCase = [](string &str) {
+    auto toUpperCase = [](string& str) {
         for (auto& c : str) c = toupper(c);
     };
 
     toUpperCase(mrtPrefix);
 
-    //We check if the prefix already exists
+    // We check if the prefix already exists
     for (int i = 0; i < mrtlines.size(); i++)
     {
         if (mrtlines[i].getMrtPrefix() == mrtPrefix)
@@ -365,7 +362,6 @@ void addMrtLine()
     string mrtName;
     cout << "Please enter the name of your new mrt line/extension" << endl;
     std::getline(std::cin, mrtName);
-
 
     MrtLine mrtline(&graph);
     mrtline.setMrtPrefix(mrtPrefix);
@@ -423,9 +419,9 @@ void shortestPath()
     Vector<Connection*> connections;
     graph.shortestPathBetweenStations(fromNodeId, toNodeId, connections);
 
-    //The graph shortest path func returns the shortest path
-    //However it is from the end node to the start node
-    //Thus, we need to print from the end to the start of the list
+    // The graph shortest path func returns the shortest path
+    // However it is from the end node to the start node
+    // Thus, we need to print from the end to the start of the list
     if (connections.size() > 0)
     {
         cout << "\n" << endl;
@@ -446,7 +442,7 @@ void shortestPath()
 
 /* Helper func for add/remove mrt interchange*/
 // This function acts as a validator for the add and remove connections between mrt lines
-// It checks 
+// It checks
 // 1. If the stations given are the same
 // 2. If the station ids provided exist
 // 3. Stations given are on the same mrt line
@@ -558,10 +554,9 @@ void addStationInterchangeOrConnectionBetweenMrtLines()
 }
 /* ADD STATION INTERCHANGE ENDS HERE*/
 
-
 /* REMOVE STATION METHODS BEGIN HERE*/
-//This function allows the user to remove a mrt station
-//From a line
+// This function allows the user to remove a mrt station
+// From a line
 void removeStationDetails(int station, MrtLine* mrt)
 {
     Node* selected = mrt->getMrtStation(station);
@@ -589,7 +584,6 @@ void removeStationDetails(int station, MrtLine* mrt)
     mrt->removeStation(selected->id, costBetweenStations);
     mrt->printStationsAll();
 }
-
 
 // This function allows the user to remove a mrt station
 // From a line
@@ -659,7 +653,7 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
     }
 }
 
-// This function allow the user to specify 
+// This function allow the user to specify
 // If they would like the new station before or after the selected station
 void addStationDetails(int station, MrtLine* mrt)
 {
@@ -691,8 +685,6 @@ void addStationDetails(int station, MrtLine* mrt)
     mrt->printStationsAll();
 }
 
-
-
 void addStationToMrtLineTest()
 {
     // based on that line print the train stations
@@ -702,8 +694,8 @@ void addStationToMrtLineTest()
     {
         MrtLine* mrt = &mrtlines[lineSelected];
 
-        //If there is no mrt stations
-        //We cannot request for the index
+        // If there is no mrt stations
+        // We cannot request for the index
         if (mrt->getSize() == 0)
         {
             string name;
@@ -716,8 +708,7 @@ void addStationToMrtLineTest()
             dic.add(newStation->id, newStation);
             mrt->addStationFront(newStation);
         }
-
-        //If there are mrt stations we can request for the index
+        // If there are mrt stations we can request for the index
         else
         {
             mrt->printStationsAll();
@@ -738,7 +729,7 @@ void addStationToMrtLineTest()
 }
 /* ADD STATION METHODS END HERE*/
 
-//Function displays all of the mrt lines one can select
+// Function displays all of the mrt lines one can select
 template <typename TCallback>
 void displayMrtLinesToSelect(TCallback Evt)
 {
@@ -772,21 +763,21 @@ void displayMenu()
     cout << "\n";
 }
 
-
-
-
-
 int main()
 {
+    Trie trie;
+
     graph.setNodeList(&dic);
-    FileReader filereader(&graph, &dic, mrtlines);
-    cout << "np-dsa-assignment" << endl;
+
+    // Fill up all the data structures.
+    FileReader filereader(&graph, &dic, mrtlines, trie);
+
     // testing purposes as there is no unit tests
     // testVector();
     // testGraphConnections();
     // testDoublyLinkedList();
     // testDictionary();
-    // testTrie();
+    // testTrie(trie);
 
     bool exit = false;
     while (exit != true)
@@ -842,4 +833,3 @@ int main()
     }
     return 0;
 }
-

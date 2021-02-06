@@ -12,7 +12,8 @@ Trie::~Trie()
 
 uint32_t Trie::getIndex(char key)
 {
-    if (key == 32 || key == 44)
+    // Spaces, Commas, Dashes
+    if (key == 32 || key == 44 || key == 45)
     {
         return 0;
     }

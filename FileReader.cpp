@@ -2,22 +2,24 @@
 #include "Graph.h"
 #include "helper.h"
 
-
 FileReader::FileReader()
 {
 }
 
-FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines)
+FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines,
+                       Trie& trie)
 {
     this->graph = graph;
     this->dictionary = dictionary;
-    this->readStations();
+
+    this->readStations(trie);
     this->readRoutes(mrtLines);
     this->readMrtLineNames(mrtLines);
     this->readInterchanges();
+    this->readFares();
 }
 
-void FileReader::readStations()
+void FileReader::readStations(Trie& trie)
 {
     ifstream myfile;
     myfile.open(this->stationsName);
@@ -25,19 +27,23 @@ void FileReader::readStations()
     while (myfile.good())
     {
         Vector<string> mrtInfo;
-       
+
         string mrtInfoLine;
         std::getline(myfile, mrtInfoLine, '\n');
+
+        cout << mrtInfoLine << endl;
+        trie.insert(mrtInfoLine);
+
         addToVector(mrtInfo, mrtInfoLine);
 
-        //will be changed to add to the graph's hashTable for nodes
+        // will be changed to add to the graph's hashTable for nodes
 
         Node* node = new Node();
         node->id = mrtInfo[0];
         node->name = mrtInfo[1];
 
         dictionary->add(node->id, node);
-        //cout <<"Mrt id: " << mrtInfo[0] << " Mrt Name:" << mrtInfo[1] << endl;
+        // cout <<"Mrt id: " << mrtInfo[0] << " Mrt Name:" << mrtInfo[1] << endl;
     }
 
     myfile.close();
@@ -76,38 +82,37 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
             graph->addConnection(mrts[i], mrts[i + 1], x);
         }
 
-         MrtLine mrtLineNew(graph);
-      /*   mrtLineNew.setMrtLineName("Line" + to_string(lineNo));
-         lineNo++;*/
+        MrtLine mrtLineNew(graph);
+        /*   mrtLineNew.setMrtLineName("Line" + to_string(lineNo));
+           lineNo++;*/
 
-         for (int i = 0; i < vectorSizeMrt+1; i++)
-         {       
-           Node* p = dictionary->get(mrts[i]);
+        for (int i = 0; i < vectorSizeMrt + 1; i++)
+        {
+            Node* p = dictionary->get(mrts[i]);
 
-           if (!(mrtCount.hasKey(p->id)))
-           {
-             mrtCount.add(p->id, 1);
-           }
-           else
-           {
-               int count = mrtCount.get(p->id);
-               count++;
-               mrtCount.remove(p->id);
-               mrtCount.add(p->id, count);
-           }
-           if (!(mrtCount.get(p->id) > 1))
-           {
-             mrtLineNew.addStationBack(p);
-           }
-         }
+            if (!(mrtCount.hasKey(p->id)))
+            {
+                mrtCount.add(p->id, 1);
+            }
+            else
+            {
+                int count = mrtCount.get(p->id);
+                count++;
+                mrtCount.remove(p->id);
+                mrtCount.add(p->id, count);
+            }
+            if (!(mrtCount.get(p->id) > 1))
+            {
+                mrtLineNew.addStationBack(p);
+            }
+        }
 
-         string prefix = extract_string(mrtLineNew.getMrtStation(0)->id);
-         mrtLineNew.setMrtPrefix(prefix);
-         mrtLines.pushBack(mrtLineNew);
+        string prefix = extract_string(mrtLineNew.getMrtStation(0)->id);
+        mrtLineNew.setMrtPrefix(prefix);
+        mrtLines.pushBack(mrtLineNew);
     }
 
     myfile.close();
-
 }
 
 void FileReader::readInterchanges()
@@ -115,7 +120,7 @@ void FileReader::readInterchanges()
     ifstream myfile;
     myfile.open(this->interchangesName);
     while (myfile.good())
-    {   
+    {
         int weight = 0;
         Vector<string> mrts;
         string mrtLine;
@@ -128,7 +133,7 @@ void FileReader::readInterchanges()
 
         for (int i = 0; i < vectorSizeMrt; i++)
         {
-            for (int j = i+1; j < vectorSizeMrt+1; j++)
+            for (int j = i + 1; j < vectorSizeMrt + 1; j++)
             {
                 graph->addConnection(mrts[i], mrts[j], weight);
             }
@@ -139,6 +144,15 @@ void FileReader::readInterchanges()
 
 void FileReader::readFares()
 {
+    ifstream fares;
+    fares.open(faresName);
+
+    while (fares.good())
+    {
+        string line;
+        std::getline(fares, line, '\n');
+        // cout << "@@@ : " << line << endl;
+    }
 }
 
 void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines)
@@ -150,13 +164,12 @@ void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines)
 
     while (myfile.good())
     {
-
         string mrtLineName;
         std::getline(myfile, mrtLineName, '\n');
         // will be changed to add to the graph's hashTable for nodes
         mrtLines[num].setMrtLineName(mrtLineName);
-      
-        if (num < mrtLines.size()-1)
+
+        if (num < mrtLines.size() - 1)
         {
             num++;
         }
