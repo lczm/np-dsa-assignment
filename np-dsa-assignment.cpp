@@ -70,6 +70,12 @@ int enterInputForString(uint32_t lineSelected, Vector<string> names)
         {
             cout << endl;
 
+            // There is nothing to enter, just continue
+            if (inputString.size() == 0)
+            {
+                continue;
+            }
+
             // If the string input are integers, convert the string to an int and return
             if (std::all_of(inputString.begin(), inputString.end(), ::isdigit))
             {
@@ -400,6 +406,8 @@ void removeStationDetails(int station, MrtLine* mrt)
 
     mrt->removeStation(selected->id, costBetweenStations);
     mrt->printStationsAll();
+
+    trieMapping.get(mrt->getMrtPrefix())->remove(selected->name);
 }
 
 // This function allows the user to remove a mrt station
@@ -525,7 +533,6 @@ void addStationToMrtLineTest()
             newStation->name = name;
             dic.add(newStation->id, newStation);
             mrt->addStationFront(newStation);
-
         }
         // If there are mrt stations we can request for the index
         else
