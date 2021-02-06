@@ -6,20 +6,19 @@ FileReader::FileReader()
 {
 }
 
-FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines,
-                       Trie& trie)
+FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines)
 {
     this->graph = graph;
     this->dictionary = dictionary;
 
-    this->readStations(trie);
+    this->readStations();
     this->readRoutes(mrtLines);
-    this->readMrtLineNames(mrtLines, trie);
+    this->readMrtLineNames(mrtLines);
     this->readInterchanges();
     this->readFares();
 }
 
-void FileReader::readStations(Trie& trie)
+void FileReader::readStations()
 {
     ifstream myfile;
     myfile.open(this->stationsName);
@@ -31,7 +30,6 @@ void FileReader::readStations(Trie& trie)
         string mrtInfoLine;
         std::getline(myfile, mrtInfoLine, '\n');
 
-        trie.insert(mrtInfoLine);
         addToVector(mrtInfo, mrtInfoLine);
 
         // will be changed to add to the graph's hashTable for nodes
@@ -153,7 +151,7 @@ void FileReader::readFares()
     }
 }
 
-void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines, Trie& trie)
+void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines)
 {
     ifstream myfile;
     myfile.open(mrtLineName);
@@ -165,8 +163,6 @@ void FileReader::readMrtLineNames(Vector<MrtLine>& mrtLines, Trie& trie)
         string mrtLineName;
         std::getline(myfile, mrtLineName, '\n');
 
-        cout << mrtLineName << endl;
-        trie.insert(mrtLineName);
         // will be changed to add to the graph's hashTable for nodes
         mrtLines[num].setMrtLineName(mrtLineName);
 

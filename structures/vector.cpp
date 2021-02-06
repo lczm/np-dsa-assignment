@@ -112,8 +112,41 @@ void Vector<T>::remove(uint32_t index)
 }
 
 template <typename T>
+void Vector<T>::pop()
+{
+    if (_size < 1)
+    {
+        string errorMessage = "Attempting to pop an empty vector.";
+        throw out_of_range(errorMessage.c_str());
+    }
+    remove(_size - 1);
+}
+
+template <typename T>
 void Vector<T>::reserve(uint32_t size)
 {
+}
+
+template <typename T>
+T& Vector<T>::front()
+{
+    if (_size < 1)
+    {
+        string errorMessage = "Attempting to get the front of an empty vector.";
+        throw out_of_range(errorMessage.c_str());
+    }
+    return _elements[0];
+}
+
+template <typename T>
+T& Vector<T>::back()
+{
+    if (_size < 1)
+    {
+        string errorMessage = "Attempting to get the back of an empty vector.";
+        throw out_of_range(errorMessage.c_str());
+    }
+    return _elements[_size - 1];
 }
 
 template <typename T>
@@ -124,7 +157,7 @@ void Vector<T>::insert(uint32_t index)
 template <typename T>
 bool Vector<T>::isEmpty()
 {
-    if (_elements == nullptr)
+    if (_elements == nullptr || _size == 0)
     {
         return true;
     }

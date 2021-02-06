@@ -90,15 +90,18 @@ class Trie
     char getChar(uint32_t index);
     bool isLastNode(TrieNode* node);
     void suggestions(TrieNode* node, string prefix, Vector<string>& completions);
+    uint32_t numberOfChildren(TrieNode* node);
 
     // Public methods
    public:
     Trie();
     Trie(Vector<string> in);
     ~Trie();
-    ;
 
     void insert(string key);
+    void insert(Vector<string> keys);
     bool search(string key);
+    void remove(string key);
+
     Vector<string> complete(string key);
 };

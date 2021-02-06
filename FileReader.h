@@ -30,10 +30,10 @@ class FileReader
 
    public:
     FileReader();
-    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines, Trie& trie);
+    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines);
 
     // Read all stations (Id and name)
-    void readStations(Trie& trie);
+    void readStations();
 
     // Read all routes between stations
     void readRoutes(Vector<MrtLine>& mrtLines);
@@ -44,7 +44,7 @@ class FileReader
     void readFares();
 
     // Read the names of the mrt lines
-    void readMrtLineNames(Vector<MrtLine>& mrtLines, Trie& trie);
+    void readMrtLineNames(Vector<MrtLine>& mrtLines);
 
     // Converts a string with commas into a vector of strings
     // Example: EW1, [random name]

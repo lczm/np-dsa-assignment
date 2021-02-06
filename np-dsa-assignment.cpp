@@ -22,7 +22,8 @@ using namespace std;
 Graph graph;
 Dictionary<Node*> dic;
 Vector<MrtLine> mrtlines;
-Trie trie;
+Trie stationTrie;
+Dictionary<Trie*> trieMapping;
 
 void errorDetect(int& option)
 {
@@ -45,12 +46,16 @@ int enterInputForInt()
     return option;
 }
 
-int enterInputForString(Vector<string> names)
+int enterInputForString(uint32_t lineSelected, Vector<string> names)
 {
-    int option;
     string inputString;
 
-    Trie completions(names);
+    // Get the prefix and only show the trie for the given prefix.
+    // This is so that the trie doesnt suggest something that is
+    // out of the scope of the acceptable values.
+    MrtLine mrtLine = mrtlines[lineSelected];
+    string prefix = mrtLine.getMrtPrefix();
+    Trie* trie = trieMapping.get(prefix);
 
     // Input loop to get the string of the input.
     while (true)
@@ -94,7 +99,7 @@ int enterInputForString(Vector<string> names)
         }
         else if (c == '\t')  // Tab key
         {
-            Vector<string> suggestions = completions.complete(inputString);
+            Vector<string> suggestions = trie->complete(inputString);
 
             // If there is only one suggestion left. Just make this the inputString
             // Note that there is no need to do anything is there are 0 completions.
@@ -409,7 +414,7 @@ void removeStationToMrtLine()
         mrt->printStationsAll();
         cout << "Select a station index or station nameyou want to remove" << endl;
         // int station = enterInputForInt();
-        int station = enterInputForString(mrt->getMrtStationNames());
+        int station = enterInputForString(lineSelected, mrt->getMrtStationNames());
 
         if (station >= 0 && station < mrt->getSize())
         {
@@ -522,9 +527,10 @@ void addStationToMrtLineTest()
         else
         {
             mrt->printStationsAll();
-            cout << "Select a station index or station name you would like to add your station to" << endl;
+            cout << "Select a station index or station name you would like to add your station to"
+                 << endl;
             // int station = enterInputForInt();
-            int station = enterInputForString(mrt->getMrtStationNames());
+            int station = enterInputForString(lineSelected, mrt->getMrtStationNames());
 
             if (station >= 0 && station < mrt->getSize())
             {
@@ -579,14 +585,27 @@ int main()
     graph.setNodeList(&dic);
 
     // Fill up all the data structures.
-    FileReader filereader(&graph, &dic, mrtlines, trie);
+    FileReader filereader(&graph, &dic, mrtlines);
+
+    // Fill up trie with station names
+    for (uint32_t i = 0; i < mrtlines.size(); i++)
+    {
+        string prefix = mrtlines[i].getMrtPrefix();
+
+        if (!trieMapping.hasKey(prefix))
+        {
+            Trie* trie = new Trie();
+            trie->insert(mrtlines[i].getMrtStationNames());
+            trieMapping.add(prefix, trie);
+        }
+    }
 
     // testing purposes as there is no unit tests
     // testVector();
     // testGraphConnections();
     // testDoublyLinkedList();
     // testDictionary();
-    // testTrie(trie);
+    // testTrie();
 
     bool exit = false;
     while (exit != true)

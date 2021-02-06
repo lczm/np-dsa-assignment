@@ -108,9 +108,11 @@ static void testVector()
     }
 }
 
-static void testTrie(Trie& trie)
+static void testTrie()
 {
     cout << "---testTrie---" << endl;
+
+    Trie trie;
 
     trie.insert("0");
     trie.insert("a");
@@ -155,11 +157,25 @@ static void testTrie(Trie& trie)
 
     cout << "---" << endl;
 
-    Vector<string> completions4 = trie.complete("East");
-    for (uint32_t i = 0; i < completions4.size(); i++)
-    {
-        cout << completions4[i] << endl;
-    }
+    trie.insert("Hello From Back");
+    cout << trie.search("Hello From Back") << endl;
+
+    trie.remove("Hello From Back");
+    cout << trie.search("Hello From Back") << endl;
+
+    trie.insert("Hello From Back There");
+    cout << trie.search("Hello From Back There") << endl;
+
+    trie.insert("Hello From Back");
+    trie.remove("Hello From Back There");
+    cout << trie.search("Hello From Back") << endl;
+    cout << trie.search("Hello From Back There") << endl;
+
+    // Vector<string> completions4 = trie.complete("East");
+    // for (uint32_t i = 0; i < completions4.size(); i++)
+    // {
+    //     cout << completions4[i] << endl;
+    // }
 
     cout << "---testTrie---" << endl;
 }

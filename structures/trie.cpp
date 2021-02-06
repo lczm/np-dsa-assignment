@@ -134,6 +134,20 @@ void Trie::suggestions(TrieNode* node, string prefix, Vector<string>& completion
     }
 }
 
+uint32_t Trie::numberOfChildren(TrieNode* node)
+{
+    uint32_t count = 0;
+    for (uint32_t i = 0; i < TRIE_SIZE; i++)
+    {
+        if (node->children[i] != nullptr)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
 void Trie::insert(string key)
 {
     TrieNode* traversal = root;
@@ -150,6 +164,14 @@ void Trie::insert(string key)
 
     // After iterating over the key, it is the 'end' of the node.
     traversal->end = true;
+}
+
+void Trie::insert(Vector<string> keys)
+{
+    for (uint32_t i = 0; i < keys.size(); i++)
+    {
+        insert(keys[i]);
+    }
 }
 
 // TODO : Search word vs search exist
@@ -171,6 +193,47 @@ bool Trie::search(string key)
         return true;
     else
         return false;
+}
+
+void Trie::remove(string key)
+{
+    // TODO : Check that key exists within the trie
+    // before trying to remove
+
+    // Trie is not initialized
+    if (root == nullptr)
+    {
+        return;
+    }
+
+    TrieNode* traversal = root;
+    Vector<TrieNode*> nodeStack;
+
+    // For each character in the input to remove
+    // Build up the nodeStack
+    for (char c : key)
+    {
+        traversal = traversal->children[getIndex(c)];
+        nodeStack.pushBack(traversal);
+    }
+
+    // If at the end, and if it is the end, set it to not be the last
+    if (traversal->end) traversal->end = false;
+
+    while (!nodeStack.isEmpty())
+    {
+        TrieNode* node = nodeStack.back();
+        nodeStack.pop();
+
+        // Get which character it is
+        uint32_t index = nodeStack.size();
+
+        // If it is not the last node
+        if (numberOfChildren(node) > 1 || nodeStack.isEmpty())
+        {
+            node->children[key[index]] = nullptr;
+        }
+    }
 }
 
 Vector<string> Trie::complete(string key)

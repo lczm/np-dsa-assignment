@@ -3,8 +3,6 @@
 
 #include "Dictionary.h"
 
-
-
 template <typename T>
 Dictionary<T>::Dictionary()
 {
@@ -33,31 +31,23 @@ Dictionary<T>::~Dictionary()
                 prevNode = NULL;
             }
         }
-
     }
-
 }
-
-
-
 
 template <typename T>
 int Dictionary<T>::hash(string key)
-{   
+{
     int convertedHash = 0;
 
     for (int i = 0; i < key.length(); i++)
-    {   
-
+    {
         convertedHash = (convertedHash + i * code(key[i])) % MAX_SIZE;
 
-        //convertedHash = (int)(charvalue(key[i]) * pow(52, key.length() - (i + 1))) % MAX_SIZE;
-
+        // convertedHash = (int)(charvalue(key[i]) * pow(52, key.length() - (i + 1))) % MAX_SIZE;
     }
 
     return convertedHash;
 }
-
 
 template <typename T>
 bool Dictionary<T>::add(string newKey, T newItem)
@@ -72,12 +62,14 @@ bool Dictionary<T>::add(string newKey, T newItem)
     {
         items[hashedValue] = newNode;
     }
-    else {
+    else
+    {
         DictionaryNode<T>* traverseNode = items[hashedValue];
         DictionaryNode<T>* prevNode = nullptr;
         while (traverseNode != NULL)
         {
-            if (traverseNode->key == newNode->key) {
+            if (traverseNode->key == newNode->key)
+            {
                 return false;
             }
             prevNode = traverseNode;
@@ -99,24 +91,25 @@ void Dictionary<T>::remove(string key)
         {
             return;
         }
-        else if (items[hashedValue]->key == key) {
-
+        else if (items[hashedValue]->key == key)
+        {
             DictionaryNode<T>* nextNode = items[hashedValue]->next;
             delete items[hashedValue];
             items[hashedValue] = nextNode;
             size -= 1;
             return;
         }
-        else {
+        else
+        {
             DictionaryNode<T>* traverseNode = items[hashedValue];
-            
+
             while (traverseNode->next != NULL && traverseNode->next->key != key)
-            {   
+            {
                 traverseNode = traverseNode->next;
             }
 
-            //Special case if the key thats wanted to be removed is not there in the linked list
-            //will return an exception otherwise
+            // Special case if the key thats wanted to be removed is not there in the linked list
+            // will return an exception otherwise
             if (traverseNode->next != NULL)
             {
                 DictionaryNode<T>* deletedNode = traverseNode->next;
@@ -125,15 +118,13 @@ void Dictionary<T>::remove(string key)
                 delete deletedNode;
                 size -= 1;
             }
-            
         }
-
     }
 }
 
 template <typename T>
 T Dictionary<T>::get(string key)
-{   
+{
     if (!isEmpty())
     {
         if (hasKey(key))
@@ -141,28 +132,28 @@ T Dictionary<T>::get(string key)
             int hashedValue = hash(key);
             if (items[hashedValue] != NULL)
             {
-                if (items[hashedValue]->next == NULL) {
-
-                    //in the case that there is only 1 value and it does not
-                    //correspond to the key being deleted
+                if (items[hashedValue]->next == NULL)
+                {
+                    // in the case that there is only 1 value and it does not
+                    // correspond to the key being deleted
                     if (items[hashedValue]->key == key)
                     {
                         return items[hashedValue]->item;
                     }
                 }
-                else {
+                else
+                {
                     DictionaryNode<T>* traverseNode = items[hashedValue];
                     while (traverseNode->key != key)
                     {
                         traverseNode = traverseNode->next;
                     }
-               
+
                     return traverseNode->item;
                 }
             }
         }
     }
-
 }
 
 template <typename T>
@@ -178,18 +169,18 @@ int Dictionary<T>::getLength()
 }
 
 template <typename T>
-void Dictionary<T>::getAllItems(Vector<T> &dicItems)
+void Dictionary<T>::getAllItems(Vector<T>& dicItems)
 {
     if (!isEmpty())
     {
         for (int i = 0; i < MAX_SIZE; i++)
         {
             if (items[i] != NULL)
-            {   
-                DictionaryNode<T> * traverseNode = items[i];
+            {
+                DictionaryNode<T>* traverseNode = items[i];
                 while (traverseNode != NULL)
                 {
-                    dicItems.pushBack(traverseNode->item);    
+                    dicItems.pushBack(traverseNode->item);
                     traverseNode = traverseNode->next;
                 }
             }
@@ -219,13 +210,12 @@ void Dictionary<T>::getAllKeys(Vector<string>& keys)
 
 template <typename T>
 bool Dictionary<T>::hasKey(string selectedKey)
-{   
+{
     int hashedValue = hash(selectedKey);
     if (items[hashedValue] != NULL)
     {
         if (items[hashedValue]->next == NULL)
         {
-        
             if (items[hashedValue]->key == selectedKey)
             {
                 return true;
@@ -248,6 +238,5 @@ bool Dictionary<T>::hasKey(string selectedKey)
 
     return false;
 }
-
 
 #endif

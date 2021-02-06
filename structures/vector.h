@@ -33,7 +33,11 @@ class Vector
 
     void pushBack(T element);
     void remove(uint32_t index);
+    void pop();
     void reserve(uint32_t size);
+
+    T& front();
+    T& back();
 
     // Inserts before the index
     void insert(uint32_t index);
