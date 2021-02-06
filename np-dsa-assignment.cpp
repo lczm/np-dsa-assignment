@@ -407,8 +407,9 @@ void removeStationToMrtLine()
     {
         MrtLine* mrt = &mrtlines[lineSelected];
         mrt->printStationsAll();
-        cout << "Select a station index you want to remove" << endl;
-        int station = enterInputForInt();
+        cout << "Select a station index or station nameyou want to remove" << endl;
+        // int station = enterInputForInt();
+        int station = enterInputForString(mrt->getMrtStationNames());
 
         if (station >= 0 && station < mrt->getSize())
         {
@@ -521,7 +522,7 @@ void addStationToMrtLineTest()
         else
         {
             mrt->printStationsAll();
-            cout << "Select a station index you would like to add your station to" << endl;
+            cout << "Select a station index or station name you would like to add your station to" << endl;
             // int station = enterInputForInt();
             int station = enterInputForString(mrt->getMrtStationNames());
 
@@ -560,7 +561,7 @@ void displayMrtLinesToSelect(TCallback Evt)
 void displayMenu()
 {
     cout << "\n";
-    cout << "Welcome to Railway inc. (Enter -1 to log off) " << endl;
+    cout << "Welcome to Railway inc. " << endl;
     cout << "Please select an option " << endl;
     cout << "Option 1: Add a train station" << endl;
     cout << "Option 2: Remove a train station" << endl;
