@@ -69,6 +69,11 @@ int enterInputForString(Trie trie, Vector<string> names)
         {
             // Remove the last character
             inputString.pop_back();
+
+            // VT100 escape code. Supported on Windows 10
+            // Clears the current line before CR
+            // Without this, the user would not bee the 'deleted key'
+            printf("%c[2K", 27);
         }
         else if (c == '\t')  // Tab key
         {
@@ -83,11 +88,6 @@ int enterInputForString(Trie trie, Vector<string> names)
         {
             inputString += c;
         }
-
-        // VT100 escape code. Supported on Windows 10
-        // Clears the current line before CR
-        // Without this, the user would not bee the 'deleted key'
-        printf("%c[2K", 27);
 
         // Carriage return so that the user does not see the history of his inputs
         cout << "\r" << flush;
