@@ -215,7 +215,8 @@ void shortestPath()
     string toNodeId;
 
     auto printStep = [](string startEnd) {
-        cout << "Please enter the station ID you would like to " << startEnd << " at" << endl;
+        cout << "Please enter the station ID or station name you would like to " << startEnd
+             << " at" << endl;
     };
 
     cout << "[Station IDs are case sensitive]" << endl;
@@ -292,7 +293,7 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
 {
     cout << "[Station IDs must be from different mrt lines]" << endl;
     auto printStep = [](string num) {
-        cout << "Please enter the " << num << " station ID: " << endl;
+        cout << "Please enter the " << num << " station ID or station name: " << endl;
     };
 
     cout << "[Station IDs are case sensitive]" << endl;
