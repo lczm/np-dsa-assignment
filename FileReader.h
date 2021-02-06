@@ -9,6 +9,10 @@
 #include "DoublyLinkedList.h"
 #include "MrtLine.h"
 using namespace std;
+// Name: Abicharan Bhaskaran (S10177176J)
+// Name: Chua Ze Ming (S10177361C)
+// Group: 02
+// Class: P07
 class FileReader
 {
    private:
@@ -22,10 +26,23 @@ class FileReader
    public:
     FileReader();
     FileReader(Graph* graph, Dictionary<Node*>* dictionary , Vector<MrtLine>& mrtLines);
+
+    //Read all stations (Id and name)
     void readStations();
+
+    //Read all routes between stations
     void readRoutes(Vector<MrtLine> & mrtLines);
+
+    //Read all interchanges in the network
     void readInterchanges();
+
     void readFares();
+
+    //Read the names of the mrt lines
     void readMrtLineNames(Vector<MrtLine>& mrtLines);
+
+    //Converts a string with commas into a vector of strings
+    //Example: EW1, [random name]
+    //Result: ["EW1", "Random name"]
     void addToVector(Vector<string>& vectorList, string excelLine);
 };

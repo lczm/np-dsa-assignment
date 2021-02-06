@@ -6,7 +6,10 @@
 using namespace std;
 
 const int MAX_SIZE = 100;
-
+// Name: Abicharan Bhaskaran
+// ID: S10177176J
+// Group: 02
+// Class: P07
 template <typename T>
 struct DictionaryNode
 {
@@ -62,8 +65,13 @@ public:
        return (int)c;
     }
 
+    //Gets all items that are in the dictionary
     void getAllItems(Vector<T>& dicItems);
+
+    //Gets all the keys in a dictionary
     void getAllKeys(Vector<string>& keys);
+
+    //Checks if the dictionary has the key
     bool hasKey(string selectedKey);
 };
 

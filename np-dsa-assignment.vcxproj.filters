@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="np-dsa-assignment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="structures\vector.cpp">
       <Filter>Source Files\structures</Filter>
     </ClCompile>
@@ -47,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="structures\trie.cpp">
       <Filter>Source Files\structures</Filter>
+    </ClCompile>
+    <ClCompile Include="np-dsa-assignment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="helper.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +81,9 @@
     </ClInclude>
     <ClInclude Include="structures\trie.h">
       <Filter>Header Files\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="helper.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

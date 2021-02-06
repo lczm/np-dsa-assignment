@@ -1,6 +1,6 @@
 #include "FileReader.h"
 #include "Graph.h"
-
+#include "helper.h"
 
 
 FileReader::FileReader()
@@ -100,6 +100,9 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
              mrtLineNew.addStationBack(p);
            }
          }
+
+         string prefix = extract_string(mrtLineNew.getMrtStation(0)->id);
+         mrtLineNew.setMrtPrefix(prefix);
          mrtLines.pushBack(mrtLineNew);
     }
 

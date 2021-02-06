@@ -1,4 +1,5 @@
 #include "MrtLine.h"
+#include "helper.h"
 
 int extractIntegers(string stationId)
 {
@@ -19,21 +20,6 @@ int extractIntegers(string stationId)
     return x;
 }
 
-string extractString(string stationId)
-{
-    string lineIdentifier;
-
-    for (int i = 0; i < stationId.size(); i++)
-    {
-        if (isalpha(stationId[i]))
-        {
-            lineIdentifier += stationId[i];
-        }
-    }
-
-    return lineIdentifier;
-}
-
 MrtLine::MrtLine()
 {
 }
@@ -44,17 +30,17 @@ MrtLine::MrtLine(Graph* graph)
 }
 
 
-//will refactor
+// will refactor
 void MrtLine::addNewStation(string stationId, string newStationName, bool infront, int costPrev,
                             int costForward)
 {   
     //extracting the string and integers
     int extractedId = extractIntegers(stationId);
-    string mrtLineIdentifier = extractString(stationId);
+    string mrtLineIdentifier = extract_string(stationId);
     int selectedStationIndex = 0;
     int increaseByOne = 1;
 
-
+    //getting the selected station index
     for (int i = 0; i < stationList.getSize(); i++)
     {
         if (stationList.getAt(i)->id == stationId)
@@ -71,6 +57,9 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     {   
         newStation->id = mrtLineIdentifier + to_string(extractedId + 1);
         updateLineIdsForStations(newStation->id, increaseByOne);
+
+
+        //NS12(SelectedStationIndex) <--(costPrev)--> NS13[newStation] <--(costFoward)--> NS14
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex + 1,
                                                   costPrev,
                                          costForward, newStation, 1);
@@ -78,6 +67,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     //added behind the selected station
     else
     {   
+        //NS10<--(costPrev)-->NS11[newStation] <--(costForward)--> NS12(SelectedStationIndex)
         newStation->id = mrtLineIdentifier + to_string(extractedId);
         updateLineIdsForStations(newStation->id, increaseByOne);
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex - 1,
@@ -90,7 +80,7 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
 void MrtLine::updateLineIdsForStations(string selectedStationId, int decreaseOrIncreaseId)
 {
     // Update all the stationIds
-    string mrtLineIdentifier = extractString(selectedStationId);
+    string mrtLineIdentifier = extract_string(selectedStationId);
     Dictionary<Node*>* nodeList = graph->getNodeList();
     for (int i = stationList.getSize()-1; i >= 0; i--)
     {
@@ -125,6 +115,7 @@ void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex
     //Adding connections between the two stations
     graph->addConnection(selectedStationId, newStation->id, costPrev);
 
+    //If the station is within the range of the DLL 
     if (oldStationIndex >= 0 && oldStationIndex < stationList.getSize())
     {
         string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
@@ -147,7 +138,6 @@ void MrtLine::addStationBack(Node*& newNode)
     stationList.addBack(newNode);
 }
 
-//
 void MrtLine::removeStation(string stationId, int costBetween)
 {
     Dictionary<Node*>* nodeList = graph->getNodeList();
@@ -176,11 +166,16 @@ void MrtLine::removeStation(string stationId, int costBetween)
             }
         }
 
+        //Removes all connections that the station had
         graph->removeAllConnectionsForNodeBothWays(stationId);
         if ((prevStation != NULL)&& (afterStation != NULL))
-        {
+        {   
+            //If there were stations before and after the deleted station 
+            //Add a new connection with a cost associated with it
             graph->addConnection(prevStation->id, afterStation->id, costBetween);
         }
+
+        //Decrease the ids after the deteted station
         updateLineIdsForStations(stationId, decreaseByOne);
     }
 }
@@ -194,7 +189,7 @@ void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId
 void MrtLine::printStationsAll()
 {   
     cout << "---------------------------------------------------------" << endl;
-    cout << "MRT Line Name: "<< mrtLineName << endl;
+    cout << "MRT Line Name: "<< mrtLineName << " (" << mrtPrefix << ")" << endl;
     cout << "Stations:  " <<  endl;
     for (int i = 0; i < stationList.getSize(); i++)
     {
