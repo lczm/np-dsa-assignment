@@ -32,12 +32,14 @@ void errorDetect(int& option)
     }
 }
 
-void enterInputForInt(int& option)
+int enterInputForInt()
 {
+    int option;
     cin >> option;
     errorDetect(option);
     cin.clear();
     cin.ignore(10000, '\n');
+    return option;
 }
 
 // for display station
@@ -299,7 +301,7 @@ void removeStationDetails(int station, MrtLine* mrt)
     {
         cout << "Cost between " << prevStation->name << " and " << afterStation->name << "? "
              << endl;
-        enterInputForInt(costBetweenStations);
+        costBetweenStations = enterInputForInt();
     }
 
     mrt->removeStation(selected->id, costBetweenStations);
@@ -311,15 +313,13 @@ void removeStationDetails(int station, MrtLine* mrt)
 void removeStationToMrtLine()
 {
     // based on that line print the train stations
-    int lineSelected = 0;
-    enterInputForInt(lineSelected);
+    int lineSelected = enterInputForInt();
     if (lineSelected >= 0 && lineSelected < mrtlines.size())
     {
         MrtLine* mrt = &mrtlines[lineSelected];
         mrt->printStationsAll();
         cout << "Select a station index you want to remove" << endl;
-        int station;
-        enterInputForInt(station);
+        int station = enterInputForInt();
 
         if (station >= 0 && station < mrt->getSize())
         {
@@ -378,19 +378,19 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
 // If they would like the new station before or after the selected station
 void addStationDetails(int station, MrtLine* mrt)
 {
-    int beforeCost, afterCost, beforeAfter = 0;
+    int beforeCost, afterCost = 0;
     string name;
     Node* selected = mrt->getMrtStation(station);
     cout << "[You have selected " << selected->name << "]" << endl;
     cout << "Would you like the new station to be before or after the selected station?" << endl;
     cout << "[0 == before/1 == after]" << endl;
-    enterInputForInt(beforeAfter);
+    int beforeAfter = enterInputForInt();
 
     // Check range
     while (beforeAfter > 1 || beforeAfter < 0)
     {
         cout << "Enter the correct option (0 or 1)" << endl;
-        enterInputForInt(beforeAfter);
+        beforeAfter = enterInputForInt();
     }
 
     cout << "What is the name of your station?" << endl;
@@ -409,8 +409,7 @@ void addStationDetails(int station, MrtLine* mrt)
 void addStationToMrtLineTest()
 {
     // based on that line print the train stations
-    int lineSelected = 0;
-    enterInputForInt(lineSelected);
+    int lineSelected = enterInputForInt();
     if (lineSelected >= 0 && lineSelected < mrtlines.size())
     {
         MrtLine* mrt = &mrtlines[lineSelected];
@@ -434,8 +433,7 @@ void addStationToMrtLineTest()
         {
             mrt->printStationsAll();
             cout << "Select a station index you would like to add your station to" << endl;
-            int station;
-            enterInputForInt(station);
+            int station = enterInputForInt();
 
             if (station >= 0 && station < mrt->getSize())
             {
