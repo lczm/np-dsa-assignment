@@ -5,6 +5,18 @@ Trie::Trie()
     root = new TrieNode();
 }
 
+Trie::Trie(Vector<string> in)
+{
+    root = new TrieNode();
+
+    // If passed in a vector as the constructor, insert all of the values
+    // into the trie.
+    for (uint32_t i = 0; i < in.size(); i++)
+    {
+        insert(in[i]);
+    }
+}
+
 Trie::~Trie()
 {
     delete root;

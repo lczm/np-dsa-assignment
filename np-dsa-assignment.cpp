@@ -50,6 +50,8 @@ int enterInputForString(Trie trie, Vector<string> names)
     int option;
     string inputString;
 
+    Trie completions(names);
+
     // Input loop to get the string of the input.
     while (true)
     {
@@ -68,13 +70,17 @@ int enterInputForString(Trie trie, Vector<string> names)
             {
                 return stoi(inputString);
             }
-
-            break;
+            else  // Otherwise, it is a string. Check if it matches the names
+            {
+                cout << names[0] << endl;
+                return 0;
+            }
         }
         else if (c == '\b')  // Backspace key
         {
-            // Remove the last character
-            inputString.pop_back();
+            // Remove the last character, if the string is not empty.
+            if (!inputString.empty())
+                inputString.pop_back();
 
             // VT100 escape code. Supported on Windows 10
             // Clears the current line before CR
@@ -84,7 +90,7 @@ int enterInputForString(Trie trie, Vector<string> names)
         else if (c == '\t')  // Tab key
         {
             cout << "Suggestions for : " << inputString << endl;
-            Vector<string> suggestions = trie.complete(inputString);
+            Vector<string> suggestions = completions.complete(inputString);
             for (uint32_t i = 0; i < suggestions.size(); i++)
             {
                 cout << suggestions[i] << endl;

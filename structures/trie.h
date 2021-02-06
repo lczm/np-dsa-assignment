@@ -94,7 +94,9 @@ class Trie
     // Public methods
    public:
     Trie();
+    Trie(Vector<string> in);
     ~Trie();
+    ;
 
     void insert(string key);
     bool search(string key);
