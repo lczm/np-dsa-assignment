@@ -190,6 +190,9 @@ void addMrtLine()
     mrtline.setMrtPrefix(mrtPrefix);
     mrtline.setMrtLineName(mrtName);
     mrtlines.pushBack(mrtline);
+
+    // Add new prefix to the dictionary and insert the trie
+    trieMapping.add(mrtPrefix, new Trie());
 }
 
 /* SHORTEST PATH TO STATION BEGINS HERE*/
@@ -533,6 +536,8 @@ void addStationToMrtLineTest()
             newStation->name = name;
             dic.add(newStation->id, newStation);
             mrt->addStationFront(newStation);
+
+            trieMapping.get(mrt->getMrtPrefix())->insert(name);
         }
         // If there are mrt stations we can request for the index
         else
