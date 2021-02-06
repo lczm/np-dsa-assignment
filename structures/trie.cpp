@@ -12,25 +12,33 @@ Trie::~Trie()
 
 uint32_t Trie::getIndex(char key)
 {
-    // Spaces, Commas, Dashes
-    if (key == 32 || key == 44 || key == 45)
+    // Spaces, Commas, Dashes, Colons, Semi-Colons
+    if (key == 32 || key == 44)
     {
         return 0;
     }
+    else if (key == 45)  // Dashes
+    {
+        return 1;
+    }
+    else if (key == 58)  // Colons
+    {
+        return 2;
+    }
     else if (key >= 48 && key <= 57)  // 0-9
     {
-        return key - 48 + 1;
+        return key - 48 + 3;
     }
     else if (key >= 65 && key <= 90)  // A-Z
     {
-        return key - 65 + 10 + 1;
+        return key - 65 + 10 + 3;
     }
     else if (key >= 97 && key <= 122)  // a-z
     {
         // Shift it down to the A-Z character set
         // then calculate index, minus 65, add the
         // offset of 10 (numbers)
-        return key - (97 - 65) - 65 + 10 + 1;
+        return key - (97 - 65) - 65 + 10 + 3;
     }
     else
     {
@@ -41,18 +49,26 @@ uint32_t Trie::getIndex(char key)
 // This assumes all upper case.
 char Trie::getChar(uint32_t index)
 {
-    if (index == 0)
+    if (index == 0)  // Spaces
     {
         return 32;
     }
-    else if (index >= 1 && index <= 10)
+    else if (index == 1)  // Dashes
+    {
+        return 45;
+    }
+    else if (index == 2)  // Colons
+    {
+        return 58;
+    }
+    else if (index >= 3 && index <= 12)  // Numbers
     {
         // return index - 1;
-        return index + 48 - 1;
+        return index + 48 - 3;
     }
-    else if (index >= 11 && index <= 37)
+    else if (index >= 13 && index <= 39)  // a-Z
     {
-        return index + 65 - 10 - 1;
+        return index + 65 - 10 - 3;
     }
 }
 

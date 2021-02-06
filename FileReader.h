@@ -44,7 +44,7 @@ class FileReader
     void readFares();
 
     // Read the names of the mrt lines
-    void readMrtLineNames(Vector<MrtLine>& mrtLines);
+    void readMrtLineNames(Vector<MrtLine>& mrtLines, Trie& trie);
 
     // Converts a string with commas into a vector of strings
     // Example: EW1, [random name]

@@ -61,7 +61,7 @@ using namespace std;
     more user friendly and intuitive.
  */
 
-const int TRIE_SIZE = 37;
+const int TRIE_SIZE = 39;
 
 struct TrieNode
 {
