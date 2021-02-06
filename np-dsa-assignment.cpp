@@ -45,7 +45,7 @@ int enterInputForInt()
     return option;
 }
 
-int enterInputForString(Trie trie, Vector<string> names)
+int enterInputForString(Vector<string> names)
 {
     int option;
     string inputString;
@@ -523,7 +523,7 @@ void addStationToMrtLineTest()
             mrt->printStationsAll();
             cout << "Select a station index you would like to add your station to" << endl;
             // int station = enterInputForInt();
-            int station = enterInputForString(trie, mrt->getMrtStationNames());
+            int station = enterInputForString(mrt->getMrtStationNames());
 
             if (station >= 0 && station < mrt->getSize())
             {
