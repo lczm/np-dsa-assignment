@@ -22,8 +22,8 @@ using namespace std;
 Graph graph;
 Dictionary<Node*> dic;
 Vector<MrtLine> mrtlines;
-Trie stationTrie;
 Dictionary<Trie*> trieMapping;
+Dictionary<string> nameToIdMapping;
 
 void errorDetect(int& option)
 {
@@ -46,16 +46,24 @@ int enterInputForInt()
     return option;
 }
 
-int enterInputForString(uint32_t lineSelected, Vector<string> names)
+int enterInputForString(Vector<string> names, uint32_t lineSelected = -1)
 {
     string inputString;
 
     // Get the prefix and only show the trie for the given prefix.
     // This is so that the trie doesnt suggest something that is
     // out of the scope of the acceptable values.
-    MrtLine mrtLine = mrtlines[lineSelected];
-    string prefix = mrtLine.getMrtPrefix();
-    Trie* trie = trieMapping.get(prefix);
+    Trie* trie;
+    if (lineSelected == -1)
+    {
+        trie = trieMapping.get("all");
+    }
+    else
+    {
+        MrtLine mrtLine = mrtlines[lineSelected];
+        string prefix = mrtLine.getMrtPrefix();
+        trie = trieMapping.get(prefix);
+    }
 
     // Input loop to get the string of the input.
     while (true)
@@ -281,11 +289,18 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
     };
 
     cout << "[Station IDs are case sensitive]" << endl;
+    Vector<string> names;
+    nameToIdMapping.getAllKeys(names);
+
     printStep("first");
-    cin >> fromNodeId;
+    // cin >> fromNodeId;
+    int fromIndex = enterInputForString(names);
+    fromNodeId = nameToIdMapping.get(names[fromIndex]);
 
     printStep("second");
-    cin >> toNodeId;
+    // cin >> toNodeId;
+    int toIndex = enterInputForString(names);
+    toNodeId = nameToIdMapping.get(names[toIndex]);
 
     // check if the same station
     if (fromNodeId == toNodeId)
@@ -411,6 +426,7 @@ void removeStationDetails(int station, MrtLine* mrt)
     mrt->printStationsAll();
 
     trieMapping.get(mrt->getMrtPrefix())->remove(selected->name);
+    trieMapping.get("all")->remove(selected->name);
 }
 
 // This function allows the user to remove a mrt station
@@ -425,7 +441,7 @@ void removeStationToMrtLine()
         mrt->printStationsAll();
         cout << "Select a station index or station nameyou want to remove" << endl;
         // int station = enterInputForInt();
-        int station = enterInputForString(lineSelected, mrt->getMrtStationNames());
+        int station = enterInputForString(mrt->getMrtStationNames(), lineSelected);
 
         if (station >= 0 && station < mrt->getSize())
         {
@@ -513,6 +529,7 @@ void addStationDetails(int station, MrtLine* mrt)
 
     // Insert the new name into the trieMapping
     trieMapping.get(mrt->getMrtPrefix())->insert(name);
+    trieMapping.get("all")->insert(name);
 }
 
 void addStationToMrtLineTest()
@@ -538,6 +555,7 @@ void addStationToMrtLineTest()
             mrt->addStationFront(newStation);
 
             trieMapping.get(mrt->getMrtPrefix())->insert(name);
+            trieMapping.get("all")->insert(name);
         }
         // If there are mrt stations we can request for the index
         else
@@ -546,7 +564,7 @@ void addStationToMrtLineTest()
             cout << "Select a station index or station name you would like to add your station to"
                  << endl;
             // int station = enterInputForInt();
-            int station = enterInputForString(lineSelected, mrt->getMrtStationNames());
+            int station = enterInputForString(mrt->getMrtStationNames(), lineSelected);
 
             if (station >= 0 && station < mrt->getSize())
             {
@@ -603,6 +621,20 @@ int main()
     // Fill up all the data structures.
     FileReader filereader(&graph, &dic, mrtlines);
 
+    Vector<string> keys;
+    Vector<Node*> values;
+    dic.getAllKeys(keys);
+    dic.getAllItems(values);
+
+    // Init nameToIdMapping
+    for (uint32_t i = 0; i < keys.size(); i++)
+    {
+        nameToIdMapping.add(values[i]->name, keys[i]);
+    }
+
+    // Has all the stations.
+    trieMapping.add("all", new Trie());
+
     // Fill up trie with station names
     for (uint32_t i = 0; i < mrtlines.size(); i++)
     {
@@ -611,8 +643,9 @@ int main()
         if (!trieMapping.hasKey(prefix))
         {
             Trie* trie = new Trie();
-            trie->insert(mrtlines[i].getMrtStationNames());
-            trieMapping.add(prefix, trie);
+            trieMapping.add(prefix, new Trie());
+            trieMapping.get(prefix)->insert(mrtlines[i].getMrtStationNames());
+            trieMapping.get("all")->insert(mrtlines[i].getMrtStationNames());
         }
     }
 
