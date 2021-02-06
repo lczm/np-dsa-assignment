@@ -107,7 +107,7 @@ void FileReader::readRoutes(Vector<MrtLine>& mrtLines)
             }
         }
 
-        string prefix = extract_string(mrtLineNew.getMrtStation(0)->id);
+        string prefix = extractString(mrtLineNew.getMrtStation(0)->id);
         mrtLineNew.setMrtPrefix(prefix);
         mrtLines.pushBack(mrtLineNew);
     }

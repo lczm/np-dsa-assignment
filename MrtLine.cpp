@@ -13,9 +13,9 @@ int extractIntegers(string stationId)
         }
     }
 
-    stringstream geek(number); 
+    stringstream geek(number);
     int x = 0;
-    geek >> x; 
+    geek >> x;
 
     return x;
 }
@@ -29,18 +29,17 @@ MrtLine::MrtLine(Graph* graph)
     this->graph = graph;
 }
 
-
 // will refactor
 void MrtLine::addNewStation(string stationId, string newStationName, bool infront, int costPrev,
                             int costForward)
-{   
-    //extracting the string and integers
+{
+    // extracting the string and integers
     int extractedId = extractIntegers(stationId);
-    string mrtLineIdentifier = extract_string(stationId);
+    string mrtLineIdentifier = extractString(stationId);
     int selectedStationIndex = 0;
     int increaseByOne = 1;
 
-    //getting the selected station index
+    // getting the selected station index
     for (int i = 0; i < stationList.getSize(); i++)
     {
         if (stationList.getAt(i)->id == stationId)
@@ -52,41 +51,37 @@ void MrtLine::addNewStation(string stationId, string newStationName, bool infron
     Node* newStation = new Node();
     newStation->name = newStationName;
 
-    //added infront of the selected station
+    // added infront of the selected station
     if (infront)
-    {   
+    {
         newStation->id = mrtLineIdentifier + to_string(extractedId + 1);
         updateLineIdsForStations(newStation->id, increaseByOne);
 
-
-        //NS12(SelectedStationIndex) <--(costPrev)--> NS13[newStation] <--(costFoward)--> NS14
+        // NS12(SelectedStationIndex) <--(costPrev)--> NS13[newStation] <--(costFoward)--> NS14
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex + 1,
-                                                  costPrev,
-                                         costForward, newStation, 1);
+                                                  costPrev, costForward, newStation, 1);
     }
-    //added behind the selected station
+    // added behind the selected station
     else
-    {   
-        //NS10<--(costPrev)-->NS11[newStation] <--(costForward)--> NS12(SelectedStationIndex)
+    {
+        // NS10<--(costPrev)-->NS11[newStation] <--(costForward)--> NS12(SelectedStationIndex)
         newStation->id = mrtLineIdentifier + to_string(extractedId);
         updateLineIdsForStations(newStation->id, increaseByOne);
         updateConnBetweenStationsForAddNewStation(selectedStationIndex, selectedStationIndex - 1,
-                                         costForward,
-                                         costPrev, newStation, 0);
+                                                  costForward, costPrev, newStation, 0);
     }
-  
 }
 
 void MrtLine::updateLineIdsForStations(string selectedStationId, int decreaseOrIncreaseId)
 {
     // Update all the stationIds
-    string mrtLineIdentifier = extract_string(selectedStationId);
+    string mrtLineIdentifier = extractString(selectedStationId);
     Dictionary<Node*>* nodeList = graph->getNodeList();
-    for (int i = stationList.getSize()-1; i >= 0; i--)
+    for (int i = stationList.getSize() - 1; i >= 0; i--)
     {
         if (extractIntegers(stationList.getAt(i)->id) >= extractIntegers(selectedStationId))
         {
-            //Update the dictionary in containing all the nodes
+            // Update the dictionary in containing all the nodes
             Node* current = nodeList->get(stationList.getAt(i)->id);
             nodeList->remove(stationList.getAt(i)->id);
 
@@ -100,22 +95,22 @@ void MrtLine::updateLineIdsForStations(string selectedStationId, int decreaseOrI
     }
 }
 
-void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex, int oldStationIndex,
-                                               int costPrev,
-                                               int costForward, Node* newStation, 
-                                               int beforeAfter)
-{   
-    //getting ids
+void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex,
+                                                        int oldStationIndex, int costPrev,
+                                                        int costForward, Node* newStation,
+                                                        int beforeAfter)
+{
+    // getting ids
     string selectedStationId = stationList.getAt(selectedStationIndex)->id;
 
-    // adding the new station to the dictionary 
+    // adding the new station to the dictionary
     Dictionary<Node*>* nodeList = graph->getNodeList();
     nodeList->add(newStation->id, newStation);
 
-    //Adding connections between the two stations
+    // Adding connections between the two stations
     graph->addConnection(selectedStationId, newStation->id, costPrev);
 
-    //If the station is within the range of the DLL 
+    // If the station is within the range of the DLL
     if (oldStationIndex >= 0 && oldStationIndex < stationList.getSize())
     {
         string oldConnectionStationId = stationList.getAt(oldStationIndex)->id;
@@ -123,8 +118,7 @@ void MrtLine::updateConnBetweenStationsForAddNewStation(int selectedStationIndex
         graph->addConnection(newStation->id, oldConnectionStationId, costForward);
     }
 
-    
-    //adding to station list
+    // adding to station list
     stationList.addAt(newStation, selectedStationIndex + beforeAfter);
 }
 
@@ -151,7 +145,7 @@ void MrtLine::removeStation(string stationId, int costBetween)
         for (int i = 0; i < stationList.getSize(); i++)
         {
             if (stationList.getAt(i)->id == stationId)
-            {   
+            {
                 if (i - 1 >= 0)
                 {
                     prevStation = stationList.getAt(i - 1);
@@ -166,16 +160,16 @@ void MrtLine::removeStation(string stationId, int costBetween)
             }
         }
 
-        //Removes all connections that the station had
+        // Removes all connections that the station had
         graph->removeAllConnectionsForNodeBothWays(stationId);
-        if ((prevStation != NULL)&& (afterStation != NULL))
-        {   
-            //If there were stations before and after the deleted station 
-            //Add a new connection with a cost associated with it
+        if ((prevStation != NULL) && (afterStation != NULL))
+        {
+            // If there were stations before and after the deleted station
+            // Add a new connection with a cost associated with it
             graph->addConnection(prevStation->id, afterStation->id, costBetween);
         }
 
-        //Decrease the ids after the deteted station
+        // Decrease the ids after the deteted station
         updateLineIdsForStations(stationId, decreaseByOne);
     }
 }
@@ -187,19 +181,21 @@ void MrtLine::removeConnectionBetweenStations(string fromNodeId, string toNodeId
 }
 
 void MrtLine::printStationsAll()
-{   
+{
     cout << "---------------------------------------------------------" << endl;
-    cout << "MRT Line Name: "<< mrtLineName << " (" << mrtPrefix << ")" << endl;
-    cout << "Stations:  " <<  endl;
+    cout << "MRT Line Name: " << mrtLineName << " (" << mrtPrefix << ")" << endl;
+    cout << "Stations:  " << endl;
     for (int i = 0; i < stationList.getSize(); i++)
     {
-        cout <<"Index: " << i <<  " Id:" << stationList.getAt(i)->id << "| Name:" << stationList.getAt(i)->name << endl;
+        cout << "Index: " << i << " Id:" << stationList.getAt(i)->id
+             << "| Name:" << stationList.getAt(i)->name << endl;
 
-        if (i < stationList.getSize()-1)
+        if (i < stationList.getSize() - 1)
         {
             cout << "[Cost between: "
                  << graph->getConnection(stationList.getAt(i)->id, stationList.getAt(i + 1)->id)
-                        ->cost << "]" <<endl;
+                        ->cost
+                 << "]" << endl;
         }
     }
 }
@@ -208,7 +204,7 @@ void MrtLine::printStationsBasedOnDirection(string stationId)
 {
 }
 
-Node* MrtLine::getMrtStation(int index) 
+Node* MrtLine::getMrtStation(int index)
 {
     return stationList.getAt(index);
 }
@@ -216,4 +212,3 @@ Node* MrtLine::getMrtStation(int index)
 MrtLine::~MrtLine()
 {
 }
-

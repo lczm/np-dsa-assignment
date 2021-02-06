@@ -143,7 +143,6 @@
     <ClCompile Include="DoublyLinkedList.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="helper.cpp" />
     <ClCompile Include="MrtLine.cpp" />
     <ClCompile Include="np-dsa-assignment.cpp" />
     <ClCompile Include="structures\trie.cpp" />

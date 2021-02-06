@@ -341,7 +341,7 @@ void addMrtLine()
     cin.ignore(10000, '\n');
 
     // this is to make we remove any numbers from the input
-    extract_string(mrtPrefix);
+    extractString(mrtPrefix);
 
     auto toUpperCase = [](string& str) {
         for (auto& c : str) c = toupper(c);
@@ -486,7 +486,7 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
         return false;
     }
 
-    if (extract_string(fromNodeId) == extract_string(toNodeId))
+    if (extractString(fromNodeId) == extractString(toNodeId))
     {
         cout << "You have given stations on the same mrt line!" << endl;
         return false;

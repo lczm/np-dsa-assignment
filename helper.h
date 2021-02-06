@@ -1,9 +1,19 @@
 #pragma once
+
 #include <string>
 using namespace std;
-#ifndef _HELPER_
-#define _HELPER_
 
-string extract_string(string str);
+static string extractString(string str)
+{
+    string lineIdentifier;
 
-#endif
+    for (int i = 0; i < str.size(); i++)
+    {
+        if (isalpha(str[i]))
+        {
+            lineIdentifier += str[i];
+        }
+    }
+
+    return lineIdentifier;
+}
