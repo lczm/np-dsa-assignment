@@ -72,28 +72,48 @@ int enterInputForString(Trie trie, Vector<string> names)
             }
             else  // Otherwise, it is a string. Check if it matches the names
             {
-                cout << names[0] << endl;
-                return 0;
+                for (uint32_t i = 0; i < names.size(); i++)
+                {
+                    if (names[i] == inputString)
+                    {
+                        return i;
+                    }
+                }
+                cout << "Not found : please check your spelling!" << endl;
             }
         }
         else if (c == '\b')  // Backspace key
         {
             // Remove the last character, if the string is not empty.
-            if (!inputString.empty())
-                inputString.pop_back();
+            if (!inputString.empty()) inputString.pop_back();
 
             // VT100 escape code. Supported on Windows 10
             // Clears the current line before CR
-            // Without this, the user would not bee the 'deleted key'
+            // Without this, the user would not see the 'deleted key'
             printf("%c[2K", 27);
         }
         else if (c == '\t')  // Tab key
         {
-            cout << "Suggestions for : " << inputString << endl;
             Vector<string> suggestions = completions.complete(inputString);
-            for (uint32_t i = 0; i < suggestions.size(); i++)
+
+            // If there is only one suggestion left. Just make this the inputString
+            // Note that there is no need to do anything is there are 0 completions.
+            if (suggestions.size() == 1)
             {
-                cout << suggestions[i] << endl;
+                inputString = suggestions[0];
+            }
+            else if (suggestions.size() > 1)
+            {
+                // Clear the output buffer and flush the buffer before printing
+                printf("%c[2K", 27);
+                cout << "\r" << flush;
+
+                cout << "Suggestions for : " << inputString << endl;
+                for (uint32_t i = 0; i < suggestions.size(); i++)
+                {
+                    cout << suggestions[i] << endl;
+                }
+                cout << endl;
             }
         }
         else
