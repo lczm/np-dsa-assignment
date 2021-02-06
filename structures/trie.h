@@ -100,6 +100,8 @@ class Trie
 
     void insert(string key);
     void insert(Vector<string> keys);
+
+    bool contains(string key);
     bool search(string key);
     void remove(string key);
 

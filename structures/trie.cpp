@@ -174,7 +174,24 @@ void Trie::insert(Vector<string> keys)
     }
 }
 
-// TODO : Search word vs search exist
+bool Trie::contains(string key)
+{
+    TrieNode* traversal = root;
+    for (uint32_t i = 0; i < key.size(); i++)
+    {
+        uint32_t index = getIndex(key[i]);
+        if (traversal->children[index] == nullptr)
+        {
+            return false;
+        }
+        traversal = traversal->children[index];
+    }
+
+    // If it reaches this point, it means the traversal node is not a
+    // null pointer, hence the trie 'contains' the key
+    return true;
+}
+
 bool Trie::search(string key)
 {
     TrieNode* traversal = root;
@@ -197,11 +214,13 @@ bool Trie::search(string key)
 
 void Trie::remove(string key)
 {
-    // TODO : Check that key exists within the trie
-    // before trying to remove
-
     // Trie is not initialized
     if (root == nullptr)
+    {
+        return;
+    }
+
+    if (!contains(key))
     {
         return;
     }
@@ -240,6 +259,10 @@ Vector<string> Trie::complete(string key)
 {
     // TODO : Check that the key exists within the trie
     // before trying to complete.
+    if (!contains(key))
+    {
+        return {};
+    }
 
     // Key exists. Store the rest of the completions in a Vector
     TrieNode* traversal = root;

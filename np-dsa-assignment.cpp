@@ -499,6 +499,9 @@ void addStationDetails(int station, MrtLine* mrt)
 
     // Print all of the stations
     mrt->printStationsAll();
+
+    // Insert the new name into the trieMapping
+    trieMapping.get(mrt->getMrtPrefix())->insert(name);
 }
 
 void addStationToMrtLineTest()
@@ -522,6 +525,7 @@ void addStationToMrtLineTest()
             newStation->name = name;
             dic.add(newStation->id, newStation);
             mrt->addStationFront(newStation);
+
         }
         // If there are mrt stations we can request for the index
         else
