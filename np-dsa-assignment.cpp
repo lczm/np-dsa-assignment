@@ -219,11 +219,18 @@ void shortestPath()
     };
 
     cout << "[Station IDs are case sensitive]" << endl;
+    Vector<string> names;
+    nameToIdMapping.getAllKeys(names);
+
     printStep("start");
-    cin >> fromNodeId;
+    // cin >> fromNodeId;
+    int fromIndex = enterInputForString(names);
+    fromNodeId = nameToIdMapping.get(names[fromIndex]);
 
     printStep("end");
-    cin >> toNodeId;
+    // cin >> toNodeId;
+    int toIndex = enterInputForString(names);
+    toNodeId = nameToIdMapping.get(names[toIndex]);
 
     // check if the same station
     if (fromNodeId == toNodeId)
