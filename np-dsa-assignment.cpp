@@ -540,7 +540,7 @@ void addStationDetails(int station, MrtLine* mrt)
     trieMapping.get("all")->insert(name);
 }
 
-void addStationToMrtLineTest()
+void addStationToMrtLine()
 {
     // based on that line print the train stations
     int lineSelected = enterInputForInt();
@@ -679,7 +679,7 @@ int main()
             {
                 // Add a train station
                 case 1:
-                    displayMrtLinesToSelect(addStationToMrtLineTest);
+                    displayMrtLinesToSelect(addStationToMrtLine);
                     break;
                 // Remove a train station
                 case 2:
