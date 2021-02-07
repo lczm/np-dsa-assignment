@@ -302,8 +302,6 @@ void shortestPath()
         dollars = floor(fare / 100);
         cents = fare - (dollars * 100);
 
-        cout << "Total cost : " << costInKms << endl;
-        cout << "Total cost : " << fares[fareIndex] << endl;
         cout << "Total cost : $" << dollars << "." << cents << endl;
     }
     else
