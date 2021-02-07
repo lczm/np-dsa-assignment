@@ -6,6 +6,11 @@
 
 using namespace std;
 
+// Name: Chua Ze Ming
+// ID: S10177361C
+// Group: 02
+// Class: P07
+
 template <typename T>
 class Vector
 {
@@ -31,20 +36,34 @@ class Vector
     // Destructors
     ~Vector();
 
+    // add element to the end of the vector
     void pushBack(T element);
+
+    // remove element given index
     void remove(uint32_t index);
+
+    // remove last element
     void pop();
+
+    // reserve capacity
     void reserve(uint32_t size);
 
+    // get first element
     T& front();
+
+    // get last element
     T& back();
 
+    // returns true if it is empty and false if not
     bool isEmpty();
 
+    // get size
     uint32_t size();
+
+    // get capacity
     uint32_t capacity();
 
-    // O(1) random accessors
+    // O(1) index accessors
     T& at(uint32_t index);
     T& operator[](uint32_t index);
 

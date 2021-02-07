@@ -6,6 +6,11 @@
 
 using namespace std;
 
+// Name: Chua Ze Ming
+// ID: S10177361C
+// Group: 02
+// Class: P07
+
 /*
  Determining how big a node should hold:
     This is done by determining the range of values that
@@ -28,7 +33,7 @@ using namespace std;
     spaces. That will take up another space / commas / dashes
 
     Therefore, the trie node children will need to have a size of
-    26 + 10 + 1 = 37.
+    26 + 26 + 10 + 3 = 65.
 
   The trie children layout will also need to be determined.
     For the 36 characters, how will each of them be laid out.
@@ -41,24 +46,6 @@ using namespace std;
     It is important that the layout stays the same and consistent.
     So that the TrieNode is able to access it's children by
     O(1) time complexity.
-
-  Edge cases:
-    There are some situations in which, the trie may not be able to deal
-    with effectively. One situation that comes to mind is dealing with
-    capital cases.
-
-    'a' and 'A' are two different characters effectively.
-
-    The dataset stores 'ALJUNIED', which are all caps-ed.
-    However, the user might type 'aljunied'. It is expected that
-    'ALJUNIED' will still be found even though the search key is
-    'aljunied'.
-
-    How this can be dealt with can be through preprocessing all
-    key units to be the case that is held in the tree. Storing the
-    indies, such that when returning the result back to the user,
-    it will be in the cases that the user typed in. This will be
-    more user friendly and intuitive.
  */
 
 const int TRIE_SIZE = 65;
@@ -98,12 +85,21 @@ class Trie
     Trie(Vector<string> in);
     ~Trie();
 
+    // insert a key
     void insert(string key);
+
+    // insert a collection of keys
     void insert(Vector<string> keys);
 
+    // returns true if the key is contained in the trie
     bool contains(string key);
+
+    // returns true if the key is a word
     bool search(string key);
+
+    // removes the key from the trie
     void remove(string key);
 
+    // returns a list of completions that can be completed from the key
     Vector<string> complete(string key);
 };
