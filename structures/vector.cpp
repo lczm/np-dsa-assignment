@@ -125,6 +125,7 @@ void Vector<T>::pop()
 template <typename T>
 void Vector<T>::reserve(uint32_t size)
 {
+    expand(size);
 }
 
 template <typename T>
@@ -147,11 +148,6 @@ T& Vector<T>::back()
         throw out_of_range(errorMessage.c_str());
     }
     return _elements[_size - 1];
-}
-
-template <typename T>
-void Vector<T>::insert(uint32_t index)
-{
 }
 
 template <typename T>

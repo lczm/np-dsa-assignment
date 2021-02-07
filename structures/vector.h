@@ -39,8 +39,6 @@ class Vector
     T& front();
     T& back();
 
-    // Inserts before the index
-    void insert(uint32_t index);
     bool isEmpty();
 
     uint32_t size();
