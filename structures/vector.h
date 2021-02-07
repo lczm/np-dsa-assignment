@@ -45,7 +45,7 @@ class Vector
     uint32_t capacity();
 
     // O(1) random accessors
-    T& at(uint32_t);
+    T& at(uint32_t index);
     T& operator[](uint32_t index);
 
     // Copy assignment operators
