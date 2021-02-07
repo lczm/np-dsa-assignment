@@ -241,7 +241,8 @@ void shortestPath()
     printStep("start");
     // cin >> fromNodeId;
     int fromIndex = enterInputForString(merge);
-    if (nameToIdMapping.hasKey(merge[fromIndex]))
+    // if (nameToIdMapping.hasKey(merge[fromIndex]))
+    if (fromIndex < names.size())
     {
         fromNodeId = nameToIdMapping.get(merge[fromIndex]);
     }
@@ -253,7 +254,8 @@ void shortestPath()
     printStep("end");
     // cin >> toNodeId;
     int toIndex = enterInputForString(merge);
-    if (nameToIdMapping.hasKey(merge[toIndex]))
+    // if (nameToIdMapping.hasKey(merge[toIndex]))
+    if (toIndex < names.size())
     {
         toNodeId = nameToIdMapping.get(merge[toIndex]);
     }
@@ -373,7 +375,7 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
     printStep("first");
     // cin >> fromNodeId;
     int fromIndex = enterInputForString(merge);
-    if (nameToIdMapping.hasKey(merge[fromIndex]))
+    if (fromIndex < names.size())
     {
         fromNodeId = nameToIdMapping.get(merge[fromIndex]);
     }
@@ -385,7 +387,7 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
     printStep("second");
     // cin >> toNodeId;
     int toIndex = enterInputForString(merge);
-    if (nameToIdMapping.hasKey(merge[toIndex]))
+    if (toIndex < names.size())
     {
         toNodeId = nameToIdMapping.get(merge[toIndex]);
     }
