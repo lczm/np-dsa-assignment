@@ -171,6 +171,18 @@ static void testTrie()
     cout << trie.search("Hello From Back") << endl;
     cout << trie.search("Hello From Back There") << endl;
 
+    cout << "---" << endl;
+
+    trie.insert("ABC");
+    trie.insert("ABCD");
+    trie.insert("ABCDE");
+
+    trie.remove("ABC");
+
+    cout << trie.search("ABC") << endl;
+    cout << trie.search("ABCD") << endl;
+    cout << trie.search("ABCDE") << endl;
+
     // Vector<string> completions4 = trie.complete("East");
     // for (uint32_t i = 0; i < completions4.size(); i++)
     // {
