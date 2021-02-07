@@ -3,6 +3,11 @@
 #include "structures/vector.h"
 #include "structures/trie.h"
 
+// Name: Abicharan Bhaskaran (S10177176J)
+// Name: Chua Ze Ming (S10177361C)
+// Group: 02
+// Class: P07
+
 static void testVector()
 {
     Vector<int> v(10, 1);
