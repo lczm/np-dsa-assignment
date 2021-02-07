@@ -457,8 +457,8 @@ void removeStationDetails(int station, MrtLine* mrt)
 
     if ((prevStation != NULL) && (afterStation != NULL))
     {
-        cout << "Cost between " << prevStation->name << " and " << afterStation->name << "? "
-             << endl;
+        cout << "Distance between " << prevStation->name << " and " << afterStation->name
+             << " in meters? " << endl;
         costBetweenStations = enterInputForInt();
     }
 
@@ -502,7 +502,7 @@ void enterCostForAddStationDetails(int& beforeCost, int& afterCost, int beforeAf
                                    MrtLine* mrt, int station, string name)
 {
     auto costBetweenText = [](string fromName, string toName) {
-        cout << "Cost between " << fromName << " to " << toName << "?";
+        cout << "Distance between " << fromName << " to " << toName << " in meters?";
     };
 
     // beforeAfter states if the new station will be added before or
