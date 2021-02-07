@@ -24,6 +24,8 @@ Dictionary<Node*> dic;
 Vector<MrtLine> mrtlines;
 Dictionary<Trie*> trieMapping;
 Dictionary<string> nameToIdMapping;
+Vector<uint32_t> fares;
+Vector<float> distances;
 
 void errorDetect(int& option)
 {
@@ -261,6 +263,8 @@ void shortestPath()
     Vector<Connection*> connections;
     graph.shortestPathBetweenStations(fromNodeId, toNodeId, connections);
 
+    uint32_t totalCost = 0;
+
     // The graph shortest path func returns the shortest path
     // However it is from the end node to the start node
     // Thus, we need to print from the end to the start of the list
@@ -272,7 +276,35 @@ void shortestPath()
         {
             cout << connections[i]->fromNode->id << " to " << connections[i]->toNode->id
                  << "| cost: " << connections[i]->cost << endl;
+            totalCost += connections[i]->cost;
         }
+
+        // Convert total cost into kilometers.
+        float costInKms = totalCost / 1000;
+
+        // Calculate the index using the distance : fare vec-vec mapping
+        uint32_t fareIndex = 0;
+        for (uint32_t i = 0; i < distances.size(); i++)
+        {
+            if (costInKms < distances[i])
+            {
+                // First index to satisfy the minimum distance.
+                fareIndex = i;
+                break;
+            }
+        }
+
+        // Calculate the price in dollars instead of cents
+        float fare = fares[fareIndex];
+
+        uint32_t dollars = 0;
+        uint32_t cents = 0;
+        dollars = floor(fare / 100);
+        cents = fare - (dollars * 100);
+
+        cout << "Total cost : " << costInKms << endl;
+        cout << "Total cost : " << fares[fareIndex] << endl;
+        cout << "Total cost : $" << dollars << "." << cents << endl;
     }
     else
     {
@@ -627,7 +659,7 @@ int main()
     graph.setNodeList(&dic);
 
     // Fill up all the data structures.
-    FileReader filereader(&graph, &dic, mrtlines);
+    FileReader filereader(&graph, &dic, mrtlines, distances, fares);
 
     Vector<string> keys;
     Vector<Node*> values;

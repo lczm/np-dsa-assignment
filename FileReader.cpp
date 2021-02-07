@@ -6,7 +6,8 @@ FileReader::FileReader()
 {
 }
 
-FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines)
+FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines,
+                       Vector<float>& distances, Vector<uint32_t>& fares)
 {
     this->graph = graph;
     this->dictionary = dictionary;
@@ -15,7 +16,7 @@ FileReader::FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLi
     this->readRoutes(mrtLines);
     this->readMrtLineNames(mrtLines);
     this->readInterchanges();
-    this->readFares();
+    this->readFares(distances, fares);
 }
 
 void FileReader::readStations()
@@ -138,16 +139,41 @@ void FileReader::readInterchanges()
     myfile.close();
 }
 
-void FileReader::readFares()
+void FileReader::readFares(Vector<float>& distances, Vector<uint32_t>& fares)
 {
-    ifstream fares;
-    fares.open(faresName);
+    ifstream faresFile;
+    faresFile.open(faresName);
 
-    while (fares.good())
+    while (faresFile.good())
     {
         string line;
-        std::getline(fares, line, '\n');
-        // cout << "@@@ : " << line << endl;
+        std::getline(faresFile, line, '\n');
+
+        string builder = "";
+        bool comma = false;
+
+        for (uint32_t i = 0; i < line.size(); i++)
+        {
+            char c = line[i];
+            if (c == ',')
+            {
+                comma = true;
+                distances.pushBack(stof(builder));
+                builder = "";
+            }
+            else if (i == line.size() - 1)
+            {
+                comma = false;
+                builder += c;
+                fares.pushBack(stoi(builder));
+                // Read ahead and end the loop
+                builder = "";
+            }
+            else
+            {
+                builder += c;
+            }
+        }
     }
 }
 

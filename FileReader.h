@@ -30,7 +30,8 @@ class FileReader
 
    public:
     FileReader();
-    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines);
+    FileReader(Graph* graph, Dictionary<Node*>* dictionary, Vector<MrtLine>& mrtLines,
+               Vector<float>& distances, Vector<uint32_t>& fares);
 
     // Read all stations (Id and name)
     void readStations();
@@ -41,7 +42,7 @@ class FileReader
     // Read all interchanges in the network
     void readInterchanges();
 
-    void readFares();
+    void readFares(Vector<float>& distances, Vector<uint32_t>& fares);
 
     // Read the names of the mrt lines
     void readMrtLineNames(Vector<MrtLine>& mrtLines);
