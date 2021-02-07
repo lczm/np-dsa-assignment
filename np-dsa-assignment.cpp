@@ -223,17 +223,44 @@ void shortestPath()
 
     cout << "[Station IDs are case sensitive]" << endl;
     Vector<string> names;
+    Vector<string> stationIds;
+
     nameToIdMapping.getAllKeys(names);
+    dic.getAllKeys(stationIds);
+
+    Vector<string> merge;
+    for (uint32_t i = 0; i < names.size(); i++)
+    {
+        merge.pushBack(names[i]);
+    }
+    for (uint32_t i = 0; i < stationIds.size(); i++)
+    {
+        merge.pushBack(stationIds[i]);
+    }
 
     printStep("start");
     // cin >> fromNodeId;
-    int fromIndex = enterInputForString(names);
-    fromNodeId = nameToIdMapping.get(names[fromIndex]);
+    int fromIndex = enterInputForString(merge);
+    if (nameToIdMapping.hasKey(merge[fromIndex]))
+    {
+        fromNodeId = nameToIdMapping.get(merge[fromIndex]);
+    }
+    else
+    {
+        fromNodeId = merge[fromIndex];
+    }
 
     printStep("end");
     // cin >> toNodeId;
-    int toIndex = enterInputForString(names);
-    toNodeId = nameToIdMapping.get(names[toIndex]);
+    int toIndex = enterInputForString(merge);
+    if (nameToIdMapping.hasKey(merge[toIndex]))
+    {
+        toNodeId = nameToIdMapping.get(merge[toIndex]);
+    }
+    else
+    {
+        toNodeId = merge[toIndex];
+    }
 
     // check if the same station
     if (fromNodeId == toNodeId)
@@ -328,17 +355,44 @@ bool removeAddMrtConnectionsValidation(string& fromNodeId, string& toNodeId)
 
     cout << "[Station IDs are case sensitive]" << endl;
     Vector<string> names;
+    Vector<string> stationIds;
+
     nameToIdMapping.getAllKeys(names);
+    dic.getAllKeys(stationIds);
+
+    Vector<string> merge;
+    for (uint32_t i = 0; i < names.size(); i++)
+    {
+        merge.pushBack(names[i]);
+    }
+    for (uint32_t i = 0; i < stationIds.size(); i++)
+    {
+        merge.pushBack(stationIds[i]);
+    }
 
     printStep("first");
     // cin >> fromNodeId;
-    int fromIndex = enterInputForString(names);
-    fromNodeId = nameToIdMapping.get(names[fromIndex]);
+    int fromIndex = enterInputForString(merge);
+    if (nameToIdMapping.hasKey(merge[fromIndex]))
+    {
+        fromNodeId = nameToIdMapping.get(merge[fromIndex]);
+    }
+    else
+    {
+        fromNodeId = merge[fromIndex];
+    }
 
     printStep("second");
     // cin >> toNodeId;
-    int toIndex = enterInputForString(names);
-    toNodeId = nameToIdMapping.get(names[toIndex]);
+    int toIndex = enterInputForString(merge);
+    if (nameToIdMapping.hasKey(merge[toIndex]))
+    {
+        toNodeId = nameToIdMapping.get(merge[toIndex]);
+    }
+    else
+    {
+        toNodeId = merge[toIndex];
+    }
 
     // check if the same station
     if (fromNodeId == toNodeId)
