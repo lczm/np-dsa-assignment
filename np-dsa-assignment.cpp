@@ -748,7 +748,9 @@ int main()
     // testGraphConnections();
     // testDoublyLinkedList();
     // testDictionary();
-    // testTrie();
+    testTrie();
+
+    return 0;
 
     bool exit = false;
     while (exit != true)

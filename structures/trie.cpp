@@ -247,8 +247,8 @@ void Trie::remove(string key)
         // Get which character it is
         uint32_t index = nodeStack.size();
 
-        // If it is not the last node
-        if (numberOfChildren(node) > 1 || nodeStack.isEmpty())
+        // If no child, then remove
+        if (numberOfChildren(node) == 0 || nodeStack.isEmpty())
         {
             node->children[key[index]] = nullptr;
         }
