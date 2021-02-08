@@ -248,7 +248,7 @@ void Trie::remove(string key)
         uint32_t index = nodeStack.size();
 
         // If no child, then remove
-        if (numberOfChildren(node) == 0 || nodeStack.isEmpty())
+        if (numberOfChildren(node) == 0)
         {
             node->children[key[index]] = nullptr;
         }
